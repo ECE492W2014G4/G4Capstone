@@ -99,7 +99,6 @@ architecture structure of niosII_microc_capstone is
             sdram_0_wire_dqm                        : out   std_logic_vector(1 downto 0);                     -- dqm
             sdram_0_wire_ras_n                      : out   std_logic;                                        -- ras_n
             sdram_0_wire_we_n                       : out   std_logic;                                        -- we_n
-            altpll_0_c0_clk                         : out   std_logic;                                        -- clk
             sram_0_external_interface_DQ            : inout DE2_SRAM_DATA_BUS := (others => 'X'); -- DQ
             sram_0_external_interface_ADDR          : out   DE2_SRAM_ADDR_BUS;                    -- ADDR
             sram_0_external_interface_LB_N          : out   std_logic;                                        -- LB_N
@@ -122,7 +121,8 @@ architecture structure of niosII_microc_capstone is
             audio_0_external_interface_DACLRCK      : in    std_logic                     := 'X';             -- DACLRCK
             audio_and_video_config_0_external_interface_SDAT : inout std_logic            := 'X';             -- SDAT
             audio_and_video_config_0_external_interface_SCLK : out   std_logic;                               -- SCLK
-				audio_clk_clk                           : out   std_logic                                         -- clk
+				audio_clk_clk                           : out   std_logic;                                         -- clk
+				dram_clk_clk                            : out   std_logic                                         -- clk
         );
     end component niosII_system;
 
@@ -154,8 +154,7 @@ begin
             sdram_0_wire_dq                         => DRAM_DQ,                         
             sdram_0_wire_dqm                        => DQM,                        
             sdram_0_wire_ras_n                      => DRAM_RAS_N,                     
-            sdram_0_wire_we_n                       => DRAM_WE_N,                       
-            altpll_0_c0_clk                         => DRAM_CLK,                              
+            sdram_0_wire_we_n                       => DRAM_WE_N,                                                     
             sram_0_external_interface_DQ            => SRAM_DQ,           
             sram_0_external_interface_ADDR          => SRAM_ADDR,          
             sram_0_external_interface_LB_N          => SRAM_LB_N,         
@@ -178,7 +177,8 @@ begin
             audio_0_external_interface_DACLRCK      => AUD_DACLRCK,                      
             audio_and_video_config_0_external_interface_SDAT => I2C_SDAT,                             
             audio_and_video_config_0_external_interface_SCLK => I2C_SCLK,                                       
-            audio_clk_clk									 => AUD_XCK     
+            audio_clk_clk									 => AUD_XCK,
+				dram_clk_clk                         	 => DRAM_CLK
         );
 
 end structure;
