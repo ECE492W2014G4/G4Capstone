@@ -112,7 +112,7 @@ architecture structure of niosII_microc_capstone is
             character_lcd_0_external_interface_BLON : out   std_logic;                                        -- BLON
             character_lcd_0_external_interface_EN   : out   std_logic;                                        -- EN
             character_lcd_0_external_interface_RS   : out   std_logic;                                        -- RS
-            character_lcd_0_external_interface_RW   : out   std_logic                                         -- RW
+            character_lcd_0_external_interface_RW   : out   std_logic;                                        -- RW
 				clk_0_clk                               : in    std_logic                     := 'X';             -- clk
             reset_0_reset_n                         : in    std_logic                     := 'X';             -- reset_n
             audio_0_external_interface_ADCDAT       : in    std_logic                     := 'X';             -- ADCDAT
