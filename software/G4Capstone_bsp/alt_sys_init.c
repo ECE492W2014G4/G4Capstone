@@ -2,9 +2,9 @@
  * alt_sys_init.c - HAL initialization source
  *
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'niosII_system'
- * SOPC Builder design path: /afs/ualberta.ca/home/b/m/bmaroney/ECE492_Projects/niosII_microc_lab2/niosII_system.sopcinfo
+ * SOPC Builder design path: ../../niosII_system.sopcinfo
  *
- * Generated: Mon Feb 01 11:30:17 MST 2016
+ * Generated: Mon Feb 01 15:05:01 MST 2016
  */
 
 /*
@@ -62,6 +62,8 @@
 #include "altera_avalon_jtag_uart.h"
 #include "altera_avalon_sysid_qsys.h"
 #include "altera_avalon_timer.h"
+#include "altera_up_avalon_audio.h"
+#include "altera_up_avalon_audio_and_video_config.h"
 #include "altera_up_avalon_character_lcd.h"
 
 /*
@@ -72,7 +74,8 @@ ALTERA_NIOS2_QSYS_IRQ_INSTANCE ( NIOS2_QSYS_0, nios2_qsys_0);
 ALTERA_AVALON_JTAG_UART_INSTANCE ( JTAG_UART_0, jtag_uart_0);
 ALTERA_AVALON_SYSID_QSYS_INSTANCE ( SYSID_QSYS_0, sysid_qsys_0);
 ALTERA_AVALON_TIMER_INSTANCE ( TIMER_0, timer_0);
-ALTERA_AVALON_TIMER_INSTANCE ( TIMER_1, timer_1);
+ALTERA_UP_AVALON_AUDIO_AND_VIDEO_CONFIG_INSTANCE ( AUDIO_AND_VIDEO_CONFIG_0, audio_and_video_config_0);
+ALTERA_UP_AVALON_AUDIO_INSTANCE ( AUDIO_0, audio_0);
 ALTERA_UP_AVALON_CHARACTER_LCD_INSTANCE ( CHARACTER_LCD_0, character_lcd_0);
 
 /*
@@ -97,8 +100,9 @@ void alt_irq_init ( const void* base )
 void alt_sys_init( void )
 {
     ALTERA_AVALON_TIMER_INIT ( TIMER_0, timer_0);
-    ALTERA_AVALON_TIMER_INIT ( TIMER_1, timer_1);
     ALTERA_AVALON_JTAG_UART_INIT ( JTAG_UART_0, jtag_uart_0);
     ALTERA_AVALON_SYSID_QSYS_INIT ( SYSID_QSYS_0, sysid_qsys_0);
+    ALTERA_UP_AVALON_AUDIO_AND_VIDEO_CONFIG_INIT ( AUDIO_AND_VIDEO_CONFIG_0, audio_and_video_config_0);
+    ALTERA_UP_AVALON_AUDIO_INIT ( AUDIO_0, audio_0);
     ALTERA_UP_AVALON_CHARACTER_LCD_INIT ( CHARACTER_LCD_0, character_lcd_0);
 }

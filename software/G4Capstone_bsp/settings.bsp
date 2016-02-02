@@ -2,11 +2,11 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Feb 1, 2016 11:30:15 AM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1454351415852</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Feb 1, 2016 3:05:26 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1454364326282</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/afs/ualberta.ca/home/b/m/bmaroney/G4Capstone/software/G4Capstone_bsp</BspGeneratedLocation>
-        <BspSettingsFile>./settings.bsp</BspSettingsFile>
-        <SopcDesignFile>/afs/ualberta.ca/home/b/m/bmaroney/ECE492_Projects/niosII_microc_lab2/niosII_system.sopcinfo</SopcDesignFile>
+        <BspSettingsFile>settings.bsp</BspSettingsFile>
+        <SopcDesignFile>../../niosII_system.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
         <Cpu>nios2_qsys_0</Cpu>
         <SchemaVersion>1.9</SchemaVersion>
@@ -1709,50 +1709,38 @@
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>timer_1</slaveDescriptor>
+                <slaveDescriptor>timer_0</slaveDescriptor>
                 <addressRange>0x01109000 - 0x0110901F</addressRange>
                 <addressSpan>32</addressSpan>
                 <attributes>timer</attributes>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>timer_0</slaveDescriptor>
-                <addressRange>0x01109020 - 0x0110903F</addressRange>
-                <addressSpan>32</addressSpan>
-                <attributes>timer</attributes>
-        </MemoryMap>
-        <MemoryMap>
-                <slaveDescriptor>altpll_0</slaveDescriptor>
-                <addressRange>0x01109040 - 0x0110904F</addressRange>
+                <slaveDescriptor>audio_and_video_config_0</slaveDescriptor>
+                <addressRange>0x01109020 - 0x0110902F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>switch</slaveDescriptor>
-                <addressRange>0x01109050 - 0x0110905F</addressRange>
+                <slaveDescriptor>audio_0</slaveDescriptor>
+                <addressRange>0x01109030 - 0x0110903F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>jtag_uart_0</slaveDescriptor>
-                <addressRange>0x01109060 - 0x01109067</addressRange>
+                <addressRange>0x01109040 - 0x01109047</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes>printable</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>sysid_qsys_0</slaveDescriptor>
-                <addressRange>0x01109068 - 0x0110906F</addressRange>
+                <addressRange>0x01109048 - 0x0110904F</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>a_32bitcount_0</slaveDescriptor>
-                <addressRange>0x01109070 - 0x01109073</addressRange>
-                <addressSpan>4</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
                 <slaveDescriptor>character_lcd_0</slaveDescriptor>
-                <addressRange>0x01109074 - 0x01109075</addressRange>
+                <addressRange>0x01109050 - 0x01109051</addressRange>
                 <addressSpan>2</addressSpan>
                 <attributes/>
         </MemoryMap>

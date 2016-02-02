@@ -101,7 +101,7 @@ ACDS_VERSION := 12.1sp1
 # BUILD_NUMBER: 243
 
 SETTINGS_FILE := settings.bsp
-SOPC_FILE := /afs/ualberta.ca/home/b/m/bmaroney/ECE492_Projects/niosII_microc_lab2/niosII_system.sopcinfo
+SOPC_FILE := ../../niosII_system.sopcinfo
 
 #-------------------------------------------------------------------------------
 #                             TOOL & COMMAND DEFINITIONS
@@ -208,6 +208,20 @@ GENERATED_C_LIB_SRCS += alt_sys_init.c
 # used to build each file.
 #-------------------------------------------------------------------------------
 
+# avalon_audio_and_video_driver sources root 
+Avalon_Audio_and_Video_driver_SRCS_ROOT := drivers
+
+# avalon_audio_and_video_driver sources 
+Avalon_Audio_and_Video_driver_C_LIB_SRCS := \
+	$(Avalon_Audio_and_Video_driver_SRCS_ROOT)/src/altera_up_avalon_audio_and_video_config.c
+
+# avalon_audio_driver sources root 
+Avalon_Audio_driver_SRCS_ROOT := drivers
+
+# avalon_audio_driver sources 
+Avalon_Audio_driver_C_LIB_SRCS := \
+	$(Avalon_Audio_driver_SRCS_ROOT)/src/altera_up_avalon_audio.c
+
 # altera_avalon_jtag_uart_driver sources root 
 altera_avalon_jtag_uart_driver_SRCS_ROOT := drivers
 
@@ -219,10 +233,6 @@ altera_avalon_jtag_uart_driver_C_LIB_SRCS := \
 	$(altera_avalon_jtag_uart_driver_SRCS_ROOT)/src/altera_avalon_jtag_uart_ioctl.c \
 	$(altera_avalon_jtag_uart_driver_SRCS_ROOT)/src/altera_avalon_jtag_uart_fd.c
 
-# altera_avalon_pio_driver sources root 
-altera_avalon_pio_driver_SRCS_ROOT := drivers
-
-# altera_avalon_pio_driver sources 
 # altera_avalon_sysid_qsys_driver sources root 
 altera_avalon_sysid_qsys_driver_SRCS_ROOT := drivers
 
@@ -361,6 +371,8 @@ ucosii_C_LIB_SRCS := \
 
 # Assemble all component C source files 
 COMPONENT_C_LIB_SRCS += \
+	$(Avalon_Audio_and_Video_driver_C_LIB_SRCS) \
+	$(Avalon_Audio_driver_C_LIB_SRCS) \
 	$(altera_avalon_jtag_uart_driver_C_LIB_SRCS) \
 	$(altera_avalon_sysid_qsys_driver_C_LIB_SRCS) \
 	$(altera_avalon_timer_driver_C_LIB_SRCS) \

@@ -2,9 +2,9 @@
  * system.h - SOPC Builder system and BSP software package information
  *
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'niosII_system'
- * SOPC Builder design path: /afs/ualberta.ca/home/b/m/bmaroney/ECE492_Projects/niosII_microc_lab2/niosII_system.sopcinfo
+ * SOPC Builder design path: ../../niosII_system.sopcinfo
  *
- * Generated: Mon Feb 01 11:30:17 MST 2016
+ * Generated: Mon Feb 01 15:05:01 MST 2016
  */
 
 /*
@@ -123,17 +123,16 @@
  *
  */
 
-#define __32BITCOUNT
 #define __ALTERA_AVALON_JTAG_UART
 #define __ALTERA_AVALON_NEW_SDRAM_CONTROLLER
 #define __ALTERA_AVALON_ONCHIP_MEMORY2
-#define __ALTERA_AVALON_PIO
 #define __ALTERA_AVALON_SYSID_QSYS
 #define __ALTERA_AVALON_TIMER
 #define __ALTERA_NIOS2_QSYS
+#define __ALTERA_UP_AVALON_AUDIO
+#define __ALTERA_UP_AVALON_AUDIO_AND_VIDEO_CONFIG
 #define __ALTERA_UP_AVALON_CHARACTER_LCD
 #define __ALTERA_UP_AVALON_SRAM
-#define __ALTPLL
 
 
 /*
@@ -142,8 +141,8 @@
  */
 
 #define ALT_DEVICE_FAMILY "Cyclone II"
-#define ALT_ENHANCED_INTERRUPT_API_PRESENT
 #define ALT_IRQ_BASE NULL
+#define ALT_LEGACY_INTERRUPT_API_PRESENT
 #define ALT_LOG_PORT "/dev/null"
 #define ALT_LOG_PORT_BASE 0x0
 #define ALT_LOG_PORT_DEV null
@@ -152,19 +151,19 @@
 #define ALT_NUM_INTERNAL_INTERRUPT_CONTROLLERS 1
 #define ALT_NUM_INTERRUPT_CONTROLLERS 1
 #define ALT_STDERR "/dev/jtag_uart_0"
-#define ALT_STDERR_BASE 0x1109060
+#define ALT_STDERR_BASE 0x1109040
 #define ALT_STDERR_DEV jtag_uart_0
 #define ALT_STDERR_IS_JTAG_UART
 #define ALT_STDERR_PRESENT
 #define ALT_STDERR_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDIN "/dev/jtag_uart_0"
-#define ALT_STDIN_BASE 0x1109060
+#define ALT_STDIN_BASE 0x1109040
 #define ALT_STDIN_DEV jtag_uart_0
 #define ALT_STDIN_IS_JTAG_UART
 #define ALT_STDIN_PRESENT
 #define ALT_STDIN_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDOUT "/dev/jtag_uart_0"
-#define ALT_STDOUT_BASE 0x1109060
+#define ALT_STDOUT_BASE 0x1109040
 #define ALT_STDOUT_DEV jtag_uart_0
 #define ALT_STDOUT_IS_JTAG_UART
 #define ALT_STDOUT_PRESENT
@@ -173,31 +172,31 @@
 
 
 /*
- * a_32bitcount_0 configuration
+ * audio_0 configuration
  *
  */
 
-#define ALT_MODULE_CLASS_a_32bitcount_0 32bitcount
-#define A_32BITCOUNT_0_BASE 0x1109070
-#define A_32BITCOUNT_0_IRQ -1
-#define A_32BITCOUNT_0_IRQ_INTERRUPT_CONTROLLER_ID -1
-#define A_32BITCOUNT_0_NAME "/dev/a_32bitcount_0"
-#define A_32BITCOUNT_0_SPAN 4
-#define A_32BITCOUNT_0_TYPE "32bitcount"
+#define ALT_MODULE_CLASS_audio_0 altera_up_avalon_audio
+#define AUDIO_0_BASE 0x1109030
+#define AUDIO_0_IRQ 2
+#define AUDIO_0_IRQ_INTERRUPT_CONTROLLER_ID 0
+#define AUDIO_0_NAME "/dev/audio_0"
+#define AUDIO_0_SPAN 16
+#define AUDIO_0_TYPE "altera_up_avalon_audio"
 
 
 /*
- * altpll_0 configuration
+ * audio_and_video_config_0 configuration
  *
  */
 
-#define ALTPLL_0_BASE 0x1109040
-#define ALTPLL_0_IRQ -1
-#define ALTPLL_0_IRQ_INTERRUPT_CONTROLLER_ID -1
-#define ALTPLL_0_NAME "/dev/altpll_0"
-#define ALTPLL_0_SPAN 16
-#define ALTPLL_0_TYPE "altpll"
-#define ALT_MODULE_CLASS_altpll_0 altpll
+#define ALT_MODULE_CLASS_audio_and_video_config_0 altera_up_avalon_audio_and_video_config
+#define AUDIO_AND_VIDEO_CONFIG_0_BASE 0x1109020
+#define AUDIO_AND_VIDEO_CONFIG_0_IRQ -1
+#define AUDIO_AND_VIDEO_CONFIG_0_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define AUDIO_AND_VIDEO_CONFIG_0_NAME "/dev/audio_and_video_config_0"
+#define AUDIO_AND_VIDEO_CONFIG_0_SPAN 16
+#define AUDIO_AND_VIDEO_CONFIG_0_TYPE "altera_up_avalon_audio_and_video_config"
 
 
 /*
@@ -206,7 +205,7 @@
  */
 
 #define ALT_MODULE_CLASS_character_lcd_0 altera_up_avalon_character_lcd
-#define CHARACTER_LCD_0_BASE 0x1109074
+#define CHARACTER_LCD_0_BASE 0x1109050
 #define CHARACTER_LCD_0_IRQ -1
 #define CHARACTER_LCD_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define CHARACTER_LCD_0_NAME "/dev/character_lcd_0"
@@ -230,7 +229,7 @@
  */
 
 #define ALT_MODULE_CLASS_jtag_uart_0 altera_avalon_jtag_uart
-#define JTAG_UART_0_BASE 0x1109060
+#define JTAG_UART_0_BASE 0x1109040
 #define JTAG_UART_0_IRQ 1
 #define JTAG_UART_0_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define JTAG_UART_0_NAME "/dev/jtag_uart_0"
@@ -325,45 +324,18 @@
 
 
 /*
- * switch configuration
- *
- */
-
-#define ALT_MODULE_CLASS_switch altera_avalon_pio
-#define SWITCH_BASE 0x1109050
-#define SWITCH_BIT_CLEARING_EDGE_REGISTER 0
-#define SWITCH_BIT_MODIFYING_OUTPUT_REGISTER 0
-#define SWITCH_CAPTURE 0
-#define SWITCH_DATA_WIDTH 1
-#define SWITCH_DO_TEST_BENCH_WIRING 0
-#define SWITCH_DRIVEN_SIM_VALUE 0x0
-#define SWITCH_EDGE_TYPE "NONE"
-#define SWITCH_FREQ 50000000u
-#define SWITCH_HAS_IN 1
-#define SWITCH_HAS_OUT 0
-#define SWITCH_HAS_TRI 0
-#define SWITCH_IRQ -1
-#define SWITCH_IRQ_INTERRUPT_CONTROLLER_ID -1
-#define SWITCH_IRQ_TYPE "NONE"
-#define SWITCH_NAME "/dev/switch"
-#define SWITCH_RESET_VALUE 0x0
-#define SWITCH_SPAN 16
-#define SWITCH_TYPE "altera_avalon_pio"
-
-
-/*
  * sysid_qsys_0 configuration
  *
  */
 
 #define ALT_MODULE_CLASS_sysid_qsys_0 altera_avalon_sysid_qsys
-#define SYSID_QSYS_0_BASE 0x1109068
+#define SYSID_QSYS_0_BASE 0x1109048
 #define SYSID_QSYS_0_ID 0
 #define SYSID_QSYS_0_IRQ -1
 #define SYSID_QSYS_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define SYSID_QSYS_0_NAME "/dev/sysid_qsys_0"
 #define SYSID_QSYS_0_SPAN 8
-#define SYSID_QSYS_0_TIMESTAMP 1453767511
+#define SYSID_QSYS_0_TIMESTAMP 1454363576
 #define SYSID_QSYS_0_TYPE "altera_avalon_sysid_qsys"
 
 
@@ -374,7 +346,7 @@
 
 #define ALT_MODULE_CLASS_timer_0 altera_avalon_timer
 #define TIMER_0_ALWAYS_RUN 0
-#define TIMER_0_BASE 0x1109020
+#define TIMER_0_BASE 0x1109000
 #define TIMER_0_COUNTER_SIZE 32
 #define TIMER_0_FIXED_PERIOD 0
 #define TIMER_0_FREQ 50000000u
@@ -391,32 +363,6 @@
 #define TIMER_0_TICKS_PER_SEC 1000u
 #define TIMER_0_TIMEOUT_PULSE_OUTPUT 0
 #define TIMER_0_TYPE "altera_avalon_timer"
-
-
-/*
- * timer_1 configuration
- *
- */
-
-#define ALT_MODULE_CLASS_timer_1 altera_avalon_timer
-#define TIMER_1_ALWAYS_RUN 0
-#define TIMER_1_BASE 0x1109000
-#define TIMER_1_COUNTER_SIZE 32
-#define TIMER_1_FIXED_PERIOD 0
-#define TIMER_1_FREQ 50000000u
-#define TIMER_1_IRQ 2
-#define TIMER_1_IRQ_INTERRUPT_CONTROLLER_ID 0
-#define TIMER_1_LOAD_VALUE 49999999ull
-#define TIMER_1_MULT 1.0
-#define TIMER_1_NAME "/dev/timer_1"
-#define TIMER_1_PERIOD 1
-#define TIMER_1_PERIOD_UNITS "s"
-#define TIMER_1_RESET_OUTPUT 0
-#define TIMER_1_SNAPSHOT 1
-#define TIMER_1_SPAN 32
-#define TIMER_1_TICKS_PER_SEC 1u
-#define TIMER_1_TIMEOUT_PULSE_OUTPUT 0
-#define TIMER_1_TYPE "altera_avalon_timer"
 
 
 /*

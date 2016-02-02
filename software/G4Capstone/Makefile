@@ -142,7 +142,7 @@ ACDS_VERSION := 12.1sp1
 ELF := G4Capstone.elf
 
 # Paths to C, C++, and assembly source files.
-C_SRCS := hello_ucosii.c
+C_SRCS := main.c
 CXX_SRCS :=
 ASM_SRCS :=
 
@@ -177,7 +177,7 @@ CRT0 :=
 SYS_LIB :=
 
 # Define path to the root of the BSP.
-BSP_ROOT_DIR := /afs/ualberta.ca/home/b/m/bmaroney/G4Capstone/software/G4Capstone_bsp/
+BSP_ROOT_DIR := ../G4Capstone_bsp/
 
 # List of application specific include directories, library directories and library names
 APP_INCLUDE_DIRS :=
@@ -188,7 +188,7 @@ APP_LIBRARY_NAMES :=
 BUILD_PRE_PROCESS :=
 BUILD_POST_PROCESS :=
 
-QUARTUS_PROJECT_DIR := /afs/ualberta.ca/home/b/m/bmaroney/ECE492_Projects/niosII_microc_lab2/
+QUARTUS_PROJECT_DIR := ../../
 
 
 #END GENERATED

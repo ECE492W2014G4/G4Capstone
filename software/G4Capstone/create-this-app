@@ -3,8 +3,8 @@
 # This script creates the hello_ucosii application in this directory.
 
 
-BSP_DIR=/afs/ualberta.ca/home/b/m/bmaroney/G4Capstone/software/G4Capstone_bsp/
-QUARTUS_PROJECT_DIR=/afs/ualberta.ca/home/b/m/bmaroney/ECE492_Projects/niosII_microc_lab2/
+BSP_DIR=../G4Capstone_bsp
+QUARTUS_PROJECT_DIR=../../
 NIOS2_APP_GEN_ARGS="--elf-name G4Capstone.elf --set OBJDUMP_INCLUDE_SOURCE 1 --src-files hello_ucosii.c"
 
 
