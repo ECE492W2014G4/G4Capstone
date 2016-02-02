@@ -95,7 +95,8 @@ int main(void)
 	OSStart();
 	return 0;
 }
-
+// Adapter from audio appnote by Group 11 - Sean Hunter, Michael Wong, Thomas Zylstra
+//URL: https://www.ualberta.ca/~delliott/local/ece492/appnotes/2013w/audio_altera_university_ip_cores/
 void AudioTask(void *pdata){
 	alt_up_audio_dev * audio_dev;
 	alt_up_av_config_dev * audio_config_dev;
