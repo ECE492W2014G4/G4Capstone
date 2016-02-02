@@ -1,0 +1,50 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+
+entity distort is
+	port( 
+	clk : in std_logic;
+	reset : in std_logic;
+	dist_en : in std_logic; -- 1-bit distortion enable signal
+	data_in : in std_logic_vector(15 downto 0); -- 16-bit data stream input
+	clipping_value: in std_logic_vector(15 downto 0); -- 16-bit input clipping threshold
+	data_out: out std_logic_vector(15 downto 0) -- 16-bit data stream output (either clipped or not)
+	);
+end entity distort;
+
+architecture behavior of distort is
+-- constant clipping_constant : bit_vector(15 downto 0) := "00000000000000111110100"; -- constant value of 500 in decimal
+signal clip_threshold : std_logic_vector(15 downto 0);
+
+begin
+	process(clk,reset,dist_en)
+	begin
+	clip_threshold <= clipping_value;
+	-- data_out <= "0000000000000000";
+		if reset = '0' then
+			data_out <= X"0000";
+		--elsif (clk='1' and clk'event) then
+		elsif (rising_edge(clk)) then
+			if dist_en = '1' then -- Check if Distortion is Enabled
+				if data_in(15) = '1' then -- Check sign of sample (If negative...)
+					if (not data_in(14 downto 0)) >= clip_threshold(14 downto 0) then -- compare data to clip_threshold (without sign bits)
+						data_out <= '1' & (not clip_threshold(14 downto 0)); -- if data is greater than threshold, data_out = clip_threshold, concatenate '1' to complement
+					else 
+						data_out <= data_in;
+					end if;
+				elsif data_in(15) = '0' then -- Check sign of sample (If positive...)
+					if data_in(14 downto 0) >= clip_threshold(14 downto 0) then
+						data_out <= '0' & clip_threshold(14 downto 0);
+					else
+						data_out <= data_in;
+					end if;
+				end if;
+			else
+				data_out <= data_in;
+			end if;
+			--data_out <= data_in;
+		end if;
+	end process;
+end architecture;
+		
