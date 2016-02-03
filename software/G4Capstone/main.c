@@ -59,6 +59,7 @@
 
 
 void AudioTask(void* pdata);
+void AudioSetup(alt_up_audio_dev * audio_dev,alt_up_av_config_dev * audio_config_dev);
 void LCDTask(void* pdata);
 
 OS_EVENT *QUEUE;
@@ -69,13 +70,20 @@ OS_STK    LCDTask_stk[TASK_STACKSIZE];
 
 int main(void)
 {
+	//Setup lcd
 	alt_up_character_lcd_dev * lcd=alt_up_character_lcd_open_dev(CHARACTER_LCD_0_NAME);
 	alt_up_character_lcd_init(lcd);
+
+	//Setup audio devices
+	alt_up_audio_dev  audio_dev;
+	alt_up_av_config_dev  audio_config_dev;
+	AudioSetup(&audio_dev, &audio_config_dev);
+
 	int msg[QUEUE_LENGTH];
 
 	QUEUE=OSQCreate(&msg, QUEUE_LENGTH);
 	OSTaskCreateExt(AudioTask,
-			NULL,
+			&audio_dev,
 			(void *)&AudioTask_stk[TASK_STACKSIZE],
 			AudioTask_PRIORITY,
 			AudioTask_PRIORITY,
@@ -95,19 +103,10 @@ int main(void)
 	OSStart();
 	return 0;
 }
-// Adapter from audio appnote by Group 11 - Sean Hunter, Michael Wong, Thomas Zylstra
+
+// Adapted from audio appnote by Group 11 - Sean Hunter, Michael Wong, Thomas Zylstra
 //URL: https://www.ualberta.ca/~delliott/local/ece492/appnotes/2013w/audio_altera_university_ip_cores/
-void AudioTask(void *pdata){
-	alt_up_audio_dev * audio_dev;
-	alt_up_av_config_dev * audio_config_dev;
-
-	unsigned int l_buf[BUFFER_SIZE];
-	unsigned int r_buf[BUFFER_SIZE];
-
-	int i = 0;
-	int writeSizeL = 0;
-	int writeSizeR = 0;
-
+void AudioSetup(alt_up_audio_dev * audio_dev,alt_up_av_config_dev * audio_config_dev){
 	/* Open Devices */
 	audio_dev = alt_up_audio_open_dev (AUDIO_0_NAME);
 	if ( audio_dev == NULL)
@@ -126,16 +125,23 @@ void AudioTask(void *pdata){
 	alt_up_audio_reset_audio_core(audio_dev);
 	alt_up_av_config_reset(audio_config_dev);
 
-	/* Write to configuration registers in the audio codec; see datasheet for what these values mean */
-//		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_LEFT_LINE_IN, 0x17);
-//		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_RIGHT_LINE_IN, 0x17);
-//		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_LEFT_HEADPHONE_OUT,0x7f);
-//		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_RIGHT_HEADPHONE_OUT,0x7f);
-		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_ANALOG_AUDIO_PATH_CTRL, 0x08);
-		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_DIGITAL_AUDIO_PATH_CTRL, 0x01);
-		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_POWER_DOWN_CTRL, 0x00);
-		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_SAMPLING_CTRL, 0x20);
-//		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_ACTIVE_CTRL, 0x01);
+	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_ANALOG_AUDIO_PATH_CTRL, 0x08);
+	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_DIGITAL_AUDIO_PATH_CTRL, 0x01);
+	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_POWER_DOWN_CTRL, 0x00);
+	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_SAMPLING_CTRL, 0x20);
+}
+
+// Adapted from audio appnote by Group 11 - Sean Hunter, Michael Wong, Thomas Zylstra
+//URL: https://www.ualberta.ca/~delliott/local/ece492/appnotes/2013w/audio_altera_university_ip_cores/
+void AudioTask(void *pdata){
+	alt_up_audio_dev * audio_dev = (alt_up_audio_dev *)pdata;
+
+	unsigned int l_buf[BUFFER_SIZE];
+	unsigned int r_buf[BUFFER_SIZE];
+
+	int i = 0;
+	int writeSizeL = 0;
+	int writeSizeR = 0;
 
 	//main loop
 	while(1)
@@ -143,9 +149,9 @@ void AudioTask(void *pdata){
 		//read the data from the left buffer
 		if(alt_up_audio_read_fifo_avail(audio_dev,ALT_UP_AUDIO_LEFT)|| alt_up_audio_read_fifo_avail(audio_dev,ALT_UP_AUDIO_RIGHT)){
 			writeSizeL = alt_up_audio_read_fifo(audio_dev, l_buf, BUFFER_SIZE, ALT_UP_AUDIO_LEFT);
-//					printf("Left Channel,number of words read:%d ",writeSizeL);
+			//					printf("Left Channel,number of words read:%d ",writeSizeL);
 			writeSizeR = alt_up_audio_read_fifo(audio_dev, r_buf, BUFFER_SIZE, ALT_UP_AUDIO_RIGHT);
-//					printf("Right Channel,number of words read:%d\n",writeSizeR);
+			//					printf("Right Channel,number of words read:%d\n",writeSizeR);
 			//shift values to a proper base value
 			for (i = 0; i < writeSizeL; i = i+1)
 			{
