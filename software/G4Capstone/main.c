@@ -127,39 +127,42 @@ void AudioTask(void *pdata){
 	alt_up_av_config_reset(audio_config_dev);
 
 	/* Write to configuration registers in the audio codec; see datasheet for what these values mean */
-	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_LEFT_LINE_IN, LINE_VOLUME_DEFAULT);
-	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_RIGHT_LINE_IN, LINE_VOLUME_DEFAULT);
-	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_LEFT_HEADPHONE_OUT,LINE_OUT_VOLUME_DEFAULT);
-	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_RIGHT_HEADPHONE_OUT,LINE_OUT_VOLUME_DEFAULT);
-	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_ANALOG_AUDIO_PATH_CTRL, 0x02);
-	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_DIGITAL_AUDIO_PATH_CTRL, 0x00);
-	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_POWER_DOWN_CTRL, 0x00);
-	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_SAMPLING_CTRL, 0x04);
-	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_ACTIVE_CTRL, 0x01);
+//		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_LEFT_LINE_IN, 0x17);
+//		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_RIGHT_LINE_IN, 0x17);
+//		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_LEFT_HEADPHONE_OUT,0x7f);
+//		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_RIGHT_HEADPHONE_OUT,0x7f);
+		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_ANALOG_AUDIO_PATH_CTRL, 0x08);
+		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_DIGITAL_AUDIO_PATH_CTRL, 0x01);
+		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_POWER_DOWN_CTRL, 0x00);
+//		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_SAMPLING_CTRL, 0x04);
+//		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_ACTIVE_CTRL, 0x01);
 
 	//main loop
 	while(1)
 	{
 		//read the data from the left buffer
-		writeSizeL = alt_up_audio_read_fifo(audio_dev, l_buf, BUFFER_SIZE, ALT_UP_AUDIO_LEFT);
-		printf("Left Channel,number of words read:%d ",writeSizeL);
-		writeSizeR = alt_up_audio_read_fifo(audio_dev, r_buf, BUFFER_SIZE, ALT_UP_AUDIO_RIGHT);
-		printf("Right Channel,number of words read:%d\n",writeSizeR);
-		//shift values to a proper base value
-		for (i = 0; i < writeSizeL; i = i+1)
-		{
-			l_buf[i] = l_buf[i] + 0x7fff;
-		}
-		for (i = 0; i < writeSizeL; i = i+1)
-		{
-			r_buf[i] = r_buf[i] + 0x7fff;
-		}
+		if(alt_up_audio_read_fifo_avail(audio_dev,ALT_UP_AUDIO_LEFT)|| alt_up_audio_read_fifo_avail(audio_dev,ALT_UP_AUDIO_RIGHT)){
+			writeSizeL = alt_up_audio_read_fifo(audio_dev, l_buf, BUFFER_SIZE, ALT_UP_AUDIO_LEFT);
+//					printf("Left Channel,number of words read:%d ",writeSizeL);
+			writeSizeR = alt_up_audio_read_fifo(audio_dev, r_buf, BUFFER_SIZE, ALT_UP_AUDIO_RIGHT);
+//					printf("Right Channel,number of words read:%d\n",writeSizeR);
+			//shift values to a proper base value
+			for (i = 0; i < writeSizeL; i = i+1)
+			{
+				l_buf[i] = l_buf[i] + 0x7fff;
+			}
+			for (i = 0; i < writeSizeL; i = i+1)
+			{
+				r_buf[i] = r_buf[i] + 0x7fff;
+			}
 
-		//write data to the L and R buffers; R buffer will receive a copy of L buffer data
-		alt_up_audio_write_fifo (audio_dev, r_buf, writeSizeR, ALT_UP_AUDIO_RIGHT);
-		alt_up_audio_write_fifo (audio_dev, l_buf, writeSizeL, ALT_UP_AUDIO_LEFT);
+			//write data to the L and R buffers; R buffer will receive a copy of L buffer data
+			alt_up_audio_write_fifo (audio_dev, r_buf, writeSizeR, ALT_UP_AUDIO_RIGHT);
+			alt_up_audio_write_fifo (audio_dev, l_buf, writeSizeL, ALT_UP_AUDIO_LEFT);
 
+		}
 	}
+
 }
 
 /*LCD*/
