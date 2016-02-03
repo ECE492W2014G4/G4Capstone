@@ -196,19 +196,19 @@
          type = "String";
       }
    }
-   element onchip_memory2_0.s1
-   {
-      datum baseAddress
-      {
-         value = "17842176";
-         type = "String";
-      }
-   }
    element timer_0.s1
    {
       datum baseAddress
       {
          value = "17862656";
+         type = "String";
+      }
+   }
+   element onchip_memory2_0.s1
+   {
+      datum baseAddress
+      {
+         value = "17842176";
          type = "String";
       }
    }
@@ -297,7 +297,7 @@
  <parameter name="projectName">niosII_microc_capstone.qpf</parameter>
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1454458138276" />
+ <parameter name="timeStamp" value="1454534372993" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface name="clk" internal="clk_0.clk_in" type="clock" dir="end" />
@@ -610,7 +610,7 @@
   <parameter name="sdram_clk" value="true" />
   <parameter name="vga_clk" value="false" />
   <parameter name="audio_clk" value="true" />
-  <parameter name="audio_clk_freq" value="12.288" />
+  <parameter name="audio_clk_freq" value="11.2896" />
   <parameter name="AUTO_CLK_IN_PRIMARY_CLOCK_RATE" value="50000000" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone II" />
  </module>

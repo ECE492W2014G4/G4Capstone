@@ -134,7 +134,7 @@ void AudioTask(void *pdata){
 		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_ANALOG_AUDIO_PATH_CTRL, 0x08);
 		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_DIGITAL_AUDIO_PATH_CTRL, 0x01);
 		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_POWER_DOWN_CTRL, 0x00);
-//		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_SAMPLING_CTRL, 0x04);
+		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_SAMPLING_CTRL, 0x20);
 //		alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_ACTIVE_CTRL, 0x01);
 
 	//main loop
