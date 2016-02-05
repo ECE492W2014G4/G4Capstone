@@ -14,14 +14,15 @@ entity distort is
 end entity distort;
 
 architecture behavior of distort is
--- constant clipping_constant : bit_vector(15 downto 0) := "00000000000000111110100"; -- constant value of 500 in decimal
+constant clipping_default : bit_vector(15 downto 0) := "0000001111101000"; -- constant value of 500 in decimal
 signal clip_threshold : std_logic_vector(15 downto 0);
 
 begin
 	process(clk,reset,dist_en)
 	begin
-	clip_threshold <= clipping_value;
-	-- data_out <= "0000000000000000";
+	-- clip_threshold <= clipping_value;
+	-- Default Clipping Value
+	clip_threshold <= clipping_default;
 		if reset = '0' then
 			data_out <= X"0000";
 		--elsif (clk='1' and clk'event) then
@@ -43,7 +44,6 @@ begin
 			else
 				data_out <= data_in;
 			end if;
-			--data_out <= data_in;
 		end if;
 	end process;
 end architecture;
