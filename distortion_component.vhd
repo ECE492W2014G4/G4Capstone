@@ -14,7 +14,7 @@ entity distort is
 end entity distort;
 
 architecture behavior of distort is
-constant clipping_default : bit_vector(15 downto 0) := "0000001111101000"; -- constant value of 500 in decimal
+constant clipping_default : std_logic_vector(15 downto 0) := "0000001111101000"; -- constant value of 500 in decimal
 signal clip_threshold : std_logic_vector(15 downto 0);
 
 begin
