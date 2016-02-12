@@ -30,6 +30,8 @@
 
 #include <stdio.h>
 #include "altera_up_avalon_character_lcd.h"
+#include "altera_avalon_fifo_regs.h"
+#include "altera_avalon_fifo_util.h"
 #include "includes.h"
 #include <sys/alt_irq.h>
 #include "altera_avalon_timer_regs.h"
@@ -129,6 +131,9 @@ void AudioSetup(alt_up_audio_dev * audio_dev,alt_up_av_config_dev * audio_config
 	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_DIGITAL_AUDIO_PATH_CTRL, 0x01);
 	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_POWER_DOWN_CTRL, 0x00);
 	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_SAMPLING_CTRL, 0x20);
+
+	altera_avalon_fifo_init(FIFO_AUDIO_IN_IN_CSR_BASE,0x0,1,FIFO_AUDIO_IN_IN_FIFO_DEPTH-1);
+	altera_avalon_fifo_init(FIFO_AUDIO_OUT_IN_CSR_BASE,0x0,1,FIFO_AUDIO_OUT_OUT_FIFO_DEPTH-1);
 }
 
 // Adapted from audio appnote by Group 11 - Sean Hunter, Michael Wong, Thomas Zylstra
@@ -136,36 +141,24 @@ void AudioSetup(alt_up_audio_dev * audio_dev,alt_up_av_config_dev * audio_config
 void AudioTask(void *pdata){
 	alt_up_audio_dev * audio_dev = (alt_up_audio_dev *)pdata;
 
-	unsigned int l_buf[BUFFER_SIZE];
-	unsigned int r_buf[BUFFER_SIZE];
-
-	int i = 0;
-	int writeSizeL = 0;
-	int writeSizeR = 0;
+	alt_u32 l_buf;
+	alt_u16 outbuf[2];
 
 	//main loop
 	while(1)
 	{
 		//read the data from the left buffer
-		if(alt_up_audio_read_fifo_avail(audio_dev,ALT_UP_AUDIO_LEFT)|| alt_up_audio_read_fifo_avail(audio_dev,ALT_UP_AUDIO_RIGHT)){
-			writeSizeL = alt_up_audio_read_fifo(audio_dev, l_buf, BUFFER_SIZE, ALT_UP_AUDIO_LEFT);
-			//					printf("Left Channel,number of words read:%d ",writeSizeL);
-			writeSizeR = alt_up_audio_read_fifo(audio_dev, r_buf, BUFFER_SIZE, ALT_UP_AUDIO_RIGHT);
-			//					printf("Right Channel,number of words read:%d\n",writeSizeR);
-			//shift values to a proper base value
-			for (i = 0; i < writeSizeL; i = i+1)
-			{
-				l_buf[i] = l_buf[i] + 0x7fff;
-			}
-			for (i = 0; i < writeSizeL; i = i+1)
-			{
-				r_buf[i] = r_buf[i] + 0x7fff;
-			}
-
+		if(alt_up_audio_read_fifo_avail(audio_dev,ALT_UP_AUDIO_LEFT)){
+			alt_up_audio_read_fifo(audio_dev, l_buf, 2, ALT_UP_AUDIO_LEFT);
+			altera_avalon_fifo_write_fifo(FIFO_AUDIO_IN_IN_BASE,FIFO_AUDIO_IN_IN_CSR_BASE,l_buf);
+		}
+		if(!altera_avalon_fifo_read_status(FIFO_AUDIO_OUT_OUT_BASE,ALTERA_AVALON_FIFO_STATUS_E_MSK)){
 			//write data to the L and R buffers; R buffer will receive a copy of L buffer data
-			alt_up_audio_write_fifo (audio_dev, r_buf, writeSizeR, ALT_UP_AUDIO_RIGHT);
-			alt_up_audio_write_fifo (audio_dev, l_buf, writeSizeL, ALT_UP_AUDIO_LEFT);
-
+			*outbuf=altera_avalon_fifo_read_fifo(FIFO_AUDIO_OUT_OUT_BASE, FIFO_AUDIO_OUT_IN_CSR_BASE);
+			*outbuf+=0x7fff;
+			*(outbuf+1)+=0x7fff;
+			alt_up_audio_write_fifo (audio_dev, l_buf, 2, ALT_UP_AUDIO_RIGHT);
+			alt_up_audio_write_fifo (audio_dev, l_buf, 2, ALT_UP_AUDIO_LEFT);
 		}
 	}
 

@@ -10,6 +10,10 @@ obj/default/main.o: main.c \
   ../G4Capstone_bsp//HAL/inc/sys/alt_llist.h \
   ../G4Capstone_bsp//HAL/inc/priv/alt_alarm.h \
   ../G4Capstone_bsp//HAL/inc/sys/alt_warning.h \
+  ../G4Capstone_bsp//drivers/inc/altera_avalon_fifo_regs.h \
+  ../G4Capstone_bsp//HAL/inc/io.h ../G4Capstone_bsp//HAL/inc/alt_types.h \
+  ../G4Capstone_bsp//drivers/inc/altera_avalon_fifo_util.h \
+  ../G4Capstone_bsp//drivers/inc/altera_avalon_fifo_regs.h \
   ../G4Capstone_bsp//HAL/inc/includes.h \
   ../G4Capstone_bsp//HAL/inc/os_cpu.h \
   ../G4Capstone_bsp//HAL/inc/sys/alt_irq.h \
@@ -24,7 +28,6 @@ obj/default/main.o: main.c \
   ../G4Capstone_bsp//HAL/inc/os_cpu.h \
   ../G4Capstone_bsp//HAL/inc/sys/alt_irq.h \
   ../G4Capstone_bsp//drivers/inc/altera_avalon_timer_regs.h \
-  ../G4Capstone_bsp//HAL/inc/io.h ../G4Capstone_bsp//HAL/inc/alt_types.h \
   ../G4Capstone_bsp//drivers/inc/altera_up_avalon_audio_and_video_config.h \
   ../G4Capstone_bsp//HAL/inc/alt_types.h \
   ../G4Capstone_bsp//HAL/inc/sys/alt_dev.h \
@@ -57,6 +60,16 @@ obj/default/main.o: main.c \
 
 ../G4Capstone_bsp//HAL/inc/sys/alt_warning.h:
 
+../G4Capstone_bsp//drivers/inc/altera_avalon_fifo_regs.h:
+
+../G4Capstone_bsp//HAL/inc/io.h:
+
+../G4Capstone_bsp//HAL/inc/alt_types.h:
+
+../G4Capstone_bsp//drivers/inc/altera_avalon_fifo_util.h:
+
+../G4Capstone_bsp//drivers/inc/altera_avalon_fifo_regs.h:
+
 ../G4Capstone_bsp//HAL/inc/includes.h:
 
 ../G4Capstone_bsp//HAL/inc/os_cpu.h:
@@ -88,10 +101,6 @@ obj/default/main.o: main.c \
 ../G4Capstone_bsp//HAL/inc/sys/alt_irq.h:
 
 ../G4Capstone_bsp//drivers/inc/altera_avalon_timer_regs.h:
-
-../G4Capstone_bsp//HAL/inc/io.h:
-
-../G4Capstone_bsp//HAL/inc/alt_types.h:
 
 ../G4Capstone_bsp//drivers/inc/altera_up_avalon_audio_and_video_config.h:
 

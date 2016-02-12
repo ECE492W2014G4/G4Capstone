@@ -28,6 +28,7 @@ library ieee;
 	(
 		-- Input ports and 50 MHz Clock
 		KEY		: in  std_logic_vector (0 downto 0);
+		SW		: in  std_logic_vector (0 downto 0);
 		CLOCK_50	: in 	std_logic;
 		CLOCK_27 : in 	std_logic;
 		
@@ -121,9 +122,10 @@ architecture structure of niosII_microc_capstone is
             audio_0_external_interface_DACLRCK      : in    std_logic                     := 'X';             -- DACLRCK
             audio_and_video_config_0_external_interface_SDAT : inout std_logic            := 'X';             -- SDAT
             audio_and_video_config_0_external_interface_SCLK : out   std_logic;                               -- SCLK
-				audio_clk_clk                           : out   std_logic;                                         -- clk
-				dram_clk_clk                            : out   std_logic                                         -- clk
-        );
+			audio_clk_clk                           : out   std_logic;                                         -- clk
+			dram_clk_clk                            : out   std_logic;                                         -- clk
+			distortion_en_export                    : in    std_logic                     := 'X'              -- export
+		  );
     end component niosII_system;
 
 --	These signals are for matching the provided IP core to
@@ -177,8 +179,9 @@ begin
             audio_0_external_interface_DACLRCK      => AUD_DACLRCK,                      
             audio_and_video_config_0_external_interface_SDAT => I2C_SDAT,                             
             audio_and_video_config_0_external_interface_SCLK => I2C_SCLK,                                       
-            audio_clk_clk									 => AUD_XCK,
-				dram_clk_clk                         	 => DRAM_CLK
+            audio_clk_clk							=> AUD_XCK,
+			dram_clk_clk                         	=> DRAM_CLK,
+			distortion_en_export					=> SW(0)
         );
 
 end structure;
