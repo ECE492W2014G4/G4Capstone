@@ -25,16 +25,20 @@ begin
 	clip_threshold <= clipping_default;
 		if reset = '0' then
 			data_out <= X"0000";
-		--elsif (clk='1' and clk'event) then
 		elsif (rising_edge(clk)) then
-			if dist_en = '1' then -- Check if Distortion is Enabled
-				if data_in(15) = '1' then -- Check sign of sample (If negative...)
-					if (not data_in(14 downto 0)) >= clip_threshold(14 downto 0) then -- compare data to clip_threshold (without sign bits)
-						data_out <= '1' & (not clip_threshold(14 downto 0)); -- if data is greater than threshold, data_out = clip_threshold, concatenate '1' to complement
+			-- Check if Distortion is Enabled
+			if dist_en = '1' then 
+				-- Check sign of sample (If negative...)
+				if data_in(15) = '1' then 
+					-- compare data to clip_threshold (without sign bits)
+					if (not data_in(14 downto 0)) >= clip_threshold(14 downto 0) then 
+						-- if data is greater than threshold, data_out = clip_threshold, concatenate '1' to complement
+						data_out <= '1' & (not clip_threshold(14 downto 0)); 
 					else 
 						data_out <= data_in;
 					end if;
-				elsif data_in(15) = '0' then -- Check sign of sample (If positive...)
+				-- Check sign of sample (If positive...)
+				elsif data_in(15) = '0' then 
 					if data_in(14 downto 0) >= clip_threshold(14 downto 0) then
 						data_out <= '0' & clip_threshold(14 downto 0);
 					else

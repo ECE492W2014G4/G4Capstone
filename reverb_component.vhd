@@ -1,7 +1,9 @@
 library IEEE;
-use IEEE.std_logic_1164.all;
-use IEEE.std_logic_misc.all;
-use IEEE.std_logic_arith.all;
+-- use IEEE.std_logic_1164.all;
+-- use IEEE.std_logic_misc.all;
+-- use IEEE.std_logic_arith.all;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
 
 
 entity reverb_component is
@@ -21,10 +23,11 @@ end reverb_component;
 
 architecture Behavioral of reverb_component is
 signal full : STD_LOGIC := '0';
-signal sum : STD_LOGIC_VECTOR(data_width - 1 downto 0);
 signal old_output : STD_LOGIC_VECTOR(data_width - 1 downto 0);
 signal new_output : STD_LOGIC_VECTOR(data_width - 1 downto 0);
 signal buffer_out : STD_LOGIC_VECTOR(data_width - 1 downto 0);
+signal data_in_int : INTEGER;
+signal buffer_out_int : INTEGER;
 begin
 
 	-- Memory Pointer Process
@@ -41,7 +44,6 @@ begin
 			read_pointer := 0;
 			data_out <= X"00";
 			full <= '0';
-			sum <= X"00";
 			buffer_out <= X"00";
 			old_output <= X"00";
 			new_output <= X"00";
@@ -68,9 +70,12 @@ begin
 			
 			-----------------------------------------------------
 			-- Design for Reverb --
-			new_output <= signed(data_in) + signed("00000100"*buffer_out);
-			old_output <= new_output;
-			data_out <= new_output;
+			data_in_int <= to_integer(signed(data_in)); -- convert to integer
+			buffer_out_int <= 1*(to_integer(signed(buffer_out)))/2; -- convert to integer
+			-- result is converted to std_logic_vector
+			new_output <= std_logic_vector(to_signed(data_in_int,data_width) + to_signed(buffer_out_int,data_width)); 
+			old_output <= new_output; -- old_output goes into the buffer
+			data_out <= new_output; -- data_out is the output signal
 			-----------------------------------------------------
 			
 		end if;
