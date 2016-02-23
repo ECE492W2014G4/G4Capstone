@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Feb 3, 2016 2:56:31 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1454536591250</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Feb 23, 2016 1:46:45 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1456260405439</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/afs/ualberta.ca/home/b/m/bmaroney/G4Capstone/software/G4Capstone_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../niosII_system.sopcinfo</SopcDesignFile>
