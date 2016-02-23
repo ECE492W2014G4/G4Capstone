@@ -16,20 +16,25 @@ entity reverb_component is
 		reset		: in  STD_LOGIC;
 		write_en	: in  STD_LOGIC;
 		data_in		: in  STD_LOGIC_VECTOR (data_width - 1 downto 0);
-		read_en		: in  STD_LOGIC;
+		reverb_en	: in  STD_LOGIC;
+		--read_en		: in  STD_LOGIC;
 		data_out	: out STD_LOGIC_VECTOR (data_width - 1 downto 0)
 	);
 end reverb_component;
 
 architecture Behavioral of reverb_component is
+
+-- Signal Assignment
 signal full : STD_LOGIC := '0';
-signal old_output : STD_LOGIC_VECTOR(data_width - 1 downto 0);
 signal new_output : STD_LOGIC_VECTOR(data_width - 1 downto 0);
 signal buffer_out : STD_LOGIC_VECTOR(data_width - 1 downto 0);
-signal data_in_int : INTEGER;
-signal buffer_out_int : INTEGER;
-begin
+signal read_en : STD_LOGIC;
+signal buffer_out_int : INTEGER := 0;
 
+begin
+	
+	read_en <= reverb_en;
+	
 	-- Memory Pointer Process
 	fifo_proc : process (CLK)
 		type fifo_memory is array (0 to fifo_depth - 1) of STD_LOGIC_VECTOR (data_width - 1 downto 0);
@@ -45,7 +50,6 @@ begin
 			data_out <= X"00";
 			full <= '0';
 			buffer_out <= X"00";
-			old_output <= X"00";
 			new_output <= X"00";
 	elsif (rising_edge(clk)) then
 		
@@ -58,7 +62,7 @@ begin
 				-- Design for Echo --
 				-- data_out <= signed(buffer_out) + signed(data_in);
 				-----------------------------------------------------
-				--data_out <= buffer_out;
+
 				-- Check if read_pointer pointer is at the end of the buffer
 				if (read_pointer = fifo_depth - 1) then
 					read_pointer := 0;
@@ -69,12 +73,13 @@ begin
 			end if;
 			
 			-----------------------------------------------------
-			-- Design for Reverb --
-			data_in_int <= to_integer(signed(data_in)); -- convert to integer
-			buffer_out_int <= 1*(to_integer(signed(buffer_out)))/2; -- convert to integer
-			-- result is converted to std_logic_vector
-			new_output <= std_logic_vector(to_signed(data_in_int,data_width) + to_signed(buffer_out_int,data_width)); 
-			old_output <= new_output; -- old_output goes into the buffer
+			-- Design for Reverberation --
+			
+			-- Result is converted to std_logic_vector
+			buffer_out_int <= (1*(to_integer(signed(buffer_out)))/2);
+			--new_output <= std_logic_vector(signed(data_in) + signed(buffer_out));
+			
+			new_output <= std_logic_vector(to_signed(to_integer(signed(data_in)),data_width) + to_signed((1*(to_integer(signed(buffer_out)))/2),data_width));
 			data_out <= new_output; -- data_out is the output signal
 			-----------------------------------------------------
 			
@@ -83,15 +88,13 @@ begin
 		
 		-- write_pointer Process
 		if write_en = '1' then
-			--Memory(write_pointer) := data_in;
-			Memory(write_pointer) := old_output;
+			Memory(write_pointer) := new_output;
 			-- Check if write_pointer pointer is at the end of the buffer
 			if (write_pointer = fifo_depth - 1) then
 				full <= '1';
 				write_pointer := 0;
 			else
 				write_pointer := write_pointer + 1;
-				--full <= '0';
 			end if;
 		end if;
 		

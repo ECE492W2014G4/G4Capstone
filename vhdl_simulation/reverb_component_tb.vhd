@@ -19,7 +19,7 @@ ARCHITECTURE behavior OF reverb_component_tb IS
 			reset		: in std_logic;
 			data_in	: in std_logic_vector(7 downto 0);
 			write_en	: in std_logic;
-			read_en	: in std_logic;
+			reverb_en	: in std_logic;
 			data_out	: out std_logic_vector(7 downto 0)
 		);
 	end component;
@@ -28,7 +28,7 @@ ARCHITECTURE behavior OF reverb_component_tb IS
 	signal clk		: std_logic := '0';
 	signal reset		: std_logic := '0';
 	signal data_in	: std_logic_vector(7 downto 0) := (others => '0');
-	signal read_en	: std_logic := '0';
+	signal reverb_en	: std_logic := '0';
 	signal write_en	: std_logic := '0';
 	
 	--Outputs
@@ -48,7 +48,7 @@ BEGIN
 			reset		=> reset,
 			data_in	=> data_in,
 			write_en	=> write_en,
-			read_en	=> read_en,
+			reverb_en	=> reverb_en,
 			data_out	=> data_out
 		);
 	
@@ -96,11 +96,11 @@ BEGIN
 	rd_proc : process
 	begin
 		wait for clk_period;			
-		read_en <= '1';
+		reverb_en <= '1';
 		--wait for clk_period * 5;
-		--read_en <= '0';
+		--reverb_en <= '0';
 		--wait for clk_period * 5;
-		--read_en <= '1';
+		--reverb_en <= '1';
 		
 		wait;
 	end process;
