@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'niosII_system'
  * SOPC Builder design path: ../../niosII_system.sopcinfo
  *
- * Generated: Wed Feb 03 14:56:31 MST 2016
+ * Generated: Sat Feb 27 17:22:24 MST 2016
  */
 
 /*
@@ -66,7 +66,7 @@
 #define ALT_CPU_CPU_FREQ 50000000u
 #define ALT_CPU_CPU_ID_SIZE 1
 #define ALT_CPU_CPU_ID_VALUE 0x00000000
-#define ALT_CPU_CPU_IMPLEMENTATION "tiny"
+#define ALT_CPU_CPU_IMPLEMENTATION "small"
 #define ALT_CPU_DATA_ADDR_WIDTH 0x19
 #define ALT_CPU_DCACHE_LINE_SIZE 0
 #define ALT_CPU_DCACHE_LINE_SIZE_LOG2 0
@@ -75,14 +75,14 @@
 #define ALT_CPU_FLUSHDA_SUPPORTED
 #define ALT_CPU_FREQ 50000000
 #define ALT_CPU_HARDWARE_DIVIDE_PRESENT 0
-#define ALT_CPU_HARDWARE_MULTIPLY_PRESENT 0
+#define ALT_CPU_HARDWARE_MULTIPLY_PRESENT 1
 #define ALT_CPU_HARDWARE_MULX_PRESENT 0
 #define ALT_CPU_HAS_DEBUG_CORE 1
 #define ALT_CPU_HAS_DEBUG_STUB
 #define ALT_CPU_HAS_JMPI_INSTRUCTION
-#define ALT_CPU_ICACHE_LINE_SIZE 0
-#define ALT_CPU_ICACHE_LINE_SIZE_LOG2 0
-#define ALT_CPU_ICACHE_SIZE 0
+#define ALT_CPU_ICACHE_LINE_SIZE 32
+#define ALT_CPU_ICACHE_LINE_SIZE_LOG2 5
+#define ALT_CPU_ICACHE_SIZE 4096
 #define ALT_CPU_INST_ADDR_WIDTH 0x19
 #define ALT_CPU_NAME "nios2_qsys_0"
 #define ALT_CPU_RESET_ADDR 0x1104000
@@ -98,7 +98,7 @@
 #define NIOS2_CPU_FREQ 50000000u
 #define NIOS2_CPU_ID_SIZE 1
 #define NIOS2_CPU_ID_VALUE 0x00000000
-#define NIOS2_CPU_IMPLEMENTATION "tiny"
+#define NIOS2_CPU_IMPLEMENTATION "small"
 #define NIOS2_DATA_ADDR_WIDTH 0x19
 #define NIOS2_DCACHE_LINE_SIZE 0
 #define NIOS2_DCACHE_LINE_SIZE_LOG2 0
@@ -106,14 +106,14 @@
 #define NIOS2_EXCEPTION_ADDR 0x1104020
 #define NIOS2_FLUSHDA_SUPPORTED
 #define NIOS2_HARDWARE_DIVIDE_PRESENT 0
-#define NIOS2_HARDWARE_MULTIPLY_PRESENT 0
+#define NIOS2_HARDWARE_MULTIPLY_PRESENT 1
 #define NIOS2_HARDWARE_MULX_PRESENT 0
 #define NIOS2_HAS_DEBUG_CORE 1
 #define NIOS2_HAS_DEBUG_STUB
 #define NIOS2_HAS_JMPI_INSTRUCTION
-#define NIOS2_ICACHE_LINE_SIZE 0
-#define NIOS2_ICACHE_LINE_SIZE_LOG2 0
-#define NIOS2_ICACHE_SIZE 0
+#define NIOS2_ICACHE_LINE_SIZE 32
+#define NIOS2_ICACHE_LINE_SIZE_LOG2 5
+#define NIOS2_ICACHE_SIZE 4096
 #define NIOS2_INST_ADDR_WIDTH 0x19
 #define NIOS2_RESET_ADDR 0x1104000
 
@@ -129,7 +129,6 @@
 #define __ALTERA_AVALON_SYSID_QSYS
 #define __ALTERA_AVALON_TIMER
 #define __ALTERA_NIOS2_QSYS
-#define __ALTERA_UP_AVALON_AUDIO
 #define __ALTERA_UP_AVALON_AUDIO_AND_VIDEO_CONFIG
 #define __ALTERA_UP_AVALON_CHARACTER_LCD
 #define __ALTERA_UP_AVALON_SRAM
@@ -141,8 +140,8 @@
  */
 
 #define ALT_DEVICE_FAMILY "Cyclone II"
+#define ALT_ENHANCED_INTERRUPT_API_PRESENT
 #define ALT_IRQ_BASE NULL
-#define ALT_LEGACY_INTERRUPT_API_PRESENT
 #define ALT_LOG_PORT "/dev/null"
 #define ALT_LOG_PORT_BASE 0x0
 #define ALT_LOG_PORT_DEV null
@@ -151,19 +150,19 @@
 #define ALT_NUM_INTERNAL_INTERRUPT_CONTROLLERS 1
 #define ALT_NUM_INTERRUPT_CONTROLLERS 1
 #define ALT_STDERR "/dev/jtag_uart_0"
-#define ALT_STDERR_BASE 0x1109040
+#define ALT_STDERR_BASE 0x1109090
 #define ALT_STDERR_DEV jtag_uart_0
 #define ALT_STDERR_IS_JTAG_UART
 #define ALT_STDERR_PRESENT
 #define ALT_STDERR_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDIN "/dev/jtag_uart_0"
-#define ALT_STDIN_BASE 0x1109040
+#define ALT_STDIN_BASE 0x1109090
 #define ALT_STDIN_DEV jtag_uart_0
 #define ALT_STDIN_IS_JTAG_UART
 #define ALT_STDIN_PRESENT
 #define ALT_STDIN_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDOUT "/dev/jtag_uart_0"
-#define ALT_STDOUT_BASE 0x1109040
+#define ALT_STDOUT_BASE 0x1109090
 #define ALT_STDOUT_DEV jtag_uart_0
 #define ALT_STDOUT_IS_JTAG_UART
 #define ALT_STDOUT_PRESENT
@@ -172,26 +171,12 @@
 
 
 /*
- * audio_0 configuration
- *
- */
-
-#define ALT_MODULE_CLASS_audio_0 altera_up_avalon_audio
-#define AUDIO_0_BASE 0x1109030
-#define AUDIO_0_IRQ 2
-#define AUDIO_0_IRQ_INTERRUPT_CONTROLLER_ID 0
-#define AUDIO_0_NAME "/dev/audio_0"
-#define AUDIO_0_SPAN 16
-#define AUDIO_0_TYPE "altera_up_avalon_audio"
-
-
-/*
  * audio_and_video_config_0 configuration
  *
  */
 
 #define ALT_MODULE_CLASS_audio_and_video_config_0 altera_up_avalon_audio_and_video_config
-#define AUDIO_AND_VIDEO_CONFIG_0_BASE 0x1109020
+#define AUDIO_AND_VIDEO_CONFIG_0_BASE 0x1109060
 #define AUDIO_AND_VIDEO_CONFIG_0_IRQ -1
 #define AUDIO_AND_VIDEO_CONFIG_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define AUDIO_AND_VIDEO_CONFIG_0_NAME "/dev/audio_and_video_config_0"
@@ -205,7 +190,7 @@
  */
 
 #define ALT_MODULE_CLASS_character_lcd_0 altera_up_avalon_character_lcd
-#define CHARACTER_LCD_0_BASE 0x1109050
+#define CHARACTER_LCD_0_BASE 0x11090a0
 #define CHARACTER_LCD_0_IRQ -1
 #define CHARACTER_LCD_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define CHARACTER_LCD_0_NAME "/dev/character_lcd_0"
@@ -229,7 +214,7 @@
  */
 
 #define ALT_MODULE_CLASS_jtag_uart_0 altera_avalon_jtag_uart
-#define JTAG_UART_0_BASE 0x1109040
+#define JTAG_UART_0_BASE 0x1109090
 #define JTAG_UART_0_IRQ 1
 #define JTAG_UART_0_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define JTAG_UART_0_NAME "/dev/jtag_uart_0"
@@ -329,13 +314,13 @@
  */
 
 #define ALT_MODULE_CLASS_sysid_qsys_0 altera_avalon_sysid_qsys
-#define SYSID_QSYS_0_BASE 0x1109048
+#define SYSID_QSYS_0_BASE 0x1109098
 #define SYSID_QSYS_0_ID 0
 #define SYSID_QSYS_0_IRQ -1
 #define SYSID_QSYS_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define SYSID_QSYS_0_NAME "/dev/sysid_qsys_0"
 #define SYSID_QSYS_0_SPAN 8
-#define SYSID_QSYS_0_TIMESTAMP 1454536042
+#define SYSID_QSYS_0_TIMESTAMP 1456618106
 #define SYSID_QSYS_0_TYPE "altera_avalon_sysid_qsys"
 
 
@@ -346,7 +331,7 @@
 
 #define ALT_MODULE_CLASS_timer_0 altera_avalon_timer
 #define TIMER_0_ALWAYS_RUN 0
-#define TIMER_0_BASE 0x1109000
+#define TIMER_0_BASE 0x1109040
 #define TIMER_0_COUNTER_SIZE 32
 #define TIMER_0_FIXED_PERIOD 0
 #define TIMER_0_FREQ 50000000u

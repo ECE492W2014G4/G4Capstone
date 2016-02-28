@@ -215,13 +215,6 @@ Avalon_Audio_and_Video_driver_SRCS_ROOT := drivers
 Avalon_Audio_and_Video_driver_C_LIB_SRCS := \
 	$(Avalon_Audio_and_Video_driver_SRCS_ROOT)/src/altera_up_avalon_audio_and_video_config.c
 
-# avalon_audio_driver sources root 
-Avalon_Audio_driver_SRCS_ROOT := drivers
-
-# avalon_audio_driver sources 
-Avalon_Audio_driver_C_LIB_SRCS := \
-	$(Avalon_Audio_driver_SRCS_ROOT)/src/altera_up_avalon_audio.c
-
 # altera_avalon_jtag_uart_driver sources root 
 altera_avalon_jtag_uart_driver_SRCS_ROOT := drivers
 
@@ -372,7 +365,6 @@ ucosii_C_LIB_SRCS := \
 # Assemble all component C source files 
 COMPONENT_C_LIB_SRCS += \
 	$(Avalon_Audio_and_Video_driver_C_LIB_SRCS) \
-	$(Avalon_Audio_driver_C_LIB_SRCS) \
 	$(altera_avalon_jtag_uart_driver_C_LIB_SRCS) \
 	$(altera_avalon_sysid_qsys_driver_C_LIB_SRCS) \
 	$(altera_avalon_timer_driver_C_LIB_SRCS) \
