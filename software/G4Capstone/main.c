@@ -35,6 +35,8 @@
 #include "altera_avalon_timer_regs.h"
 #include "altera_up_avalon_audio_and_video_config.h"
 #include "altera_up_avalon_audio.h"
+#include "altera_avalon_fifo_regs.h"
+#include "altera_avalon_fifo_util.h"
 
 /* Definition of Task Stacks */
 #define   TASK_STACKSIZE		2048
@@ -98,44 +100,59 @@ int main(void)
 // Adapter from audio appnote by Group 11 - Sean Hunter, Michael Wong, Thomas Zylstra
 //URL: https://www.ualberta.ca/~delliott/local/ece492/appnotes/2013w/audio_altera_university_ip_cores/
 void AudioTask(void *pdata){
-	 alt_up_audio_dev * audio_dev;
-	    alt_up_av_config_dev * audio_config_dev;
+	alt_up_audio_dev * audio_dev;
+	alt_up_av_config_dev * audio_config_dev;
 
-	    unsigned int l_buf[BUFFER_SIZE];
-	    int i = 0;
-	    int writeSizeL = 0;
+	unsigned int l_buf[BUFFER_SIZE];
+	unsigned int out_buf[BUFFER_SIZE];
+	int i = 0;
+	int writeSizeL = 0;
 
-	    /* Open Devices */
-	    audio_dev = alt_up_audio_open_dev (AUDIO_0_NAME);
-	    if ( audio_dev == NULL)
-	        printf("Error: could not open audio device \n");
-	    else
-	        printf("Opened audio device \n");
+	/* Open Devices */
 
-	    audio_config_dev = alt_up_av_config_open_dev(AUDIO_AND_VIDEO_CONFIG_0_NAME);
-	    if ( audio_config_dev == NULL)
-	        printf("Error: could not open audio config device \n");
-	    else
-	        printf("Opened audio config device \n");
+	audio_config_dev = alt_up_av_config_open_dev(AUDIO_AND_VIDEO_CONFIG_0_NAME);
+	if ( audio_config_dev == NULL)
+		printf("Error: could not open audio config device \n");
+	else
+		printf("Opened audio config device \n");
 
-	    /* Configure WM8731 */
-	    alt_up_audio_reset_audio_core(audio_dev);
-	    alt_up_av_config_reset(audio_config_dev);
+	/* Configure WM8731 */
+	alt_up_av_config_reset(audio_config_dev);
 
-	    alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_SAMPLING_CTRL, 0x20);
+	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_SAMPLING_CTRL, 0x20);
+//	altera_avalon_fifo_init(AUDIO_IN_IN_CSR_BASE,0,1,AUDIO_IN_IN_FIFO_DEPTH-1);
+//	altera_avalon_fifo_init(AUDIO_OUT_IN_CSR_BASE,0,1,AUDIO_OUT_OUT_FIFO_DEPTH-1);
+	//main loop
+	while(1)
+	{
+//		//read the data from the left buffer
+//		writeSizeL = alt_up_audio_read_fifo(audio_dev, l_buf, 2, ALT_UP_AUDIO_LEFT);
+//		altera_avalon_fifo_write_fifo(AUDIO_IN_IN_BASE,AUDIO_IN_IN_CSR_BASE,l_buf[0]);
+//		out_buf[2*i]=altera_avalon_fifo_read_fifo(AUDIO_OUT_OUT_BASE,AUDIO_OUT_IN_CSR_BASE);
+////		for(i=0;i<writeSizeL/2 && writeSizeL > 0 ;i++){
+////			int status=altera_avalon_fifo_write_fifo(AUDIO_IN_IN_BASE,AUDIO_IN_IN_CSR_BASE,l_buf[2*i]);
+////			if(status != ALTERA_AVALON_FIFO_OK){
+//////				printf("Couldn't upload audio\n");
+////			}
+////			else{
+////				printf("AUDIO IN FIFO level: %u Status: %x\n",altera_avalon_fifo_read_level(AUDIO_IN_IN_CSR_BASE),altera_avalon_fifo_read_status(AUDIO_IN_IN_CSR_BASE,ALTERA_AVALON_FIFO_STATUS_ALL));
+////			}
+////
+////		}
+//////
+//////	//	printf("FIFO level: %u Status: %x\n",altera_avalon_fifo_read_level(AUDIO_IN_IN_CSR_BASE),altera_avalon_fifo_read_status(AUDIO_IN_IN_CSR_BASE,ALTERA_AVALON_FIFO_STATUS_ALL));
+//////
+////		for(i=0;i<writeSizeL/2 && writeSizeL > 0 ;i++){
+////			out_buf[2*i]=altera_avalon_fifo_read_fifo(AUDIO_OUT_OUT_BASE,AUDIO_OUT_IN_CSR_BASE);
+////			printf("AUDIO OUT FIFO level: %u Status: %x\n",altera_avalon_fifo_read_level(AUDIO_OUT_IN_CSR_BASE),altera_avalon_fifo_read_status(AUDIO_OUT_IN_CSR_BASE,ALTERA_AVALON_FIFO_STATUS_ALL));
+////
+////		}
+////		//write data to the L and R buffers; R buffer will receive a copy of L buffer data
+//		alt_up_audio_write_fifo (audio_dev, out_buf, writeSizeL, ALT_UP_AUDIO_RIGHT);
+//		alt_up_audio_write_fifo (audio_dev, out_buf, writeSizeL, ALT_UP_AUDIO_LEFT);
+//////		OSTimeDlyHMSM(0,0,0,1);
 
-	    unsigned int status=0;
-	    //main loop
-	    while(1)
-	    {
-	            //read the data from the left buffer
-	            writeSizeL = alt_up_audio_read_fifo(audio_dev, l_buf, BUFFER_SIZE, ALT_UP_AUDIO_LEFT);
-
-	            //write data to the L and R buffers; R buffer will receive a copy of L buffer data
-	            alt_up_audio_write_fifo (audio_dev, l_buf, writeSizeL, ALT_UP_AUDIO_RIGHT);
-	            alt_up_audio_write_fifo (audio_dev, l_buf, writeSizeL, ALT_UP_AUDIO_LEFT);
-
-	    }
+	}
 
 
 }

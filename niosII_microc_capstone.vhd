@@ -30,6 +30,7 @@ library ieee;
 		KEY		: in  std_logic_vector (0 downto 0);
 		CLOCK_50	: in 	std_logic;
 		CLOCK_27 : in 	std_logic;
+		SW			: in	std_logic_vector(0 downto 0);
 		
 		--Audio Signals on board
 		--From audio appnote
@@ -122,8 +123,10 @@ architecture structure of niosII_microc_capstone is
             audio_and_video_config_0_external_interface_SDAT : inout std_logic            := 'X';             -- SDAT
             audio_and_video_config_0_external_interface_SCLK : out   std_logic;                               -- SCLK
 				audio_clk_clk                           : out   std_logic;                                         -- clk
-				dram_clk_clk                            : out   std_logic                                         -- clk
-        );
+				dram_clk_clk                            : out   std_logic;                                         -- clk
+        	distortion_en1_export                    : in    std_logic                     := 'X';              -- export
+			distortion_en2_export                    : in    std_logic                     := 'X'              -- export		  
+			);
     end component niosII_system;
 
 --	These signals are for matching the provided IP core to
@@ -178,7 +181,9 @@ begin
             audio_and_video_config_0_external_interface_SDAT => I2C_SDAT,                             
             audio_and_video_config_0_external_interface_SCLK => I2C_SCLK,                                       
             audio_clk_clk									 => AUD_XCK,
-				dram_clk_clk                         	 => DRAM_CLK
+				dram_clk_clk                         	 => DRAM_CLK,
+			distortion_en1_export							 => SW(0),
+			distortion_en2_export							 => SW(0)
         );
 
 end structure;
