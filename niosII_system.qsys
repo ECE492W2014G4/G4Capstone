@@ -16,7 +16,7 @@
    {
       datum _sortIndex
       {
-         value = "12";
+         value = "11";
          type = "int";
       }
       datum sopceditor_expanded
@@ -29,7 +29,7 @@
    {
       datum _sortIndex
       {
-         value = "13";
+         value = "12";
          type = "int";
       }
       datum sopceditor_expanded
@@ -42,7 +42,7 @@
    {
       datum _sortIndex
       {
-         value = "17";
+         value = "16";
          type = "int";
       }
    }
@@ -50,7 +50,7 @@
    {
       datum _sortIndex
       {
-         value = "18";
+         value = "17";
          type = "int";
       }
    }
@@ -74,7 +74,7 @@
    {
       datum baseAddress
       {
-         value = "17862728";
+         value = "17862724";
          type = "String";
       }
    }
@@ -90,7 +90,7 @@
    {
       datum _sortIndex
       {
-         value = "9";
+         value = "8";
          type = "int";
       }
       datum sopceditor_expanded
@@ -103,7 +103,7 @@
    {
       datum _sortIndex
       {
-         value = "3";
+         value = "2";
          type = "int";
       }
       datum sopceditor_expanded
@@ -116,7 +116,7 @@
    {
       datum _sortIndex
       {
-         value = "15";
+         value = "14";
          type = "int";
       }
       datum sopceditor_expanded
@@ -137,7 +137,7 @@
    {
       datum _sortIndex
       {
-         value = "1";
+         value = "0";
          type = "int";
       }
    }
@@ -145,7 +145,7 @@
    {
       datum _sortIndex
       {
-         value = "2";
+         value = "1";
          type = "int";
       }
    }
@@ -153,7 +153,7 @@
    {
       datum _sortIndex
       {
-         value = "14";
+         value = "13";
          type = "int";
       }
    }
@@ -161,23 +161,15 @@
    {
       datum _sortIndex
       {
+         value = "18";
+         type = "int";
+      }
+   }
+   element dsp_0
+   {
+      datum _sortIndex
+      {
          value = "19";
-         type = "int";
-      }
-   }
-   element dsp_left
-   {
-      datum _sortIndex
-      {
-         value = "0";
-         type = "int";
-      }
-   }
-   element dsp_right
-   {
-      datum _sortIndex
-      {
-         value = "20";
          type = "int";
       }
    }
@@ -189,19 +181,19 @@
          type = "String";
       }
    }
-   element audio_right.in_csr
-   {
-      datum baseAddress
-      {
-         value = "17862656";
-         type = "String";
-      }
-   }
    element audio_left.in_csr
    {
       datum baseAddress
       {
          value = "17862688";
+         type = "String";
+      }
+   }
+   element audio_right.in_csr
+   {
+      datum baseAddress
+      {
+         value = "17862656";
          type = "String";
       }
    }
@@ -217,7 +209,7 @@
    {
       datum _sortIndex
       {
-         value = "8";
+         value = "7";
          type = "int";
       }
       datum sopceditor_expanded
@@ -230,7 +222,7 @@
    {
       datum _sortIndex
       {
-         value = "4";
+         value = "3";
          type = "int";
       }
       datum sopceditor_expanded
@@ -243,7 +235,7 @@
    {
       datum _sortIndex
       {
-         value = "5";
+         value = "4";
          type = "int";
       }
       datum sopceditor_expanded
@@ -260,11 +252,11 @@
          type = "String";
       }
    }
-   element onchip_memory2_0.s1
+   element sdram_0.s1
    {
       datum baseAddress
       {
-         value = "17842176";
+         value = "8388608";
          type = "String";
       }
    }
@@ -276,11 +268,11 @@
          type = "String";
       }
    }
-   element sdram_0.s1
+   element onchip_memory2_0.s1
    {
       datum baseAddress
       {
-         value = "8388608";
+         value = "17842176";
          type = "String";
       }
    }
@@ -288,7 +280,7 @@
    {
       datum _sortIndex
       {
-         value = "10";
+         value = "9";
          type = "int";
       }
       datum megawizard_uipreferences
@@ -306,7 +298,7 @@
    {
       datum _sortIndex
       {
-         value = "11";
+         value = "10";
          type = "int";
       }
       datum sopceditor_expanded
@@ -319,7 +311,7 @@
    {
       datum _sortIndex
       {
-         value = "6";
+         value = "5";
          type = "int";
       }
       datum sopceditor_expanded
@@ -332,7 +324,7 @@
    {
       datum _sortIndex
       {
-         value = "7";
+         value = "6";
          type = "int";
       }
       datum sopceditor_expanded
@@ -341,15 +333,7 @@
          type = "boolean";
       }
    }
-   element dsp_left.tuner
-   {
-      datum baseAddress
-      {
-         value = "17862724";
-         type = "String";
-      }
-   }
-   element dsp_right.tuner
+   element dsp_0.tuner
    {
       datum baseAddress
       {
@@ -361,7 +345,7 @@
    {
       datum _sortIndex
       {
-         value = "16";
+         value = "15";
          type = "int";
       }
       datum sopceditor_expanded
@@ -385,7 +369,7 @@
  <parameter name="projectName">niosII_microc_capstone.qpf</parameter>
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1456790800574" />
+ <parameter name="timeStamp" value="1456873925136" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface name="clk" internal="clk_0.clk_in" type="clock" dir="end" />
@@ -423,34 +407,15 @@
    internal="up_clocks_0.sdram_clk"
    type="clock"
    dir="start" />
+ <interface name="fft_clock" internal="dsp_0.fft_clock" type="clock" dir="end" />
  <interface
-   name="fft_clock_1"
-   internal="dsp_left.fft_clock"
-   type="clock"
-   dir="end" />
- <interface
-   name="distortion_en1"
-   internal="dsp_left.conduit_end"
+   name="distortion_en"
+   internal="dsp_0.conduit_end"
    type="conduit"
    dir="end" />
  <interface
-   name="dsp_tuner1"
-   internal="dsp_left.conduit_end_1"
-   type="conduit"
-   dir="end" />
- <interface
-   name="dsp_tuner2"
-   internal="dsp_right.conduit_end_1"
-   type="conduit"
-   dir="end" />
- <interface
-   name="fft_clock_2"
-   internal="dsp_right.fft_clock"
-   type="clock"
-   dir="end" />
- <interface
-   name="distortion_en2"
-   internal="dsp_right.conduit_end"
+   name="tuner_en"
+   internal="dsp_0.conduit_end_1"
    type="conduit"
    dir="end" />
  <module kind="clock_source" version="12.1" enabled="1" name="clk_0">
@@ -558,8 +523,8 @@
   <parameter name="tightlyCoupledInstructionMaster1AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster2AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster3AddrWidth" value="1" />
-  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='sdram_0.s1' start='0x800000' end='0x1000000' /><slave name='sram_0.avalon_sram_slave' start='0x1080000' end='0x1100000' /><slave name='onchip_memory2_0.s1' start='0x1104000' end='0x1108000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x1108800' end='0x1109000' /></address-map>]]></parameter>
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='sdram_0.s1' start='0x800000' end='0x1000000' /><slave name='sram_0.avalon_sram_slave' start='0x1080000' end='0x1100000' /><slave name='onchip_memory2_0.s1' start='0x1104000' end='0x1108000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x1108800' end='0x1109000' /><slave name='timer_0.s1' start='0x1109000' end='0x1109020' /><slave name='audio_and_video_config_0.avalon_av_config_slave' start='0x1109020' end='0x1109030' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x1109030' end='0x1109038' /><slave name='sysid_qsys_0.control_slave' start='0x1109038' end='0x1109040' /><slave name='dsp_right.tuner' start='0x1109040' end='0x1109044' /><slave name='dsp_left.tuner' start='0x1109044' end='0x1109048' /><slave name='character_lcd_0.avalon_lcd_slave' start='0x1109048' end='0x110904A' /></address-map>]]></parameter>
+  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='sdram_0.s1' start='0x800000' end='0xC00000' /><slave name='sram_0.avalon_sram_slave' start='0x1080000' end='0x1100000' /><slave name='onchip_memory2_0.s1' start='0x1104000' end='0x1108000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x1108800' end='0x1109000' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='sdram_0.s1' start='0x800000' end='0xC00000' /><slave name='sram_0.avalon_sram_slave' start='0x1080000' end='0x1100000' /><slave name='onchip_memory2_0.s1' start='0x1104000' end='0x1108000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x1108800' end='0x1109000' /><slave name='timer_0.s1' start='0x1109000' end='0x1109020' /><slave name='audio_and_video_config_0.avalon_av_config_slave' start='0x1109020' end='0x1109030' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x1109030' end='0x1109038' /><slave name='sysid_qsys_0.control_slave' start='0x1109038' end='0x1109040' /><slave name='dsp_0.tuner' start='0x1109040' end='0x1109044' /><slave name='character_lcd_0.avalon_lcd_slave' start='0x1109044' end='0x1109046' /></address-map>]]></parameter>
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="deviceFamilyName" value="Cyclone II" />
   <parameter name="internalIrqMaskSystemInfo" value="3" />
@@ -674,7 +639,7 @@
   <parameter name="powerUpDelay" value="100.0" />
   <parameter name="refreshPeriod" value="15.625" />
   <parameter name="registerDataIn" value="true" />
-  <parameter name="rowWidth" value="12" />
+  <parameter name="rowWidth" value="11" />
  </module>
  <module kind="altera_up_avalon_sram" version="12.0" enabled="1" name="sram_0">
   <parameter name="board" value="DE2" />
@@ -874,11 +839,7 @@
   <parameter name="outUseReady" value="true" />
   <parameter name="outUseValid" value="true" />
  </module>
- <module kind="dsp" version="1.0" enabled="1" name="dsp_left">
-  <parameter name="AUTO_CLOCK_CLOCK_RATE" value="50000000" />
-  <parameter name="AUTO_FFT_CLOCK_CLOCK_RATE" value="0" />
- </module>
- <module kind="dsp" version="1.0" enabled="1" name="dsp_right">
+ <module kind="dsp" version="1.0" enabled="1" name="dsp_0">
   <parameter name="AUTO_CLOCK_CLOCK_RATE" value="50000000" />
   <parameter name="AUTO_FFT_CLOCK_CLOCK_RATE" value="0" />
  </module>
@@ -1032,7 +993,7 @@
    start="nios2_qsys_0.data_master"
    end="character_lcd_0.avalon_lcd_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x01109048" />
+  <parameter name="baseAddress" value="0x01109044" />
  </connection>
  <connection
    kind="avalon"
@@ -1491,86 +1452,53 @@
    kind="clock"
    version="12.1"
    start="up_clocks_0.sys_clk"
-   end="dsp_left.clock" />
- <connection
-   kind="avalon_streaming"
-   version="12.1"
-   start="dist_left_in_timing_adapter.out"
-   end="dsp_left.audio_in" />
- <connection
-   kind="avalon_streaming"
-   version="12.1"
-   start="dsp_left.audio_out"
-   end="dist_left_out_timing_adapter.in" />
+   end="dsp_0.clock" />
  <connection
    kind="avalon"
    version="12.1"
    start="nios2_qsys_0.data_master"
-   end="dsp_left.tuner">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x01109044" />
- </connection>
- <connection
-   kind="reset"
-   version="12.1"
-   start="clk_0.clk_reset"
-   end="dsp_left.reset_n" />
- <connection
-   kind="reset"
-   version="12.1"
-   start="nios2_qsys_0.jtag_debug_module_reset"
-   end="dsp_left.reset_n" />
- <connection
-   kind="reset"
-   version="12.1"
-   start="clk_1.clk_reset"
-   end="dsp_left.reset_n" />
- <connection
-   kind="reset"
-   version="12.1"
-   start="up_clocks_0.sys_clk_reset"
-   end="dsp_left.reset_n" />
- <connection
-   kind="clock"
-   version="12.1"
-   start="up_clocks_0.sys_clk"
-   end="dsp_right.clock" />
- <connection
-   kind="avalon_streaming"
-   version="12.1"
-   start="dist_right_in_timing_adapter.out"
-   end="dsp_right.audio_in" />
- <connection
-   kind="avalon_streaming"
-   version="12.1"
-   start="dsp_right.audio_out"
-   end="dist_right_out_timing_adapter.in" />
- <connection
-   kind="avalon"
-   version="12.1"
-   start="nios2_qsys_0.data_master"
-   end="dsp_right.tuner">
+   end="dsp_0.tuner">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x01109040" />
  </connection>
  <connection
+   kind="avalon_streaming"
+   version="12.1"
+   start="dist_left_in_timing_adapter.out"
+   end="dsp_0.audio_left_in" />
+ <connection
+   kind="avalon_streaming"
+   version="12.1"
+   start="dist_right_in_timing_adapter.out"
+   end="dsp_0.audio_right_in" />
+ <connection
+   kind="avalon_streaming"
+   version="12.1"
+   start="dsp_0.audio_left_out"
+   end="dist_left_out_timing_adapter.in" />
+ <connection
+   kind="avalon_streaming"
+   version="12.1"
+   start="dsp_0.audio_right_out"
+   end="dist_right_out_timing_adapter.in" />
+ <connection
    kind="reset"
    version="12.1"
    start="clk_0.clk_reset"
-   end="dsp_right.reset_n" />
+   end="dsp_0.reset_n" />
  <connection
    kind="reset"
    version="12.1"
    start="nios2_qsys_0.jtag_debug_module_reset"
-   end="dsp_right.reset_n" />
+   end="dsp_0.reset_n" />
  <connection
    kind="reset"
    version="12.1"
    start="clk_1.clk_reset"
-   end="dsp_right.reset_n" />
+   end="dsp_0.reset_n" />
  <connection
    kind="reset"
    version="12.1"
    start="up_clocks_0.sys_clk_reset"
-   end="dsp_right.reset_n" />
+   end="dsp_0.reset_n" />
 </system>

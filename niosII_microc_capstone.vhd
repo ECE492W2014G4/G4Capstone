@@ -124,13 +124,9 @@ architecture structure of niosII_microc_capstone is
             audio_and_video_config_0_external_interface_SCLK : out   std_logic;                               -- SCLK
 				audio_clk_clk                           : out   std_logic;                                         -- clk
 				dram_clk_clk                            : out   std_logic;                                         -- clk
-			fft_clock_1_clk                                  : in    std_logic                     := 'X';             -- clk
-        	distortion_en1_export                    : in    std_logic                     := 'X';              -- export
-            dsp_tuner1_export                                : in    std_logic                     := 'X';             -- export
-            dsp_tuner2_export                                : in    std_logic                     := 'X';             -- export
-            fft_clock_2_clk                                  : in    std_logic                     := 'X';             -- clk
-
-            distortion_en2_export                            : in    std_logic                     := 'X'              -- export
+            distortion_en_export                             : in    std_logic                     := 'X';             -- export
+            fft_clock_clk                                    : in    std_logic                     := 'X';             -- clk
+            tuner_en_export                                  : in    std_logic                     := 'X'              -- export
 			);
     end component niosII_system;
 
@@ -189,12 +185,9 @@ begin
             audio_and_video_config_0_external_interface_SCLK => I2C_SCLK,                                       
             audio_clk_clk									 => audio_clock,
 				dram_clk_clk                         	 => DRAM_CLK,
-			fft_clock_1_clk									 => audio_clock,
-			distortion_en1_export							 => SW(0),
-			dsp_tuner1_export								 => SW(1),
-			dsp_tuner2_export								 => SW(1),
-			fft_clock_2_clk									 =>	audio_clock,
-			distortion_en2_export							 => SW(0)
+			fft_clock_clk 								 		 => audio_clock,
+			distortion_en_export							 => SW(0),
+			tuner_en_export								 => SW(1)
         );
 
 end structure;

@@ -69,7 +69,7 @@ begin
 		--no errors on the input
 		sink_error <= "00";
 		--input data is left channel of audio input
-		sink_real <= (others => incoming_data(15) );
+		sink_real(23 downto 16) <= (others => incoming_data(15));
 		sink_real(15 downto 0) <= incoming_data(15 downto 0); 
 		outgoing_data <= sum;
 		FFT : fft_v10_1
@@ -97,7 +97,6 @@ begin
 		begin
 		  
 		if (rising_edge(clk) and sink_ready = '1') then
-			
 				--indicates the start of packet
 				if(cnt = 0) then
 					sink_sop <= '1';
