@@ -11,28 +11,28 @@ ARCHITECTURE behavior OF reverb_component_tb IS
 	-- Component Declaration for the Unit Under Test (UUT)
 	component reverb_component
 		Generic (
-			constant data_width  : positive := 8;
-			constant fifo_depth	: positive := 4
+			constant data_width  : positive := 16;
+			constant fifo_depth	: positive := 11025
 		);
 		port (
 			clk		: in std_logic;
 			reset		: in std_logic;
-			data_in	: in std_logic_vector(7 downto 0);
+			data_in	: in std_logic_vector(data_width - 1 downto 0);
 			write_en	: in std_logic;
 			reverb_en	: in std_logic;
-			data_out	: out std_logic_vector(7 downto 0)
+			data_out	: out std_logic_vector(data_width - 1 downto 0)
 		);
 	end component;
 	
 	--Inputs
 	signal clk		: std_logic := '0';
 	signal reset		: std_logic := '0';
-	signal data_in	: std_logic_vector(7 downto 0) := (others => '0');
+	signal data_in	: std_logic_vector(15 downto 0) := (others => '0');
 	signal reverb_en	: std_logic := '0';
 	signal write_en	: std_logic := '0';
 	
 	--Outputs
-	signal data_out	: std_logic_vector(7 downto 0);
+	signal data_out	: std_logic_vector(15 downto 0);
 
 
 	
@@ -78,10 +78,11 @@ BEGIN
 	begin		
 		wait for clk_period * 10;
 		write_en <= '1';
+		reverb_en <= '1';
 		for i in 1 to 32 loop
 			counter := counter + 1;
 			
-			data_in <= std_logic_vector(counter);
+			data_in <= "00000000"&std_logic_vector(counter);
 			
 			wait for clk_period * 1;
 			
@@ -93,16 +94,16 @@ BEGIN
 	end process;
 	
 	-- Read process
-	rd_proc : process
-	begin
-		wait for clk_period;			
-		reverb_en <= '1';
-		--wait for clk_period * 5;
-		--reverb_en <= '0';
-		--wait for clk_period * 5;
-		--reverb_en <= '1';
+	-- rd_proc : process
+	-- begin
+		-- wait for clk_period;			
+		-- reverb_en <= '1';
+		-- --wait for clk_period * 5;
+		-- --reverb_en <= '0';
+		-- --wait for clk_period * 5;
+		-- --reverb_en <= '1';
 		
-		wait;
-	end process;
+		-- wait;
+	-- end process;
 
 END;
