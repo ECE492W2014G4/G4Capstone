@@ -5,22 +5,27 @@
 
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.std_logic_unsigned.all;
+use ieee.std_logic_signed.all;
+use ieee.std_logic_arith.all;
 
 entity dsp is
 	port(
 	clk: in std_logic;
+	fft_clk: in std_logic;
 	reset_n: in std_logic;
 	dist_en : in std_logic;
+	tuner_en : in std_logic;
 	incoming_data: in std_logic_vector(15 downto 0);
 	incoming_valid: in std_logic;
 	outgoing_data: out std_logic_vector(15 downto 0);
-	outgoing_valid: out std_logic
+	outgoing_valid: out std_logic;
+	tuner_readdata: out std_logic_vector(31 downto 0)
 	);
 end entity dsp;
 
 architecture arch of dsp is
-	signal dist_completed: std_logic;
+	signal dist_completed, fft_done: std_logic;
+	signal temp: signed(31 downto 0);
 	component distort is
 			port( 
 				clk : in std_logic;
@@ -31,14 +36,34 @@ architecture arch of dsp is
 				data_in : in std_logic_vector(15 downto 0); -- 16-bit data stream input
 				data_out: out std_logic_vector(15 downto 0) -- 16-bit data stream output (either clipped or not)
 			);
+	end component;
+	component audio_fft is 
+	 port (
+			clk	:	in std_logic;
+			tuner_en: in std_logic;
+			incoming_valid	:	in std_logic;
+			incoming_data	:	in	std_logic_vector(15 downto 0);
+			outgoing_valid	:   out std_logic;
+			outgoing_data	:	signed(31 downto 0);
+			reset_n: in std_logic
+		);
 	end component;	
 begin
 		outgoing_valid <= dist_completed;
+		tuner_readdata <= std_logic_vector(temp);
 		d1:distort port map (	clk =>clk,reset=>reset_n,
 									 	dist_en => dist_en,
 										ready => incoming_valid,
 										done => dist_completed, 
 										data_in => incoming_data(15 downto 0),
 										data_out => outgoing_data(15 downto 0));
-
+		tuner:audio_fft port map (
+									clk	=> fft_clk,
+									tuner_en =>tuner_en,
+									incoming_valid => incoming_valid,
+									incoming_data => incoming_data(15 downto 0),
+									outgoing_valid => fft_done,
+									outgoing_data  => temp,
+									reset_n => reset_n
+						);
 end architecture;

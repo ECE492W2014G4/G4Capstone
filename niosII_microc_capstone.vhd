@@ -1,5 +1,5 @@
--- Nancy Minderman
--- nancy.minderman@ualberta.ca
+-- Edited By: Aaron Arnason, Byron Maroney, Edrick De Guzman.
+-- Originally by Nancy Minderman (nancy.minderman@ualberta.ca) for the purpose of  ECE 492 Lab 1
 -- This file makes extensive use of Altera template structures.
 -- This file is the top-level file for lab 1 winter 2014 for version 12.1sp1 on Windows 7
 
@@ -30,7 +30,7 @@ library ieee;
 		KEY		: in  std_logic_vector (0 downto 0);
 		CLOCK_50	: in 	std_logic;
 		CLOCK_27 : in 	std_logic;
-		SW			: in	std_logic_vector(0 downto 0);
+		SW			: in	std_logic_vector(1 downto 0);
 		
 		--Audio Signals on board
 		--From audio appnote
@@ -124,8 +124,13 @@ architecture structure of niosII_microc_capstone is
             audio_and_video_config_0_external_interface_SCLK : out   std_logic;                               -- SCLK
 				audio_clk_clk                           : out   std_logic;                                         -- clk
 				dram_clk_clk                            : out   std_logic;                                         -- clk
+			fft_clock_1_clk                                  : in    std_logic                     := 'X';             -- clk
         	distortion_en1_export                    : in    std_logic                     := 'X';              -- export
-			distortion_en2_export                    : in    std_logic                     := 'X'              -- export		  
+            dsp_tuner1_export                                : in    std_logic                     := 'X';             -- export
+            dsp_tuner2_export                                : in    std_logic                     := 'X';             -- export
+            fft_clock_2_clk                                  : in    std_logic                     := 'X';             -- clk
+
+            distortion_en2_export                            : in    std_logic                     := 'X'              -- export
 			);
     end component niosII_system;
 
@@ -133,6 +138,7 @@ architecture structure of niosII_microc_capstone is
 -- The specific SDRAM chip in our system	 
 	 signal BA	: std_logic_vector (1 downto 0);
 	 signal DQM	:	std_logic_vector (1 downto 0);
+	 signal audio_clock: std_logic;
 	 
 
 begin
@@ -142,6 +148,7 @@ begin
 	
 	DRAM_UDQM <= DQM(1);
 	DRAM_LDQM <= DQM(0);
+	AUD_XCK	<= audio_clock;
 	
 	-- Component Instantiation Statement (optional)
 	
@@ -180,9 +187,13 @@ begin
             audio_0_external_interface_DACLRCK      => AUD_DACLRCK,                      
             audio_and_video_config_0_external_interface_SDAT => I2C_SDAT,                             
             audio_and_video_config_0_external_interface_SCLK => I2C_SCLK,                                       
-            audio_clk_clk									 => AUD_XCK,
+            audio_clk_clk									 => audio_clock,
 				dram_clk_clk                         	 => DRAM_CLK,
+			fft_clock_1_clk									 => audio_clock,
 			distortion_en1_export							 => SW(0),
+			dsp_tuner1_export								 => SW(1),
+			dsp_tuner2_export								 => SW(1),
+			fft_clock_2_clk									 =>	audio_clock,
 			distortion_en2_export							 => SW(0)
         );
 
