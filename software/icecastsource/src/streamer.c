@@ -7,21 +7,26 @@
 #include <string.h>
 #include <pthread.h>
 #include <shout/shout.h>
+#include "streamer.h"
 
 shout_t * setupShoutSource();
 void *broadcastSource(void * param);
+void *getAudio(void * param);
+
+audio_buffer *buffer;
 
 int main() {
 	shout_t *shout = setupShoutSource();
-	unsigned char buff[4096];
-	long read, ret, total;
+	buffer = malloc(sizeof(audio_buffer));
 
 	if (shout != NULL && shout_open(shout) == SHOUTERR_SUCCESS) {
-		pthread_t tid;
-		pthread_attr_t attr;
-		pthread_attr_init(&attr);
-		pthread_create(&tid, &attr, broadcastSource,(void *)shout);
-		pthread_join(tid,NULL);
+		pthread_t tid[2];
+		pthread_create(&tid[0], NULL, broadcastSource,(void *)shout);
+		pthread_create(&tid[1], NULL, getAudio,NULL);
+		int i=0;
+		for(i=0; i<2; i++){
+			pthread_join(tid[i],NULL);
+		}
 	}
 	else if(shout == NULL){
 		printf("Couldn't initiliaze icecast source");	
@@ -38,6 +43,9 @@ int main() {
 	return 0;
 }
 
+void * getAudio(void * param){
+
+}
 void *broadcastSource(void * param){
 	shout_t *shout = (shout_t *)param;
 	unsigned char buff[4096];
