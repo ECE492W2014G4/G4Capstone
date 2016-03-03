@@ -13,13 +13,18 @@ shout_t * setupShoutSource();
 void *broadcastSource(void * param);
 void *getAudio(void * param);
 
-audio_buffer *buffer;
-
+sem_t sem;
+LIST_HEAD(listhead, audio_list) head;
+pthread_mutex_t list_lock;
+audio_list * my_list;
 int main() {
 	shout_t *shout = setupShoutSource();
-	buffer = malloc(sizeof(audio_buffer));
-
+	audio_list = malloc(sizeof(my_list));
+	sem_init(&sem, 0, 0);
+	pthread_mutex_init(list_lock,NULL);
+	LIST_INIT(&head);
 	if (shout != NULL && shout_open(shout) == SHOUTERR_SUCCESS) {
+		printf("Connected to server...\n");
 		pthread_t tid[2];
 		pthread_create(&tid[0], NULL, broadcastSource,(void *)shout);
 		pthread_create(&tid[1], NULL, getAudio,NULL);
@@ -44,32 +49,31 @@ int main() {
 }
 
 void * getAudio(void * param){
-
+	unsigned char buff[4096];
+	long read;	
+	FILE * song = fopen("/home/byron/test.ogg","r");
+	if(song == NULL) perror("Couldn't open audio file\n");
+	while (song != NULL) {
+		read = fread(buff, 1, sizeof(buff), song);
+		if (read > 0) {
+			
+		} 
+	}
 }
 void *broadcastSource(void * param){
 	shout_t *shout = (shout_t *)param;
 	unsigned char buff[4096];
 	long read, ret, total;
-	printf("Connected to server...\n");
-		total = 0;
-		FILE * song = fopen("/home/byron/test.ogg","r");
-		if(song == NULL) perror("Couldn't open audio file\n");
-		while (song != NULL) {
-			read = fread(buff, 1, sizeof(buff), song);
-			total = total + read;
-
-			if (read > 0) {
-				ret = shout_send(shout, buff, read);
-				if (ret != SHOUTERR_SUCCESS) {
-					printf("DEBUG: Send error: %s\n", shout_get_error(shout));
-					break;
-				}
-			} else {
-				break;
-			}
-
+	while (1) {
+		sem_wait(&sem);
+		ret = shout_send(shout, buff, read);
+		if (ret != SHOUTERR_SUCCESS) {
+			printf("DEBUG: Send error: %s\n", shout_get_error(shout));
+		}
+		else{
 			shout_sync(shout);
 		}
+	}
 }
 shout_t * setupShoutSource(){
 	shout_t *shout;
