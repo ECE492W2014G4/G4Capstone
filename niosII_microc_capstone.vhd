@@ -30,7 +30,7 @@ library ieee;
 		KEY		: in  std_logic_vector (0 downto 0);
 		CLOCK_50	: in 	std_logic;
 		CLOCK_27 : in 	std_logic;
-		SW			: in	std_logic_vector(1 downto 0);
+		SW			: in	std_logic_vector(17 downto 15);
 		
 		--Audio Signals on board
 		--From audio appnote
@@ -124,8 +124,8 @@ architecture structure of niosII_microc_capstone is
             audio_and_video_config_0_external_interface_SCLK : out   std_logic;                               -- SCLK
 				audio_clk_clk                           : out   std_logic;                                         -- clk
 				dram_clk_clk                            : out   std_logic;                                         -- clk
-        	distortion_en_export                    : in    std_logic                     := 'X';              -- export
-            tuner_en_export                                  : in    std_logic             := 'X'              -- export		  
+			enable_export                                    : in    std_logic_vector(2 downto 0)  := (others => 'X');
+			pio_export                                       : in    std_logic_vector(2 downto 0)  := (others => 'X')  -- export
 			);
     end component niosII_system;
 
@@ -182,8 +182,8 @@ begin
             audio_and_video_config_0_external_interface_SCLK => I2C_SCLK,                                       
             audio_clk_clk									 => AUD_XCK,
 				dram_clk_clk                         	 => DRAM_CLK,
-			distortion_en_export							 => SW(0),
-			tuner_en_export							 		 => SW(1)
+			enable_export => SW(17 downto 15),
+			pio_export => SW(17 downto 15)
         );
 
 end structure;

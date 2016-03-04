@@ -23,9 +23,11 @@ entity reverb_component is
 	Port ( 
 		clk			: in  STD_LOGIC;
 		reset		: in  STD_LOGIC;
-		write_en	: in  STD_LOGIC;
+--		write_en	: in  STD_LOGIC;
 		data_in		: in  STD_LOGIC_VECTOR (data_width - 1 downto 0);
 		reverb_en	: in  STD_LOGIC;
+		ready 		: in std_logic; --
+		done 		: out std_logic; --
 		data_out	: out STD_LOGIC_VECTOR (data_width - 1 downto 0)
 	);
 end reverb_component;
@@ -33,15 +35,18 @@ end reverb_component;
 architecture Behavioral of reverb_component is
 
 -- Signal Assignment
-constant mult_const : STD_LOGIC_VECTOR(7 downto 0) := "00000001";
+constant mult_const : STD_LOGIC_VECTOR(7 downto 0) := "00000001"; -- Decimal 1
 signal mult_result : STD_LOGIC_VECTOR(23 downto 0);
 signal full : STD_LOGIC := '0';
 signal buffer_out : STD_LOGIC_VECTOR(data_width - 1 downto 0);
 signal read_en : STD_LOGIC;
+signal completed : std_logic :='0';
 
 begin
 	
 	read_en <= reverb_en;
+	done <= completed;
+--	write_en <= '1';
 	
 	-- Memory Pointer Process
 	fifo_proc : process (CLK)
@@ -67,7 +72,7 @@ begin
 			var_out := "0000000000000000";
 	elsif (rising_edge(clk)) then
 		
-		if read_en = '1' then
+		if (read_en = '1' and ready = '1') then
 			-- check if the buffer is full (if not, do not read)
 			if full = '1' then
 				buffer_out <=  Memory(read_pointer);
@@ -96,12 +101,14 @@ begin
 			var_out := std_logic_vector(signed(data_in) +  signed(div_out_var));
 			data_out <= var_out; -- data_out is the output signal
 			-----------------------------------------------------
-			
+			completed <= '1';
+		else
+			completed <= '0';	
 		end if;
 		
 		
 		-- write_pointer Process
-		if write_en = '1' then
+		--if write_en = '1' then
 			Memory(write_pointer) := var_out;
 			-- Check if write_pointer pointer is at the end of the buffer
 			if (write_pointer = fifo_depth - 1) then
@@ -110,7 +117,7 @@ begin
 			else
 				write_pointer := write_pointer + 1;
 			end if;
-		end if;
+		--end if;
 		
 			
 		

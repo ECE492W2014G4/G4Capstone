@@ -2,9 +2,9 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Mar 1, 2016 6:12:49 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1456881169625</BspGeneratedUnixTimeStamp>
-        <BspGeneratedLocation>/afs/ualberta.ca/home/b/m/bmaroney/G4Capstone/software/G4Capstone_bsp</BspGeneratedLocation>
+        <BspGeneratedTimeStamp>Mar 3, 2016 7:47:25 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1457059645164</BspGeneratedUnixTimeStamp>
+        <BspGeneratedLocation>/afs/ualberta.ca/home/e/d/edrick/G4Capstone/software/G4Capstone_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../niosII_system.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
@@ -1715,26 +1715,32 @@
                 <attributes>timer</attributes>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>audio_and_video_config_0</slaveDescriptor>
+                <slaveDescriptor>pio_0</slaveDescriptor>
                 <addressRange>0x01109020 - 0x0110902F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>audio_and_video_config_0</slaveDescriptor>
+                <addressRange>0x01109030 - 0x0110903F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>jtag_uart_0</slaveDescriptor>
-                <addressRange>0x01109030 - 0x01109037</addressRange>
+                <addressRange>0x01109040 - 0x01109047</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes>printable</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>sysid_qsys_0</slaveDescriptor>
-                <addressRange>0x01109038 - 0x0110903F</addressRange>
+                <addressRange>0x01109048 - 0x0110904F</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>character_lcd_0</slaveDescriptor>
-                <addressRange>0x01109040 - 0x01109041</addressRange>
+                <addressRange>0x01109050 - 0x01109051</addressRange>
                 <addressSpan>2</addressSpan>
                 <attributes/>
         </MemoryMap>

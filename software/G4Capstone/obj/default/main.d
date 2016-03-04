@@ -25,11 +25,7 @@ obj/default/main.o: main.c \
   ../G4Capstone_bsp//drivers/inc/altera_up_avalon_audio_and_video_config.h \
   ../G4Capstone_bsp//HAL/inc/alt_types.h \
   ../G4Capstone_bsp//HAL/inc/sys/alt_dev.h \
-  ../G4Capstone_bsp//drivers/inc/altera_up_avalon_audio_and_video_config_regs.h \
-  ../G4Capstone_bsp//drivers/inc/altera_up_avalon_audio.h \
-  ../G4Capstone_bsp//drivers/inc/altera_avalon_fifo_regs.h \
-  ../G4Capstone_bsp//drivers/inc/altera_avalon_fifo_util.h \
-  ../G4Capstone_bsp//drivers/inc/altera_avalon_fifo_regs.h
+  ../G4Capstone_bsp//drivers/inc/altera_up_avalon_audio_and_video_config_regs.h
 
 ../G4Capstone_bsp//drivers/inc/altera_up_avalon_character_lcd.h:
 
@@ -92,11 +88,3 @@ obj/default/main.o: main.c \
 ../G4Capstone_bsp//HAL/inc/sys/alt_dev.h:
 
 ../G4Capstone_bsp//drivers/inc/altera_up_avalon_audio_and_video_config_regs.h:
-
-../G4Capstone_bsp//drivers/inc/altera_up_avalon_audio.h:
-
-../G4Capstone_bsp//drivers/inc/altera_avalon_fifo_regs.h:
-
-../G4Capstone_bsp//drivers/inc/altera_avalon_fifo_util.h:
-
-../G4Capstone_bsp//drivers/inc/altera_avalon_fifo_regs.h:

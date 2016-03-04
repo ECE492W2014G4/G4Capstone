@@ -34,9 +34,6 @@
 #include <sys/alt_irq.h>
 #include "altera_avalon_timer_regs.h"
 #include "altera_up_avalon_audio_and_video_config.h"
-#include "altera_up_avalon_audio.h"
-#include "altera_avalon_fifo_regs.h"
-#include "altera_avalon_fifo_util.h"
 
 /* Definition of Task Stacks */
 #define   TASK_STACKSIZE		2048
@@ -100,7 +97,6 @@ int main(void)
 // Adapted from audio appnote by Group 11 - Sean Hunter, Michael Wong, Thomas Zylstra
 //URL: https://www.ualberta.ca/~delliott/local/ece492/appnotes/2013w/audio_altera_university_ip_cores/
 void AudioTask(void *pdata){
-	alt_up_audio_dev * audio_dev;
 	alt_up_av_config_dev * audio_config_dev;
 
 	unsigned int l_buf[BUFFER_SIZE];
@@ -120,6 +116,11 @@ void AudioTask(void *pdata){
 	alt_up_av_config_reset(audio_config_dev);
 
 	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_SAMPLING_CTRL, 0x20);
+	unsigned int *sw = (unsigned int *)PIO_0_BASE;
+	while(1){
+		printf("%u\n",*sw);
+		OSTimeDlyHMSM(0,0,0,100);
+	}
 }
 
 /*LCD*/
