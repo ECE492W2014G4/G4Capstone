@@ -5,7 +5,9 @@ typedef struct{
 	long length;
 } audio_buffer;
 
-typedef struct {
-	LIST_ENTRY(audio_buffer) list;
-} audio_list; 
+typedef struct{
+	audio_queue * next;
+	audio_buffer aud;
+	audio_queue * prev;
+} audio_queue;
 

@@ -12,17 +12,19 @@
 shout_t * setupShoutSource();
 void *broadcastSource(void * param);
 void *getAudio(void * param);
+void queue_push(audio_queue * queue, audio_buffer * data, pthread_mutex_t lock);
+audio_buffer * data queue_pop(audio_queue * queue, pthread_mutex_t lock);
 
 sem_t sem;
 LIST_HEAD(listhead, audio_list) head;
 pthread_mutex_t list_lock;
-audio_list * my_list;
+audio_queue * queue;
+
 int main() {
 	shout_t *shout = setupShoutSource();
-	audio_list = malloc(sizeof(my_list));
+	queue = malloc(sizeof(audio_queue));
 	sem_init(&sem, 0, 0);
 	pthread_mutex_init(list_lock,NULL);
-	LIST_INIT(&head);
 	if (shout != NULL && shout_open(shout) == SHOUTERR_SUCCESS) {
 		printf("Connected to server...\n");
 		pthread_t tid[2];
@@ -56,17 +58,19 @@ void * getAudio(void * param){
 	while (song != NULL) {
 		read = fread(buff, 1, sizeof(buff), song);
 		if (read > 0) {
-			
+			audio_buffer data;
+			data.length = read;
+			data.buffer = memcpy(data.buffer, buff, read);
+			queue_push(queue, data, list_lock);
 		} 
 	}
 }
 void *broadcastSource(void * param){
 	shout_t *shout = (shout_t *)param;
-	unsigned char buff[4096];
-	long read, ret, total;
 	while (1) {
 		sem_wait(&sem);
-		ret = shout_send(shout, buff, read);
+		audio_buffer * data = queue_pop(queue, list_lock);
+		ret = shout_send(shout, data.buff, data.length);
 		if (ret != SHOUTERR_SUCCESS) {
 			printf("DEBUG: Send error: %s\n", shout_get_error(shout));
 		}
@@ -119,3 +123,22 @@ shout_t * setupShoutSource(){
 	}
 	return shout;
 }
+
+void queue_push(audio_queue * queue, audio_buffer * data, pthread_mutex_t lock){
+	pthread_mutex_lock(&lock);
+	if(queue->prev == NULL){
+		queue-> aud.buffer = memcpy(queue-> aud.buffer, data->buffer, data->length);
+	}
+	else{
+		audio_queue * item = malloc(sizeof(audio_queue));
+		item->aud.length = data->length;
+		item->aud.buffer = memcpy(item->aud.buffer, data->buffer, data->length);
+		queue -> next = item;
+	}
+	pthread_mutex_unlock(&lock);
+}
+audio_buffer * data queue_pop(audio_queue * queue, pthread_mutex_t lock){
+	pthread_mutex_lock(&lock);
+	pthread_mutex_unlock(&lock);
+}
+
