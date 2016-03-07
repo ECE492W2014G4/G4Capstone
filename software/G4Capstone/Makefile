@@ -142,7 +142,12 @@ ACDS_VERSION := 12.1sp1
 ELF := G4Capstone.elf
 
 # Paths to C, C++, and assembly source files.
-C_SRCS := main.c
+C_SRCS += alt_error_handler.c
+C_SRCS += http.c
+C_SRCS += network_utilities.c
+C_SRCS += srec_flash.c
+C_SRCS += web_server.c
+C_SRCS += dm9000a.c
 CXX_SRCS :=
 ASM_SRCS :=
 

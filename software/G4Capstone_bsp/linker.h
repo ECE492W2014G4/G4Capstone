@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'niosII_system'
  * SOPC Builder design path: ../../niosII_system.sopcinfo
  *
- * Generated: Thu Mar 03 19:33:02 MST 2016
+ * Generated: Sun Mar 06 16:16:19 MST 2016
  */
 
 /*
@@ -65,13 +65,17 @@
  *
  */
 
-#define ONCHIP_MEMORY2_0_REGION_BASE 0x1104020
+#define GENERIC_TRISTATE_CONTROLLER_0_REGION_BASE 0x1400020
+#define GENERIC_TRISTATE_CONTROLLER_0_REGION_SPAN 4194272
+#define ONCHIP_MEMORY2_0_BEFORE_EXCEPTION_REGION_BASE 0x1904000
+#define ONCHIP_MEMORY2_0_BEFORE_EXCEPTION_REGION_SPAN 32
+#define ONCHIP_MEMORY2_0_REGION_BASE 0x1904020
 #define ONCHIP_MEMORY2_0_REGION_SPAN 16352
-#define RESET_REGION_BASE 0x1104000
+#define RESET_REGION_BASE 0x1400000
 #define RESET_REGION_SPAN 32
 #define SDRAM_0_REGION_BASE 0x800000
 #define SDRAM_0_REGION_SPAN 8388608
-#define SRAM_0_REGION_BASE 0x1080000
+#define SRAM_0_REGION_BASE 0x1880000
 #define SRAM_0_REGION_SPAN 524288
 
 
@@ -81,26 +85,9 @@
  */
 
 #define ALT_EXCEPTIONS_DEVICE ONCHIP_MEMORY2_0
-#define ALT_RESET_DEVICE ONCHIP_MEMORY2_0
+#define ALT_RESET_DEVICE GENERIC_TRISTATE_CONTROLLER_0
 #define ALT_RODATA_DEVICE SDRAM_0
 #define ALT_RWDATA_DEVICE SDRAM_0
 #define ALT_TEXT_DEVICE SDRAM_0
-
-
-/*
- * Initialization code at the reset address is allowed (e.g. no external bootloader).
- *
- */
-
-#define ALT_ALLOW_CODE_AT_RESET
-
-
-/*
- * The alt_load() facility is called from crt0 to copy sections into RAM.
- *
- */
-
-#define ALT_LOAD_COPY_EXCEPTIONS
-#define ALT_LOAD_COPY_RWDATA
 
 #endif /* __LINKER_H_ */

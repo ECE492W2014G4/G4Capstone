@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'niosII_system'
  * SOPC Builder design path: ../../niosII_system.sopcinfo
  *
- * Generated: Thu Mar 03 19:33:02 MST 2016
+ * Generated: Sun Mar 06 16:16:19 MST 2016
  */
 
 /*
@@ -51,15 +51,18 @@
 MEMORY
 {
     sdram_0 : ORIGIN = 0x800000, LENGTH = 8388608
-    sram_0 : ORIGIN = 0x1080000, LENGTH = 524288
-    reset : ORIGIN = 0x1104000, LENGTH = 32
-    onchip_memory2_0 : ORIGIN = 0x1104020, LENGTH = 16352
+    reset : ORIGIN = 0x1400000, LENGTH = 32
+    generic_tristate_controller_0 : ORIGIN = 0x1400020, LENGTH = 4194272
+    sram_0 : ORIGIN = 0x1880000, LENGTH = 524288
+    onchip_memory2_0_BEFORE_EXCEPTION : ORIGIN = 0x1904000, LENGTH = 32
+    onchip_memory2_0 : ORIGIN = 0x1904020, LENGTH = 16352
 }
 
 /* Define symbols for each memory base-address */
 __alt_mem_sdram_0 = 0x800000;
-__alt_mem_sram_0 = 0x1080000;
-__alt_mem_onchip_memory2_0 = 0x1104000;
+__alt_mem_generic_tristate_controller_0 = 0x1400000;
+__alt_mem_sram_0 = 0x1880000;
+__alt_mem_onchip_memory2_0 = 0x1904000;
 
 OUTPUT_FORMAT( "elf32-littlenios2",
                "elf32-littlenios2",
@@ -68,12 +71,9 @@ OUTPUT_ARCH( nios2 )
 ENTRY( _start )
 
 /*
- * The alt_load() facility is enabled. This typically happens when there isn't
- * an external bootloader (e.g. flash bootloader).
- * The LMA (aka physical address) of each loaded section is
- * set to the .text memory device.
- * The HAL alt_load() routine called from crt0 copies sections from
- * the .text memory to RAM as needed.
+ * The alt_load() facility is disabled. This typically happens when an
+ * external bootloader is provided or the application runs in place.
+ * The LMA (aka physical address) of each section defaults to its VMA.
  */
 
 SECTIONS
@@ -88,14 +88,7 @@ SECTIONS
         KEEP (*(.entry))
     } > reset
 
-    /*
-     *
-     * This section's LMA is set to the .text region.
-     * crt0 will copy to this section's specified mapped region virtual memory address (VMA)
-     *
-     */
-
-    .exceptions : AT ( 0x800000 )
+    .exceptions :
     {
         PROVIDE (__ram_exceptions_start = ABSOLUTE(.));
         . = ALIGN(0x20);
@@ -125,14 +118,7 @@ SECTIONS
 
     PROVIDE (__flash_exceptions_start = LOADADDR(.exceptions));
 
-    /*
-     *
-     * This section's LMA is set to the .text region.
-     * crt0 will copy to this section's specified mapped region virtual memory address (VMA)
-     *
-     */
-
-    .text LOADADDR (.exceptions) + SIZEOF (.exceptions) : AT ( LOADADDR (.exceptions) + SIZEOF (.exceptions) )
+    .text :
     {
         /*
          * All code sections are merged into the text output section, along with
@@ -226,14 +212,7 @@ SECTIONS
         . = ALIGN(4);
     } > sdram_0 = 0x3a880100 /* Nios II NOP instruction */
 
-    /*
-     *
-     * This section's LMA is set to the .text region.
-     * crt0 will copy to this section's specified mapped region virtual memory address (VMA)
-     *
-     */
-
-    .rodata LOADADDR (.text) + SIZEOF (.text) : AT ( LOADADDR (.text) + SIZEOF (.text) )
+    .rodata :
     {
         PROVIDE (__ram_rodata_start = ABSOLUTE(.));
         . = ALIGN(4);
@@ -245,18 +224,7 @@ SECTIONS
 
     PROVIDE (__flash_rodata_start = LOADADDR(.rodata));
 
-    /*
-     *
-     * This section's LMA is set to the .text region.
-     * crt0 will copy to this section's specified mapped region virtual memory address (VMA)
-     *
-     * .rwdata region equals the .text region, and is set to be loaded into .text region.
-     * This requires two copies of .rwdata in the .text region. One read writable at VMA.
-     * and one read-only at LMA. crt0 will copy from LMA to VMA on reset
-     *
-     */
-
-    .rwdata LOADADDR (.rodata) + SIZEOF (.rodata) : AT ( LOADADDR (.rodata) + SIZEOF (.rodata)+ SIZEOF (.rwdata) )
+    .rwdata :
     {
         PROVIDE (__ram_rwdata_start = ABSOLUTE(.));
         . = ALIGN(4);
@@ -279,14 +247,7 @@ SECTIONS
 
     PROVIDE (__flash_rwdata_start = LOADADDR(.rwdata));
 
-    /*
-     *
-     * This section's LMA is set to the .text region.
-     * crt0 will copy to this section's specified mapped region virtual memory address (VMA)
-     *
-     */
-
-    .bss LOADADDR (.rwdata) + SIZEOF (.rwdata) : AT ( LOADADDR (.rwdata) + SIZEOF (.rwdata) )
+    .bss :
     {
         __bss_start = ABSOLUTE(.);
         PROVIDE (__sbss_start = ABSOLUTE(.));
@@ -317,21 +278,9 @@ SECTIONS
      * The output section used for the heap is treated in a special way,
      * i.e. the symbols "end" and "_end" are added to point to the heap start.
      *
-     * Because alt_load() is enabled, these sections have
-     * their LMA set to be loaded into the .text memory region.
-     * However, the alt_load() code will NOT automatically copy
-     * these sections into their mapped memory region.
-     *
      */
 
-    /*
-     *
-     * This section's LMA is set to the .text region.
-     * crt0 will copy to this section's specified mapped region virtual memory address (VMA)
-     *
-     */
-
-    .sdram_0 LOADADDR (.bss) + SIZEOF (.bss) : AT ( LOADADDR (.bss) + SIZEOF (.bss) )
+    .sdram_0 :
     {
         PROVIDE (_alt_partition_sdram_0_start = ABSOLUTE(.));
         *(.sdram_0. sdram_0.*)
@@ -344,14 +293,17 @@ SECTIONS
 
     PROVIDE (_alt_partition_sdram_0_load_addr = LOADADDR(.sdram_0));
 
-    /*
-     *
-     * This section's LMA is set to the .text region.
-     * crt0 will copy to this section's specified mapped region virtual memory address (VMA)
-     *
-     */
+    .generic_tristate_controller_0 :
+    {
+        PROVIDE (_alt_partition_generic_tristate_controller_0_start = ABSOLUTE(.));
+        *(.generic_tristate_controller_0. generic_tristate_controller_0.*)
+        . = ALIGN(4);
+        PROVIDE (_alt_partition_generic_tristate_controller_0_end = ABSOLUTE(.));
+    } > generic_tristate_controller_0
 
-    .sram_0 : AT ( LOADADDR (.sdram_0) + SIZEOF (.sdram_0) )
+    PROVIDE (_alt_partition_generic_tristate_controller_0_load_addr = LOADADDR(.generic_tristate_controller_0));
+
+    .sram_0 :
     {
         PROVIDE (_alt_partition_sram_0_start = ABSOLUTE(.));
         *(.sram_0. sram_0.*)
@@ -361,14 +313,7 @@ SECTIONS
 
     PROVIDE (_alt_partition_sram_0_load_addr = LOADADDR(.sram_0));
 
-    /*
-     *
-     * This section's LMA is set to the .text region.
-     * crt0 will copy to this section's specified mapped region virtual memory address (VMA)
-     *
-     */
-
-    .onchip_memory2_0 : AT ( LOADADDR (.sram_0) + SIZEOF (.sram_0) )
+    .onchip_memory2_0 :
     {
         PROVIDE (_alt_partition_onchip_memory2_0_start = ABSOLUTE(.));
         *(.onchip_memory2_0. onchip_memory2_0.*)

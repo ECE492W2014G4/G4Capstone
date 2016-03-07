@@ -8,7 +8,7 @@ obj/HAL/src/alt_lseek.o: HAL/src/alt_lseek.c HAL/inc/sys/alt_errno.h \
   HAL/inc/sys/alt_alarm.h HAL/inc/sys/alt_llist.h \
   HAL/inc/priv/alt_alarm.h system.h UCOSII/inc/ucos_ii.h \
   UCOSII/inc/os_cfg.h HAL/inc/os_cpu.h HAL/inc/alt_types.h \
-  HAL/inc/os/alt_syscall.h
+  iniche/inc/os/alt_syscall.h
 
 HAL/inc/sys/alt_errno.h:
 
@@ -62,4 +62,4 @@ HAL/inc/os_cpu.h:
 
 HAL/inc/alt_types.h:
 
-HAL/inc/os/alt_syscall.h:
+iniche/inc/os/alt_syscall.h:

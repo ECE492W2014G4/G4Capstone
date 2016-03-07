@@ -13,6 +13,7 @@ obj/alt_sys_init.o: alt_sys_init.c system.h linker.h \
   HAL/inc/sys/alt_llist.h HAL/inc/priv/alt_dev_llist.h \
   HAL/inc/sys/alt_llist.h drivers/inc/altera_avalon_sysid_qsys.h \
   HAL/inc/alt_types.h drivers/inc/altera_avalon_timer.h \
+  drivers/inc/altera_ro_zipfs.h HAL/inc/sys/alt_llist.h \
   drivers/inc/altera_up_avalon_audio_and_video_config.h \
   HAL/inc/alt_types.h HAL/inc/sys/alt_dev.h \
   drivers/inc/altera_up_avalon_audio_and_video_config_regs.h HAL/inc/io.h \
@@ -89,6 +90,10 @@ drivers/inc/altera_avalon_sysid_qsys.h:
 HAL/inc/alt_types.h:
 
 drivers/inc/altera_avalon_timer.h:
+
+drivers/inc/altera_ro_zipfs.h:
+
+HAL/inc/sys/alt_llist.h:
 
 drivers/inc/altera_up_avalon_audio_and_video_config.h:
 

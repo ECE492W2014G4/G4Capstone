@@ -2,10 +2,10 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Mar 3, 2016 7:47:25 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1457059645164</BspGeneratedUnixTimeStamp>
-        <BspGeneratedLocation>/afs/ualberta.ca/home/e/d/edrick/G4Capstone/software/G4Capstone_bsp</BspGeneratedLocation>
-        <BspSettingsFile>settings.bsp</BspSettingsFile>
+        <BspGeneratedTimeStamp>Mar 6, 2016 4:16:17 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1457306177304</BspGeneratedUnixTimeStamp>
+        <BspGeneratedLocation>/afs/ualberta.ca/home/b/m/bmaroney/G4Capstone/software/G4Capstone_bsp</BspGeneratedLocation>
+        <BspSettingsFile>./settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../niosII_system.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
         <Cpu>nios2_qsys_0</Cpu>
@@ -62,7 +62,7 @@
                 <SettingName>hal.linker.allow_code_at_reset</SettingName>
                 <Identifier>ALT_ALLOW_CODE_AT_RESET</Identifier>
                 <Type>Boolean</Type>
-                <Value>1</Value>
+                <Value>0</Value>
                 <DefaultValue>0</DefaultValue>
                 <DestinationFile>none</DestinationFile>
                 <Description>Indicates if initialization code is allowed at the reset address. If true, defines the macro ALT_ALLOW_CODE_AT_RESET in linker.h.</Description>
@@ -74,7 +74,7 @@
                 <SettingName>hal.linker.enable_alt_load</SettingName>
                 <Identifier>NONE</Identifier>
                 <Type>Boolean</Type>
-                <Value>1</Value>
+                <Value>0</Value>
                 <DefaultValue>0</DefaultValue>
                 <DestinationFile>none</DestinationFile>
                 <Description>Enables the alt_load() facility. The alt_load() facility copies sections from the .text memory into RAM. If true, this setting sets up the VMA/LMA of sections in linker.x to allow them to be loaded into the .text memory.</Description>
@@ -98,7 +98,7 @@
                 <SettingName>hal.linker.enable_alt_load_copy_rwdata</SettingName>
                 <Identifier>NONE</Identifier>
                 <Type>Boolean</Type>
-                <Value>1</Value>
+                <Value>0</Value>
                 <DefaultValue>0</DefaultValue>
                 <DestinationFile>none</DestinationFile>
                 <Description>Causes the alt_load() facility to copy the .rwdata section. If true, this setting defines the macro ALT_LOAD_COPY_RWDATA in linker.h.</Description>
@@ -110,7 +110,7 @@
                 <SettingName>hal.linker.enable_alt_load_copy_exceptions</SettingName>
                 <Identifier>NONE</Identifier>
                 <Type>Boolean</Type>
-                <Value>1</Value>
+                <Value>0</Value>
                 <DefaultValue>0</DefaultValue>
                 <DestinationFile>none</DestinationFile>
                 <Description>Causes the alt_load() facility to copy the .exceptions section. If true, this setting defines the macro ALT_LOAD_COPY_EXCEPTIONS in linker.h.</Description>
@@ -1690,6 +1690,114 @@
                 <Enabled>false</Enabled>
                 <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
         </Setting>
+        <Setting>
+                <SettingName>altera_ro_zipfs.ro_zipfs_name</SettingName>
+                <Identifier>ALTERA_RO_ZIPFS_NAME</Identifier>
+                <Type>QuotedString</Type>
+                <Value>/mnt/rozipfs</Value>
+                <DefaultValue>/mnt/rozipfs</DefaultValue>
+                <DestinationFile>system_h_define</DestinationFile>
+                <Description>Mount point</Description>
+                <Restrictions>none</Restrictions>
+                <Enabled>false</Enabled>
+                <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </Setting>
+        <Setting>
+                <SettingName>altera_ro_zipfs.ro_zipfs_offset</SettingName>
+                <Identifier>ALTERA_RO_ZIPFS_OFFSET</Identifier>
+                <Type>HexNumber</Type>
+                <Value>0x100000</Value>
+                <DefaultValue>0x100000</DefaultValue>
+                <DestinationFile>system_h_define</DestinationFile>
+                <Description>Offset of file system from base of flash</Description>
+                <Restrictions>none</Restrictions>
+                <Enabled>false</Enabled>
+                <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </Setting>
+        <Setting>
+                <SettingName>altera_ro_zipfs.ro_zipfs_base</SettingName>
+                <Identifier>ALTERA_RO_ZIPFS_BASE</Identifier>
+                <Type>HexNumber</Type>
+                <Value>0x0</Value>
+                <DefaultValue>0x0</DefaultValue>
+                <DestinationFile>system_h_define</DestinationFile>
+                <Description>Base address of flash memory device</Description>
+                <Restrictions>none</Restrictions>
+                <Enabled>false</Enabled>
+                <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </Setting>
+        <Setting>
+                <SettingName>altera_iniche.iniche_default_if</SettingName>
+                <Identifier>INICHE_DEFAULT_IF</Identifier>
+                <Type>QuotedString</Type>
+                <Value>NOT_USED</Value>
+                <DefaultValue>NOT_USED</DefaultValue>
+                <DestinationFile>system_h_define</DestinationFile>
+                <Description>Deprecated setting: Default MAC interface. This setting was formerly used by Altera networking example applications. It need not be assigned a valid value for the use of networking example designs in Nios II 8.0. If you are using this setting in a project, it is recomended that you remove the dependency. This setting may be removed in a future release.</Description>
+                <Restrictions>none</Restrictions>
+                <Enabled>false</Enabled>
+                <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </Setting>
+        <Setting>
+                <SettingName>altera_iniche.enable_dhcp_client</SettingName>
+                <Identifier>DHCP_CLIENT</Identifier>
+                <Type>BooleanDefineOnly</Type>
+                <Value>true</Value>
+                <DefaultValue>true</DefaultValue>
+                <DestinationFile>system_h_define</DestinationFile>
+                <Description>Use DHCP to automatically assign IP address</Description>
+                <Restrictions>none</Restrictions>
+                <Enabled>false</Enabled>
+                <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </Setting>
+        <Setting>
+                <SettingName>altera_iniche.enable_ip_fragments</SettingName>
+                <Identifier>IP_FRAGMENTS</Identifier>
+                <Type>BooleanDefineOnly</Type>
+                <Value>true</Value>
+                <DefaultValue>true</DefaultValue>
+                <DestinationFile>system_h_define</DestinationFile>
+                <Description>Reassemble IP packet fragments</Description>
+                <Restrictions>none</Restrictions>
+                <Enabled>false</Enabled>
+                <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </Setting>
+        <Setting>
+                <SettingName>altera_iniche.enable_include_tcp</SettingName>
+                <Identifier>INCLUDE_TCP</Identifier>
+                <Type>BooleanDefineOnly</Type>
+                <Value>true</Value>
+                <DefaultValue>true</DefaultValue>
+                <DestinationFile>system_h_define</DestinationFile>
+                <Description>Enable TCP protocol</Description>
+                <Restrictions>none</Restrictions>
+                <Enabled>false</Enabled>
+                <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </Setting>
+        <Setting>
+                <SettingName>altera_iniche.enable_tcp_zerocopy</SettingName>
+                <Identifier>TCP_ZEROCOPY</Identifier>
+                <Type>BooleanDefineOnly</Type>
+                <Value>false</Value>
+                <DefaultValue>false</DefaultValue>
+                <DestinationFile>system_h_define</DestinationFile>
+                <Description>Use TCP zero-copy</Description>
+                <Restrictions>none</Restrictions>
+                <Enabled>false</Enabled>
+                <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </Setting>
+        <Setting>
+                <SettingName>altera_iniche.enable_net_stats</SettingName>
+                <Identifier>NET_STATS</Identifier>
+                <Type>BooleanDefineOnly</Type>
+                <Value>false</Value>
+                <DefaultValue>false</DefaultValue>
+                <DestinationFile>system_h_define</DestinationFile>
+                <Description>Enable statistics</Description>
+                <Restrictions>none</Restrictions>
+                <Enabled>false</Enabled>
+                <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </Setting>
         <MemoryMap>
                 <slaveDescriptor>sdram_0</slaveDescriptor>
                 <addressRange>0x00800000 - 0x00FFFFFF</addressRange>
@@ -1697,50 +1805,62 @@
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>generic_tristate_controller_0</slaveDescriptor>
+                <addressRange>0x01400000 - 0x017FFFFF</addressRange>
+                <addressSpan>4194304</addressSpan>
+                <attributes>flash, memory, non-volatile</attributes>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>sram_0</slaveDescriptor>
-                <addressRange>0x01080000 - 0x010FFFFF</addressRange>
+                <addressRange>0x01880000 - 0x018FFFFF</addressRange>
                 <addressSpan>524288</addressSpan>
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>onchip_memory2_0</slaveDescriptor>
-                <addressRange>0x01104000 - 0x01107FFF</addressRange>
+                <addressRange>0x01904000 - 0x01907FFF</addressRange>
                 <addressSpan>16384</addressSpan>
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>timer_0</slaveDescriptor>
-                <addressRange>0x01109000 - 0x0110901F</addressRange>
+                <addressRange>0x01909000 - 0x0190901F</addressRange>
                 <addressSpan>32</addressSpan>
                 <attributes>timer</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>pio_0</slaveDescriptor>
-                <addressRange>0x01109020 - 0x0110902F</addressRange>
+                <addressRange>0x01909020 - 0x0190902F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>audio_and_video_config_0</slaveDescriptor>
-                <addressRange>0x01109030 - 0x0110903F</addressRange>
+                <addressRange>0x01909030 - 0x0190903F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>DM9000A_IF_0</slaveDescriptor>
+                <addressRange>0x01909040 - 0x01909047</addressRange>
+                <addressSpan>8</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>jtag_uart_0</slaveDescriptor>
-                <addressRange>0x01109040 - 0x01109047</addressRange>
+                <addressRange>0x01909048 - 0x0190904F</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes>printable</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>sysid_qsys_0</slaveDescriptor>
-                <addressRange>0x01109048 - 0x0110904F</addressRange>
+                <addressRange>0x01909050 - 0x01909057</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>character_lcd_0</slaveDescriptor>
-                <addressRange>0x01109050 - 0x01109051</addressRange>
+                <addressRange>0x01909058 - 0x01909059</addressRange>
                 <addressSpan>2</addressSpan>
                 <attributes/>
         </MemoryMap>
@@ -1768,4 +1888,12 @@
                 <sectionName>.stack</sectionName>
                 <regionName>sdram_0</regionName>
         </LinkerSection>
+        <SoftwarePackageInfo>
+                <name>altera_ro_zipfs</name>
+                <version>default</version>
+        </SoftwarePackageInfo>
+        <SoftwarePackageInfo>
+                <name>altera_iniche</name>
+                <version>default</version>
+        </SoftwarePackageInfo>
 </sch:Settings>

@@ -246,6 +246,141 @@ altera_avalon_timer_driver_C_LIB_SRCS := \
 	$(altera_avalon_timer_driver_SRCS_ROOT)/src/altera_avalon_timer_ts.c \
 	$(altera_avalon_timer_driver_SRCS_ROOT)/src/altera_avalon_timer_vars.c
 
+# altera_iniche sources root 
+altera_iniche_SRCS_ROOT := iniche
+
+# altera_iniche sources 
+altera_iniche_C_LIB_SRCS := \
+	$(altera_iniche_SRCS_ROOT)/src/alt_iniche_close.c \
+	$(altera_iniche_SRCS_ROOT)/src/alt_iniche_dev.c \
+	$(altera_iniche_SRCS_ROOT)/src/alt_iniche_fcntl.c \
+	$(altera_iniche_SRCS_ROOT)/src/alt_iniche_read.c \
+	$(altera_iniche_SRCS_ROOT)/src/alt_iniche_write.c \
+	$(altera_iniche_SRCS_ROOT)/src/allports/allports.c \
+	$(altera_iniche_SRCS_ROOT)/src/allports/timeouts.c \
+	$(altera_iniche_SRCS_ROOT)/src/allports/tk_misc.c \
+	$(altera_iniche_SRCS_ROOT)/src/autoip4/autoip.c \
+	$(altera_iniche_SRCS_ROOT)/src/autoip4/upnp.c \
+	$(altera_iniche_SRCS_ROOT)/src/autoip4/upnpmenu.c \
+	$(altera_iniche_SRCS_ROOT)/src/ftp/ftpclnt.c \
+	$(altera_iniche_SRCS_ROOT)/src/ftp/ftpsrv.c \
+	$(altera_iniche_SRCS_ROOT)/src/ftp/ftpcport.c \
+	$(altera_iniche_SRCS_ROOT)/src/ftp/ftpssock.c \
+	$(altera_iniche_SRCS_ROOT)/src/ftp/ftpcprn.c \
+	$(altera_iniche_SRCS_ROOT)/src/ftp/ftpsvfs.c \
+	$(altera_iniche_SRCS_ROOT)/src/ftp/ftpmenu.c \
+	$(altera_iniche_SRCS_ROOT)/src/ftp/ftpsport.c \
+	$(altera_iniche_SRCS_ROOT)/src/ip/et_arp.c \
+	$(altera_iniche_SRCS_ROOT)/src/ip/icmp.c \
+	$(altera_iniche_SRCS_ROOT)/src/ip/iface.c \
+	$(altera_iniche_SRCS_ROOT)/src/ip/ip.c \
+	$(altera_iniche_SRCS_ROOT)/src/ip/ipdemux.c \
+	$(altera_iniche_SRCS_ROOT)/src/ip/ipmc.c \
+	$(altera_iniche_SRCS_ROOT)/src/ip/ipnet.c \
+	$(altera_iniche_SRCS_ROOT)/src/ip/ipport.c \
+	$(altera_iniche_SRCS_ROOT)/src/ip/ipraw.c \
+	$(altera_iniche_SRCS_ROOT)/src/ip/ip_reasm.c \
+	$(altera_iniche_SRCS_ROOT)/src/ip/iproute.c \
+	$(altera_iniche_SRCS_ROOT)/src/ip/ipstart.c \
+	$(altera_iniche_SRCS_ROOT)/src/ip/pmtu.c \
+	$(altera_iniche_SRCS_ROOT)/src/ip/rtbtree.c \
+	$(altera_iniche_SRCS_ROOT)/src/ip/udp.c \
+	$(altera_iniche_SRCS_ROOT)/src/ipmc/igmp2.c \
+	$(altera_iniche_SRCS_ROOT)/src/ipmc/igmp.c \
+	$(altera_iniche_SRCS_ROOT)/src/ipmc/igmp_cmn.c \
+	$(altera_iniche_SRCS_ROOT)/src/ipmc/ipopt.c \
+	$(altera_iniche_SRCS_ROOT)/src/ipmc/u_mctest.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/app_ping.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/bsdsock.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/cksum.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/cu_srv.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/dhcsetup.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/genlist.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/iniche_log.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/iniche_qsort.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/in_utils.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/localtime.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/memdev.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/memio.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/memwrap.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/menulib.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/menus.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/msring.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/netmain.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/nextcarg.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/nrmenus.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/nvfsio.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/nvparms.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/parseip.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/pcycles.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/profiler.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/rawiptst.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/reshost.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/rfsim.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/rttest.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/soperr.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/strilib.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/strlib.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/strtol.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/syslog.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/task.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/tcpcksum.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/tcp_echo.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/testmenu.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/tk_crnos.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/ttyio.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/udp_echo.c \
+	$(altera_iniche_SRCS_ROOT)/src/misclib/userpass.c \
+	$(altera_iniche_SRCS_ROOT)/src/net/dhcpclnt.c \
+	$(altera_iniche_SRCS_ROOT)/src/net/dhcputil.c \
+	$(altera_iniche_SRCS_ROOT)/src/net/dnsclnt.c \
+	$(altera_iniche_SRCS_ROOT)/src/net/ifmap.c \
+	$(altera_iniche_SRCS_ROOT)/src/net/macloop.c \
+	$(altera_iniche_SRCS_ROOT)/src/net/ping.c \
+	$(altera_iniche_SRCS_ROOT)/src/net/pktalloc.c \
+	$(altera_iniche_SRCS_ROOT)/src/net/q.c \
+	$(altera_iniche_SRCS_ROOT)/src/net/slip.c \
+	$(altera_iniche_SRCS_ROOT)/src/net/slipif.c \
+	$(altera_iniche_SRCS_ROOT)/src/net/udp_open.c \
+	$(altera_iniche_SRCS_ROOT)/src/nios2/brdutils.c \
+	$(altera_iniche_SRCS_ROOT)/src/nios2/osportco.c \
+	$(altera_iniche_SRCS_ROOT)/src/nios2/targnios.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/in_pcb.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/nptcp.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/rawsock.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/sockcall.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/socket.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/socket2.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/soselect.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/tcp_in.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/tcp_menu.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/tcp_out.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/tcpport.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/tcpsack.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/tcp_subr.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/tcp_timr.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/tcp_usr.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/tcp_zio.c \
+	$(altera_iniche_SRCS_ROOT)/src/tcp/udpsock.c \
+	$(altera_iniche_SRCS_ROOT)/src/telnet/telerr.c \
+	$(altera_iniche_SRCS_ROOT)/src/telnet/telparse.c \
+	$(altera_iniche_SRCS_ROOT)/src/telnet/telmenu.c \
+	$(altera_iniche_SRCS_ROOT)/src/telnet/telport.c \
+	$(altera_iniche_SRCS_ROOT)/src/telnet/telnet.c \
+	$(altera_iniche_SRCS_ROOT)/src/tftp/tftpcli.c \
+	$(altera_iniche_SRCS_ROOT)/src/tftp/tftpsrv.c \
+	$(altera_iniche_SRCS_ROOT)/src/tftp/tftpmenu.c \
+	$(altera_iniche_SRCS_ROOT)/src/tftp/tftpudp.c \
+	$(altera_iniche_SRCS_ROOT)/src/tftp/tftpport.c \
+	$(altera_iniche_SRCS_ROOT)/src/tftp/tftputil.c \
+	$(altera_iniche_SRCS_ROOT)/src/vfs/vfsfiles.c \
+	$(altera_iniche_SRCS_ROOT)/src/vfs/vfsport.c \
+	$(altera_iniche_SRCS_ROOT)/src/vfs/vfssync.c \
+	$(altera_iniche_SRCS_ROOT)/src/vfs/vfsutil.c
+
+altera_iniche_ASM_LIB_SRCS := \
+	$(altera_iniche_SRCS_ROOT)/src/nios2/asm_cksum.S
+
 # altera_nios2_qsys_ucosii_driver sources root 
 altera_nios2_qsys_ucosii_driver_SRCS_ROOT := HAL
 
@@ -282,6 +417,13 @@ altera_nios2_qsys_ucosii_driver_ASM_LIB_SRCS := \
 	$(altera_nios2_qsys_ucosii_driver_SRCS_ROOT)/src/alt_log_macro.S \
 	$(altera_nios2_qsys_ucosii_driver_SRCS_ROOT)/src/crt0.S \
 	$(altera_nios2_qsys_ucosii_driver_SRCS_ROOT)/src/os_cpu_a.S
+
+# altera_ro_zipfs sources root 
+altera_ro_zipfs_SRCS_ROOT := drivers
+
+# altera_ro_zipfs sources 
+altera_ro_zipfs_C_LIB_SRCS := \
+	$(altera_ro_zipfs_SRCS_ROOT)/src/altera_ro_zipfs.c
 
 # avalon_character_lcd_driver sources root 
 avalon_character_lcd_driver_SRCS_ROOT := drivers
@@ -372,13 +514,16 @@ COMPONENT_C_LIB_SRCS += \
 	$(altera_avalon_jtag_uart_driver_C_LIB_SRCS) \
 	$(altera_avalon_sysid_qsys_driver_C_LIB_SRCS) \
 	$(altera_avalon_timer_driver_C_LIB_SRCS) \
+	$(altera_iniche_C_LIB_SRCS) \
 	$(altera_nios2_qsys_ucosii_driver_C_LIB_SRCS) \
+	$(altera_ro_zipfs_C_LIB_SRCS) \
 	$(avalon_character_lcd_driver_C_LIB_SRCS) \
 	$(hal_C_LIB_SRCS) \
 	$(ucosii_C_LIB_SRCS)
 
 # Assemble all component assembly source files 
 COMPONENT_ASM_LIB_SRCS += \
+	$(altera_iniche_ASM_LIB_SRCS) \
 	$(altera_nios2_qsys_ucosii_driver_ASM_LIB_SRCS)
 
 # Assemble all component C++ source files 

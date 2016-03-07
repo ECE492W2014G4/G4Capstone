@@ -77,8 +77,21 @@ library ieee;
 		SRAM_OE_N	:	out	std_logic;
 		SRAM_UB_N	:	out 	std_logic;
 		SRAM_LB_N	:	out	std_logic;
-		SRAM_CE_N	:	out	std_logic
-		
+		SRAM_CE_N	:	out	std_logic;
+		ENET_CLK : out std_logic;
+		ENET_CMD : out std_logic;
+		ENET_CS_N : out std_logic;
+		ENET_INT : in std_logic;
+		ENET_RD_N : out std_logic;
+		ENET_WR_N : out std_logic;
+		ENET_RST_N : out std_logic;
+		ENET_DATA : inout std_logic_vector(15 downto 0);
+		FL_ADDR: out std_logic_vector (21 downto 0);
+		FL_CE_N: out std_logic_vector (0 downto 0);
+		FL_OE_N: out std_logic_vector (0 downto 0);
+		FL_DQ: inout std_logic_vector (7 downto 0);
+		FL_RST_N: out std_logic_vector (0 downto 0);
+		FL_WE_N: out std_logic_vector (0 downto 0)
 	);
 end niosII_microc_capstone;
 
@@ -125,15 +138,27 @@ architecture structure of niosII_microc_capstone is
 				audio_clk_clk                           : out   std_logic;                                         -- clk
 				dram_clk_clk                            : out   std_logic;                                         -- clk
 			enable_export                                    : in    std_logic_vector(2 downto 0)  := (others => 'X');
-			pio_export                                       : in    std_logic_vector(2 downto 0)  := (others => 'X')  -- export
+			pio_export                                       : in    std_logic_vector(2 downto 0)  := (others => 'X');  -- export
+            dm9000a_if_0_s1_export_DATA                      : inout std_logic_vector(15 downto 0) := (others => 'X'); -- DATA
+            dm9000a_if_0_s1_export_CMD                       : out   std_logic;                                        -- CMD
+            dm9000a_if_0_s1_export_RD_N                      : out   std_logic;                                        -- RD_N
+            dm9000a_if_0_s1_export_WR_N                      : out   std_logic;                                        -- WR_N
+            dm9000a_if_0_s1_export_CS_N                      : out   std_logic;                                        -- CS_N
+            dm9000a_if_0_s1_export_RST_N                     : out   std_logic;                                        -- RST_N
+            dm9000a_if_0_s1_export_INT                       : in    std_logic                     := 'X';             -- INT
+            dm9000a_if_0_s1_export_CLK                       : out   std_logic;                                         -- CLK
+			tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_read_n_out       : out   std_logic_vector(0 downto 0);                     -- 
+            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_data_out         : inout std_logic_vector(7 downto 0)  := (others => 'X'); -- 
+            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_chipselect_n_out : out   std_logic_vector(0 downto 0);                     -- 
+            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_write_n_out      : out   std_logic_vector(0 downto 0);                     -- 
+            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_address_out      : out   std_logic_vector(21 downto 0)                     --
 			);
     end component niosII_system;
 
 --	These signals are for matching the provided IP core to
 -- The specific SDRAM chip in our system	 
 	 signal BA	: std_logic_vector (1 downto 0);
-	 signal DQM	:	std_logic_vector (1 downto 0);
-	 
+	 signal DQM	:	std_logic_vector (1 downto 0);	 
 
 begin
 
@@ -142,6 +167,7 @@ begin
 	
 	DRAM_UDQM <= DQM(1);
 	DRAM_LDQM <= DQM(0);
+	FL_RST_N(0) <= '1';
 	
 	-- Component Instantiation Statement (optional)
 	
@@ -183,9 +209,21 @@ begin
             audio_clk_clk									 => AUD_XCK,
 				dram_clk_clk                         	 => DRAM_CLK,
 			enable_export => SW(17 downto 15),
-			pio_export => SW(17 downto 15)
+			pio_export => SW(17 downto 15),
+			dm9000a_if_0_s1_export_DATA				=> ENET_DATA,
+            dm9000a_if_0_s1_export_CMD				=> ENET_CMD,
+            dm9000a_if_0_s1_export_RD_N				=> ENET_RD_N,
+            dm9000a_if_0_s1_export_WR_N				=> ENET_WR_N,
+            dm9000a_if_0_s1_export_CS_N				=> ENET_CS_N,
+            dm9000a_if_0_s1_export_RST_N			=> ENET_RST_N,
+            dm9000a_if_0_s1_export_INT				=> ENET_INT,
+            dm9000a_if_0_s1_export_CLK				=> ENET_CLK,
+			tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_read_n_out => FL_OE_N,
+            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_data_out => FL_DQ,
+            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_chipselect_n_out => FL_CE_N,
+            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_write_n_out => FL_WE_N,
+            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_address_out => FL_ADDR
         );
-
 end structure;
 
 

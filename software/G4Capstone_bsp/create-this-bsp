@@ -6,7 +6,7 @@ BSP_TYPE=ucosii
 BSP_DIR=.
 SOPC_DIR=../../
 SOPC_FILE=../../niosII_system.sopcinfo
-NIOS2_BSP_ARGS=""
+NIOS2_BSP_ARGS="--cmd enable_sw_package altera_ro_zipfs --cmd enable_sw_package altera_iniche"
 CPU_NAME=
 
 
