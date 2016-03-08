@@ -10,8 +10,7 @@ entity delay_gain is
 		ready : in std_logic;
 		data_in : in std_logic_vector (15 downto 0);
 		done : out std_logic;
-		data_out : out std_logic_vector (15 downto 0);
-		next_stage_out : out std_logic_vector (15 downto 0)
+		data_out : out std_logic_vector (15 downto 0)
 		);
 end delay_gain;
 
@@ -31,7 +30,6 @@ begin
 		begin
 			if reset = '0' then
 				data_out <= X"0000";
-				next_stage_out <= X"0000";
 				delay_signal <= X"0000";
 				div_result <= X"0000";
 				mult_out_var := X"00000";
@@ -42,7 +40,6 @@ begin
 					-- Right Shift 2^1 (divided by 2)
 					div_out_var := data_in(15) & mult_out_var(15 downto 1);
 					data_out <= div_out_var after 100 ms;
-					next_stage_out <= div_out_var after 100 ms;
 					completed <= '1';
 				else
 					completed <= '0';

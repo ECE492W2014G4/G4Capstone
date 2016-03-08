@@ -169,7 +169,7 @@
    {
       datum _sortIndex
       {
-         value = "19";
+         value = "20";
          type = "int";
       }
    }
@@ -181,19 +181,19 @@
          type = "String";
       }
    }
-   element audio_left.in_csr
-   {
-      datum baseAddress
-      {
-         value = "17862688";
-         type = "String";
-      }
-   }
    element audio_right.in_csr
    {
       datum baseAddress
       {
          value = "17862656";
+         type = "String";
+      }
+   }
+   element audio_left.in_csr
+   {
+      datum baseAddress
+      {
+         value = "17862688";
          type = "String";
       }
    }
@@ -256,16 +256,8 @@
    {
       datum _sortIndex
       {
-         value = "20";
+         value = "19";
          type = "int";
-      }
-   }
-   element timer_0.s1
-   {
-      datum baseAddress
-      {
-         value = "17862656";
-         type = "String";
       }
    }
    element onchip_memory2_0.s1
@@ -281,6 +273,14 @@
       datum baseAddress
       {
          value = "8388608";
+         type = "String";
+      }
+   }
+   element timer_0.s1
+   {
+      datum baseAddress
+      {
+         value = "17862656";
          type = "String";
       }
    }
@@ -377,7 +377,7 @@
  <parameter name="projectName">niosII_microc_capstone.qpf</parameter>
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1457057709773" />
+ <parameter name="timeStamp" value="1457396621135" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface name="clk" internal="clk_0.clk_in" type="clock" dir="end" />
@@ -415,12 +415,12 @@
    internal="up_clocks_0.sdram_clk"
    type="clock"
    dir="start" />
- <interface name="enable" internal="dsp_0.conduit_end_3" type="conduit" dir="end" />
  <interface
    name="pio"
    internal="pio_0.external_connection"
    type="conduit"
    dir="end" />
+ <interface name="enable" internal="dsp_0.conduit_end_3" type="conduit" dir="end" />
  <module kind="clock_source" version="12.1" enabled="1" name="clk_0">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
@@ -842,9 +842,6 @@
   <parameter name="outUseReady" value="true" />
   <parameter name="outUseValid" value="true" />
  </module>
- <module kind="dsp" version="1.0" enabled="1" name="dsp_0">
-  <parameter name="AUTO_CLOCK_CLOCK_RATE" value="50000000" />
- </module>
  <module kind="altera_avalon_pio" version="12.1" enabled="1" name="pio_0">
   <parameter name="bitClearingEdgeCapReg" value="false" />
   <parameter name="bitModifyingOutReg" value="false" />
@@ -859,6 +856,7 @@
   <parameter name="simDrivenValue" value="0" />
   <parameter name="width" value="3" />
  </module>
+ <module kind="dsp" version="1.0" enabled="1" name="dsp_0" />
  <connection
    kind="avalon"
    version="12.1"
@@ -1468,6 +1466,31 @@
    kind="clock"
    version="12.1"
    start="up_clocks_0.sys_clk"
+   end="pio_0.clk" />
+ <connection
+   kind="avalon"
+   version="12.1"
+   start="nios2_qsys_0.data_master"
+   end="pio_0.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x01109020" />
+ </connection>
+ <connection kind="reset" version="12.1" start="clk_0.clk_reset" end="pio_0.reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="pio_0.reset" />
+ <connection kind="reset" version="12.1" start="clk_1.clk_reset" end="pio_0.reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="up_clocks_0.sys_clk_reset"
+   end="pio_0.reset" />
+ <connection
+   kind="clock"
+   version="12.1"
+   start="up_clocks_0.sys_clk"
    end="dsp_0.clock" />
  <connection
    kind="avalon_streaming"
@@ -1509,29 +1532,4 @@
    version="12.1"
    start="up_clocks_0.sys_clk_reset"
    end="dsp_0.reset_n" />
- <connection
-   kind="clock"
-   version="12.1"
-   start="up_clocks_0.sys_clk"
-   end="pio_0.clk" />
- <connection
-   kind="avalon"
-   version="12.1"
-   start="nios2_qsys_0.data_master"
-   end="pio_0.s1">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x01109020" />
- </connection>
- <connection kind="reset" version="12.1" start="clk_0.clk_reset" end="pio_0.reset" />
- <connection
-   kind="reset"
-   version="12.1"
-   start="nios2_qsys_0.jtag_debug_module_reset"
-   end="pio_0.reset" />
- <connection kind="reset" version="12.1" start="clk_1.clk_reset" end="pio_0.reset" />
- <connection
-   kind="reset"
-   version="12.1"
-   start="up_clocks_0.sys_clk_reset"
-   end="pio_0.reset" />
 </system>

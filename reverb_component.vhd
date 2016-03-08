@@ -19,7 +19,7 @@ end reverb_component;
 architecture Behavioral of reverb_component is
 	
 	signal out_signals : std_logic_vector(63 downto 0);
-	signal completed : std_logic_vector(3 downto 0);
+	signal completed : std_logic_vector(2 downto 0);
 	component delay_gain
 		port (
 			clk : in std_logic;
@@ -27,25 +27,12 @@ architecture Behavioral of reverb_component is
 			ready : in std_logic;
 			data_in : in std_logic_vector (15 downto 0);
 			done : out std_logic;
-			data_out : out std_logic_vector (15 downto 0);
-			next_stage_out : out std_logic_vector (15 downto 0)
+			data_out : out std_logic_vector (15 downto 0)
 			);
 	end component;
 	
 begin
-
-
-	process(clk,reset)
-	begin
-	if reset = '0' then
-		data_out <= X"0000";
-	elsif (rising_edge(clk)) then
-		data_out <= std_logic_vector(signed(data_in) + signed(out_signals(15 downto 0)) + signed(out_signals(31 downto 16)) + signed(out_signals(47 downto 32)) + signed(out_signals(63 downto 48)));
-		done <= '1';
-	else
-		done <= '0';
-	end if;
-	end process;
+data_out <= std_logic_vector(signed(data_in) + signed(out_signals(15 downto 0)) + signed(out_signals(31 downto 16)) + signed(out_signals(47 downto 32)) + signed(out_signals(63 downto 48)));
 	
 	delay_gain_stages: 
 	for i in 0 to 3 generate
@@ -55,9 +42,8 @@ begin
 				reset => reset,
 				ready => completed(i-1),
 				data_in => out_signals(16*(i)-1 downto 16*(i-1)),
-				done => completed(i),
-				data_out => out_signals(16*(i + 1)-1 downto 16*i),
-				next_stage_out => out_signals(16*(i + 1)-1 downto 16*i)
+				done => done,
+				data_out => out_signals(16*(i + 1)-1 downto 16*i)
 			);
 		end generate;	
 		if2: if (i = 0) generate
@@ -67,8 +53,7 @@ begin
 					ready => ready,
 					data_in => data_in,
 					done => completed(i),
-					data_out => out_signals(16*(i + 1)-1 downto 16*i),
-					next_stage_out => out_signals(16*(i + 1)-1 downto 16*i)
+					data_out => out_signals(16*(i + 1)-1 downto 16*i)
 				);
 		end generate;
 		if3: if (i > 0 and i < 3) generate
@@ -78,8 +63,7 @@ begin
 					ready => completed(i-1),
 					data_in => out_signals(16*(i)-1 downto 16*(i-1)),
 					done => completed(i),
-					data_out => out_signals(16*(i + 1)-1 downto 16*i),
-					next_stage_out => out_signals(16*(i + 1)-1 downto 16*i)
+					data_out => out_signals(16*(i + 1)-1 downto 16*i)
 				);
 		end generate;
    end generate delay_gain_stages;

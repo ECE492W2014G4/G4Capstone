@@ -43,18 +43,14 @@ architecture arch of dsp is
 	end component;
 
 	component reverb_component is
-			Generic (
-				constant data_width  : positive := 16;
-				constant fifo_depth	: positive := 256
-			);
 			port(
 				clk			: in  STD_LOGIC;
 				reset		: in  STD_LOGIC;
-				data_in		: in  STD_LOGIC_VECTOR (data_width - 1 downto 0);
+				data_in		: in  STD_LOGIC_VECTOR (15 downto 0);
 				reverb_en	: in  STD_LOGIC;
 				ready 		: in std_logic; --
 				done 		: out std_logic; --
-				data_out	: out STD_LOGIC_VECTOR (data_width - 1 downto 0)
+				data_out	: out STD_LOGIC_VECTOR (15 downto 0)
 			);
 	end component;
 	component MUX3X1 is
