@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'niosII_system'
  * SOPC Builder design path: ../../niosII_system.sopcinfo
  *
- * Generated: Mon Mar 07 18:12:50 MST 2016
+ * Generated: Mon Mar 14 14:28:32 MDT 2016
  */
 
 /*
@@ -132,6 +132,7 @@
 #define __ALTERA_NIOS2_QSYS
 #define __ALTERA_UP_AVALON_AUDIO_AND_VIDEO_CONFIG
 #define __ALTERA_UP_AVALON_CHARACTER_LCD
+#define __ALTERA_UP_AVALON_RS232
 #define __ALTERA_UP_AVALON_SRAM
 
 
@@ -141,8 +142,8 @@
  */
 
 #define ALT_DEVICE_FAMILY "Cyclone II"
-#define ALT_ENHANCED_INTERRUPT_API_PRESENT
 #define ALT_IRQ_BASE NULL
+#define ALT_LEGACY_INTERRUPT_API_PRESENT
 #define ALT_LOG_PORT "/dev/null"
 #define ALT_LOG_PORT_BASE 0x0
 #define ALT_LOG_PORT_DEV null
@@ -151,19 +152,19 @@
 #define ALT_NUM_INTERNAL_INTERRUPT_CONTROLLERS 1
 #define ALT_NUM_INTERRUPT_CONTROLLERS 1
 #define ALT_STDERR "/dev/jtag_uart_0"
-#define ALT_STDERR_BASE 0x1109040
+#define ALT_STDERR_BASE 0x1109048
 #define ALT_STDERR_DEV jtag_uart_0
 #define ALT_STDERR_IS_JTAG_UART
 #define ALT_STDERR_PRESENT
 #define ALT_STDERR_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDIN "/dev/jtag_uart_0"
-#define ALT_STDIN_BASE 0x1109040
+#define ALT_STDIN_BASE 0x1109048
 #define ALT_STDIN_DEV jtag_uart_0
 #define ALT_STDIN_IS_JTAG_UART
 #define ALT_STDIN_PRESENT
 #define ALT_STDIN_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDOUT "/dev/jtag_uart_0"
-#define ALT_STDOUT_BASE 0x1109040
+#define ALT_STDOUT_BASE 0x1109048
 #define ALT_STDOUT_DEV jtag_uart_0
 #define ALT_STDOUT_IS_JTAG_UART
 #define ALT_STDOUT_PRESENT
@@ -191,7 +192,7 @@
  */
 
 #define ALT_MODULE_CLASS_character_lcd_0 altera_up_avalon_character_lcd
-#define CHARACTER_LCD_0_BASE 0x1109050
+#define CHARACTER_LCD_0_BASE 0x1109058
 #define CHARACTER_LCD_0_IRQ -1
 #define CHARACTER_LCD_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define CHARACTER_LCD_0_NAME "/dev/character_lcd_0"
@@ -215,7 +216,7 @@
  */
 
 #define ALT_MODULE_CLASS_jtag_uart_0 altera_avalon_jtag_uart
-#define JTAG_UART_0_BASE 0x1109040
+#define JTAG_UART_0_BASE 0x1109048
 #define JTAG_UART_0_IRQ 1
 #define JTAG_UART_0_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define JTAG_UART_0_NAME "/dev/jtag_uart_0"
@@ -284,6 +285,20 @@
 
 
 /*
+ * rs232_0 configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_rs232_0 altera_up_avalon_rs232
+#define RS232_0_BASE 0x1109040
+#define RS232_0_IRQ 2
+#define RS232_0_IRQ_INTERRUPT_CONTROLLER_ID 0
+#define RS232_0_NAME "/dev/rs232_0"
+#define RS232_0_SPAN 8
+#define RS232_0_TYPE "altera_up_avalon_rs232"
+
+
+/*
  * sdram_0 configuration
  *
  */
@@ -342,13 +357,13 @@
  */
 
 #define ALT_MODULE_CLASS_sysid_qsys_0 altera_avalon_sysid_qsys
-#define SYSID_QSYS_0_BASE 0x1109048
+#define SYSID_QSYS_0_BASE 0x1109050
 #define SYSID_QSYS_0_ID 0
 #define SYSID_QSYS_0_IRQ -1
 #define SYSID_QSYS_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define SYSID_QSYS_0_NAME "/dev/sysid_qsys_0"
 #define SYSID_QSYS_0_SPAN 8
-#define SYSID_QSYS_0_TIMESTAMP 1457399429
+#define SYSID_QSYS_0_TIMESTAMP 1457987118
 #define SYSID_QSYS_0_TYPE "altera_avalon_sysid_qsys"
 
 

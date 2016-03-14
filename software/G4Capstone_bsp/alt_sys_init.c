@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'niosII_system'
  * SOPC Builder design path: ../../niosII_system.sopcinfo
  *
- * Generated: Thu Mar 03 19:33:02 MST 2016
+ * Generated: Mon Mar 14 14:28:32 MDT 2016
  */
 
 /*
@@ -64,6 +64,7 @@
 #include "altera_avalon_timer.h"
 #include "altera_up_avalon_audio_and_video_config.h"
 #include "altera_up_avalon_character_lcd.h"
+#include "altera_up_avalon_rs232.h"
 
 /*
  * Allocate the device storage
@@ -75,6 +76,7 @@ ALTERA_AVALON_SYSID_QSYS_INSTANCE ( SYSID_QSYS_0, sysid_qsys_0);
 ALTERA_AVALON_TIMER_INSTANCE ( TIMER_0, timer_0);
 ALTERA_UP_AVALON_AUDIO_AND_VIDEO_CONFIG_INSTANCE ( AUDIO_AND_VIDEO_CONFIG_0, audio_and_video_config_0);
 ALTERA_UP_AVALON_CHARACTER_LCD_INSTANCE ( CHARACTER_LCD_0, character_lcd_0);
+ALTERA_UP_AVALON_RS232_INSTANCE ( RS232_0, rs232_0);
 
 /*
  * Initialize the interrupt controller devices
@@ -102,4 +104,5 @@ void alt_sys_init( void )
     ALTERA_AVALON_SYSID_QSYS_INIT ( SYSID_QSYS_0, sysid_qsys_0);
     ALTERA_UP_AVALON_AUDIO_AND_VIDEO_CONFIG_INIT ( AUDIO_AND_VIDEO_CONFIG_0, audio_and_video_config_0);
     ALTERA_UP_AVALON_CHARACTER_LCD_INIT ( CHARACTER_LCD_0, character_lcd_0);
+    ALTERA_UP_AVALON_RS232_INIT ( RS232_0, rs232_0);
 }

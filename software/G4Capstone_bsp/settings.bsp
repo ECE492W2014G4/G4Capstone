@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Mar 7, 2016 6:12:50 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1457399570013</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Mar 14, 2016 2:28:32 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1457987312154</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/afs/ualberta.ca/home/b/m/bmaroney/G4Capstone/software/G4Capstone_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../niosII_system.sopcinfo</SopcDesignFile>
@@ -1727,20 +1727,26 @@
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>jtag_uart_0</slaveDescriptor>
+                <slaveDescriptor>rs232_0</slaveDescriptor>
                 <addressRange>0x01109040 - 0x01109047</addressRange>
+                <addressSpan>8</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>jtag_uart_0</slaveDescriptor>
+                <addressRange>0x01109048 - 0x0110904F</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes>printable</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>sysid_qsys_0</slaveDescriptor>
-                <addressRange>0x01109048 - 0x0110904F</addressRange>
+                <addressRange>0x01109050 - 0x01109057</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>character_lcd_0</slaveDescriptor>
-                <addressRange>0x01109050 - 0x01109051</addressRange>
+                <addressRange>0x01109058 - 0x01109059</addressRange>
                 <addressSpan>2</addressSpan>
                 <attributes/>
         </MemoryMap>

@@ -31,6 +31,7 @@ library ieee;
 		CLOCK_50	: in 	std_logic;
 		CLOCK_27 : in 	std_logic;
 		SW			: in	std_logic_vector(17 downto 15);
+		GPIO_0  : inout std_logic_vector(29 downto 27);
 		
 		--Audio Signals on board
 		--From audio appnote
@@ -125,7 +126,9 @@ architecture structure of niosII_microc_capstone is
 				audio_clk_clk                           : out   std_logic;                                         -- clk
 				dram_clk_clk                            : out   std_logic;                                         -- clk
 			enable_export                                    : in    std_logic_vector(2 downto 0)  := (others => 'X');
-			pio_export                                       : in    std_logic_vector(2 downto 0)  := (others => 'X')  -- export
+			pio_export                                       : in    std_logic_vector(2 downto 0)  := (others => 'X');  -- export
+			rs232_1_RXD                                      : in    std_logic                     := 'X';             -- RXD
+            rs232_1_TXD                                      : out   std_logic                                         -- TXD
 			);
     end component niosII_system;
 
@@ -183,7 +186,9 @@ begin
             audio_clk_clk									 => AUD_XCK,
 				dram_clk_clk                         	 => DRAM_CLK,
 			enable_export => SW(17 downto 15),
-			pio_export => SW(17 downto 15)
+			pio_export => SW(17 downto 15),
+			rs232_1_TXD                   => GPIO_0(27),
+           	rs232_1_RXD                   => GPIO_0(29)
         );
 
 end structure;

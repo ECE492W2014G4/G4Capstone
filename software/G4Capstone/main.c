@@ -31,9 +31,12 @@
 #include <stdio.h>
 #include "altera_up_avalon_character_lcd.h"
 #include "includes.h"
+#include <string.h>
 #include <sys/alt_irq.h>
 #include "altera_avalon_timer_regs.h"
 #include "altera_up_avalon_audio_and_video_config.h"
+#include "altera_up_avalon_rs232.h"
+#include "altera_up_avalon_rs232_regs.h"
 
 /* Definition of Task Stacks */
 #define   TASK_STACKSIZE		2048
@@ -42,9 +45,10 @@
 
 /* Definition of Task Priorities */
 
-#define AudioTask_PRIORITY  		1
+#define AudioTask_PRIORITY  		4
 #define LCDTASK_PRIORITY    		2
 #define SwitchTask_PRIORITY 		3
+#define UART_PRIORITY      			1
 
 #define LEFT_LINE_IN 0x0
 #define RIGHT_LINE_IN 0x1
@@ -60,10 +64,12 @@
 
 void AudioTask(void* pdata);
 void LCDTask(void* pdata);
+void uart(void* pdata);
 
 OS_EVENT *QUEUE;
 OS_STK	AudioTask_stk[TASK_STACKSIZE];
 OS_STK	LCDTask_stk[TASK_STACKSIZE];
+OS_STK    uart_stk[TASK_STACKSIZE];
 
 
 
@@ -92,6 +98,15 @@ int main(void)
 			TASK_STACKSIZE,
 			NULL,
 			0);
+	OSTaskCreateExt(uart,
+					NULL,
+					(void *)&uart_stk[TASK_STACKSIZE-1],
+					UART_PRIORITY,
+					UART_PRIORITY,
+					uart_stk,
+					TASK_STACKSIZE,
+					NULL,
+					0);
 	OSStart();
 	return 0;
 }
@@ -117,16 +132,17 @@ void AudioTask(void *pdata){
 	alt_up_av_config_reset(audio_config_dev);
 
 	/* Volume Control */
-	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_LEFT_HEADPHONE_OUT, 0x60);
-	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_RIGHT_HEADPHONE_OUT, 0x60);
+	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_LEFT_HEADPHONE_OUT, 0x70);
+	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_RIGHT_HEADPHONE_OUT, 0x70);
 
 	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_SAMPLING_CTRL, 0x20);
 	unsigned int *sw = (unsigned int *)PIO_0_BASE;
 	unsigned int oldValue = 0;
+	unsigned int firstRun = 0;
 	while(1){
 		//printf("%u\n",*sw);
 		int newValue = *sw;
-		if(newValue != oldValue){
+		if((newValue != oldValue) || firstRun == 0){
 			int msg = newValue;
 			int result=OSQPost(QUEUE,&msg);
 			if(result == OS_NO_ERR){
@@ -135,8 +151,9 @@ void AudioTask(void *pdata){
 			else{
 				printf("Task 1: Error - Couldn't post message to Queue");
 			}
+			firstRun++;
 			oldValue=newValue;
-			OSTimeDlyHMSM(0,0,0,100);
+			OSTimeDlyHMSM(0,0,0,500);
 		}
 	}
 }
@@ -152,20 +169,22 @@ void LCDTask(void* pdata)
 	int old;
 	while (1)
 	{
-		printf("LCD Printing\n");
+		//printf("LCD Printing\n");
 		int * msg=(int *) OSQPend(QUEUE, 0, &err);
 		if(err == OS_NO_ERR){
 			if (*msg == 1) {
 				strcpy(str,"Distortion");
 			} else if (*msg == 2) {
 				strcpy(str,"Reverb");
+			} else{
+				strcpy(str,"");
 			}
-			printf("Task 2: writing message to LCD screen....\n\n");
+			//printf("Task 2: writing message to LCD screen....\n\n");
 			alt_up_character_lcd_init(lcd);
 			alt_up_character_lcd_set_cursor_pos(lcd, 0, 1);
 			alt_up_character_lcd_string(lcd,str);
 
-			printf("Mode: %s\n Msg: %d\n",str,*msg);
+			//printf("Mode: %s\n Msg: %d\n",str,*msg);
 
 			// Always Printed
 			alt_up_character_lcd_set_cursor_pos(lcd, 0, 0);
@@ -174,6 +193,70 @@ void LCDTask(void* pdata)
 	}
 }
 
+void uart(void* pdata)
+{
+
+  /*Need some variables for storage*/
+  alt_u8 data_read_in[100];
+  alt_u8 data = 0;;
+  alt_u8 parity_error[100];
+  unsigned char bufferInput[100];
+
+  const char* command = "MUSIC PLAY\r";
+  int count = 0;
+
+  /*UART device*/
+  alt_up_rs232_dev* uart;
+  uart = alt_up_rs232_open_dev(RS232_0_NAME);
+  uart->base = RS232_0_BASE;
+
+  /*Check to make sure it actually opened*/
+  if(uart == NULL){
+	  printf("The UART device didn't open.\n");
+  } else {
+	  printf("The UART device has been opened\n");
+  }
+
+  alt_up_rs232_enable_read_interrupt(uart);
+
+  while (alt_up_rs232_get_used_space_in_read_FIFO(uart)) {
+	  alt_up_rs232_read_data(uart, &data, parity_error);
+  }
+
+  bzero(data_read_in, 100);
+     /*Going to write a command first, disable interrupt*/
+ 	alt_up_rs232_disable_read_interrupt(uart);
+
+ 	/*Here's the actual write command*/
+ 	int i;
+ 	for(i=0; i<strlen(command); i++){
+ 	  alt_up_rs232_write_data(uart, command[i]);
+ 	  if(i==strlen(command)-1){
+ 		  count = alt_up_rs232_get_used_space_in_read_FIFO(uart);
+ 	  }
+ 	}
+
+ 	/*Now you have to read the response, enable the interrupt.*/
+ 	alt_up_rs232_enable_read_interrupt(uart);
+
+ 	for(i=0; i<count; i++){
+ 	  alt_up_rs232_read_data(uart, &data, parity_error);
+ 	  data_read_in[i] = data;
+ 	}
+
+ 	for(i=0;i<count;i++){
+ 		printf("\nRead in: [%c]\t%d\t%d\n", data_read_in[i], data_read_in[i], i);
+ 	}
+
+ 	printf("\nRead in: \n%s\n", data_read_in);
+
+
+  while (1)
+  {
+    printf("Hello from task1\n");
+    OSTimeDlyHMSM(0, 0, 2, 800);
+  }
+}
 
 
 /******************************************************************************
