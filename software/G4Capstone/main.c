@@ -42,8 +42,9 @@
 
 /* Definition of Task Priorities */
 
-#define AudioTask_PRIORITY      1
-#define LCDTASK_PRIORITY      2
+#define AudioTask_PRIORITY  		1
+#define LCDTASK_PRIORITY    		2
+#define SwitchTask_PRIORITY 		3
 
 #define LEFT_LINE_IN 0x0
 #define RIGHT_LINE_IN 0x1
@@ -61,8 +62,8 @@ void AudioTask(void* pdata);
 void LCDTask(void* pdata);
 
 OS_EVENT *QUEUE;
-OS_STK    AudioTask_stk[TASK_STACKSIZE];
-OS_STK    LCDTask_stk[TASK_STACKSIZE];
+OS_STK	AudioTask_stk[TASK_STACKSIZE];
+OS_STK	LCDTask_stk[TASK_STACKSIZE];
 
 
 
@@ -115,33 +116,65 @@ void AudioTask(void *pdata){
 	/* Configure WM8731 */
 	alt_up_av_config_reset(audio_config_dev);
 
+	/* Volume Control */
+	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_LEFT_HEADPHONE_OUT, 0x60);
+	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_RIGHT_HEADPHONE_OUT, 0x60);
+
 	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_SAMPLING_CTRL, 0x20);
 	unsigned int *sw = (unsigned int *)PIO_0_BASE;
+	unsigned int oldValue = 0;
 	while(1){
-		printf("%u\n",*sw);
-		OSTimeDlyHMSM(0,0,0,100);
+		//printf("%u\n",*sw);
+		int newValue = *sw;
+		if(newValue != oldValue){
+			int msg = newValue;
+			int result=OSQPost(QUEUE,&msg);
+			if(result == OS_NO_ERR){
+				printf("Task 1: message posted successfully\n");
+			}
+			else{
+				printf("Task 1: Error - Couldn't post message to Queue");
+			}
+			oldValue=newValue;
+			OSTimeDlyHMSM(0,0,0,100);
+		}
 	}
 }
 
 /*LCD*/
 void LCDTask(void* pdata)
 {
-	printf("Task 2");
+	printf("Task 2\n");
+	char *str;
+
 	alt_up_character_lcd_dev * lcd=(alt_up_character_lcd_dev *)pdata;
 	INT8U err;
 	int old;
 	while (1)
 	{
+		printf("LCD Printing\n");
 		int * msg=(int *) OSQPend(QUEUE, 0, &err);
 		if(err == OS_NO_ERR){
+			if (*msg == 1) {
+				strcpy(str,"Distortion");
+			} else if (*msg == 2) {
+				strcpy(str,"Reverb");
+			}
+			printf("Task 2: writing message to LCD screen....\n\n");
 			alt_up_character_lcd_init(lcd);
+			alt_up_character_lcd_set_cursor_pos(lcd, 0, 1);
+			alt_up_character_lcd_string(lcd,str);
+
+			printf("Mode: %s\n Msg: %d\n",str,*msg);
+
+			// Always Printed
 			alt_up_character_lcd_set_cursor_pos(lcd, 0, 0);
-			alt_up_character_lcd_string(lcd,"Hello World");
-			OSQFlush(QUEUE);
-			old=*msg;
+			alt_up_character_lcd_string(lcd,"G4 Capstone");
 		}
 	}
 }
+
+
 
 /******************************************************************************
  *                                                                             *
