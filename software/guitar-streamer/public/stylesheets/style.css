@@ -1,8 +1,11 @@
+.navbar-inverse .navbar-brand {
+	color:#ffffff
+}
+#mainContent {
+	display:inline;
+	vertical-align:middle;
+}
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
-}
