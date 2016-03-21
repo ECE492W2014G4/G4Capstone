@@ -16,6 +16,12 @@
 
 #include "alt_types.h"
 #include "includes.h"
+#include "altera_up_avalon_character_lcd.h"
+#include "altera_avalon_timer_regs.h"
+#include "altera_up_avalon_audio_and_video_config.h"
+#include "altera_up_avalon_rs232.h"
+#include "altera_up_avalon_rs232_regs.h"
+
 /*
  * Prototypes:
  *    die_with_error() - Kills current task and delivers error message to 
@@ -34,18 +40,6 @@ void die_with_error(char err_msg[]);
  * Mailbox to control board features 
  * 
  */
-extern OS_EVENT *board_control_mbox;
-
-struct http_form_data
-{
-  alt_u8 LED_ON;
-  alt_u8 SSD_ON;
-  char LCD_TEXT[20];
-  alt_u8 File_Upload[20];
-};
-
-extern FILE* lcdDevice;
-
 
 /* 
  * The IP, gateway, and subnet mask address below are used as a last resort 
@@ -61,13 +55,13 @@ extern FILE* lcdDevice;
  *      Gateway: 192.168.1.1
  *  Subnet Mask: 255.255.255.0
  */
-#define IPADDR0   0 
-#define IPADDR1   0 
-#define IPADDR2   0 
+#define IPADDR0   0
+#define IPADDR1   0
+#define IPADDR2   0
 #define IPADDR3   0
 
-#define GWADDR0   0 
-#define GWADDR1   0 
+#define GWADDR0   0
+#define GWADDR1   0
 #define GWADDR2   0 
 #define GWADDR3   0
 
@@ -87,9 +81,10 @@ extern FILE* lcdDevice;
  */
 #define HTTP_PRIO     4
 #define WS_INITIAL_TASK_PRIO 5
-#define LED_PRIO      6
-#define SSD_PRIO      7
-#define BOARD_PRIO    8
+#define UART_PRIORITY		 6
+#define AudioTask_PRIORITY	 7
+#define LCDTASK_PRIORITY     8
+
 /* 
  * Buffer size for a routine to call if things fail
  */
@@ -99,9 +94,6 @@ extern FILE* lcdDevice;
 
 
 extern OS_STK    WSInitialTaskStk[TASK_STACKSIZE];
-extern OS_STK    BCTaskStk[TASK_STACKSIZE];
-extern OS_STK    LEDTaskStk[TASK_STACKSIZE];
-extern OS_STK    SSDTaskStk[TASK_STACKSIZE];
 
 #define DIE_WITH_ERROR_BUFFER 256
 

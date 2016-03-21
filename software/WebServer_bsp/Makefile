@@ -215,6 +215,13 @@ Avalon_Audio_and_Video_driver_SRCS_ROOT := drivers
 Avalon_Audio_and_Video_driver_C_LIB_SRCS := \
 	$(Avalon_Audio_and_Video_driver_SRCS_ROOT)/src/altera_up_avalon_audio_and_video_config.c
 
+# altera_avalon_fifo_driver sources root 
+altera_avalon_fifo_driver_SRCS_ROOT := drivers
+
+# altera_avalon_fifo_driver sources 
+altera_avalon_fifo_driver_C_LIB_SRCS := \
+	$(altera_avalon_fifo_driver_SRCS_ROOT)/src/altera_avalon_fifo_util.c
+
 # altera_avalon_jtag_uart_driver sources root 
 altera_avalon_jtag_uart_driver_SRCS_ROOT := drivers
 
@@ -518,6 +525,7 @@ up_avalon_rs232_driver_C_LIB_SRCS := \
 # Assemble all component C source files 
 COMPONENT_C_LIB_SRCS += \
 	$(Avalon_Audio_and_Video_driver_C_LIB_SRCS) \
+	$(altera_avalon_fifo_driver_C_LIB_SRCS) \
 	$(altera_avalon_jtag_uart_driver_C_LIB_SRCS) \
 	$(altera_avalon_sysid_qsys_driver_C_LIB_SRCS) \
 	$(altera_avalon_timer_driver_C_LIB_SRCS) \

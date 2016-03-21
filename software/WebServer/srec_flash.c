@@ -17,11 +17,12 @@
 #include <sys/fcntl.h>
 #include "sys/alt_alarm.h"
 #include "alt_types.h"
-#include "http.h"
 #include "web_server.h"
 
 #include "sys/alt_flash.h"
 #include "sys/alt_flash_dev.h"
+
+#define   MAXLINE                 256
 
 int current_flash_block;
 

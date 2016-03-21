@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Mar 18, 2016 11:51:29 AM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1458323489932</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Mar 21, 2016 2:11:34 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1458591094760</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/afs/ualberta.ca/home/b/m/bmaroney/G4Capstone/software/WebServer_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../niosII_system.sopcinfo</SopcDesignFile>
@@ -1823,50 +1823,62 @@
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>timer_0</slaveDescriptor>
+                <slaveDescriptor>internet_fifo_in_csr</slaveDescriptor>
                 <addressRange>0x01909000 - 0x0190901F</addressRange>
+                <addressSpan>32</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>timer_0</slaveDescriptor>
+                <addressRange>0x01909020 - 0x0190903F</addressRange>
                 <addressSpan>32</addressSpan>
                 <attributes>timer</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>pio_0</slaveDescriptor>
-                <addressRange>0x01909020 - 0x0190902F</addressRange>
+                <addressRange>0x01909040 - 0x0190904F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>audio_and_video_config_0</slaveDescriptor>
-                <addressRange>0x01909030 - 0x0190903F</addressRange>
+                <addressRange>0x01909050 - 0x0190905F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>internet_fifo_out</slaveDescriptor>
+                <addressRange>0x01909060 - 0x01909067</addressRange>
+                <addressSpan>8</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>DM9000A_IF_0</slaveDescriptor>
-                <addressRange>0x01909040 - 0x01909047</addressRange>
+                <addressRange>0x01909068 - 0x0190906F</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>rs232_0</slaveDescriptor>
-                <addressRange>0x01909048 - 0x0190904F</addressRange>
+                <addressRange>0x01909070 - 0x01909077</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>jtag_uart_0</slaveDescriptor>
-                <addressRange>0x01909050 - 0x01909057</addressRange>
+                <addressRange>0x01909078 - 0x0190907F</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes>printable</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>sysid_qsys_0</slaveDescriptor>
-                <addressRange>0x01909058 - 0x0190905F</addressRange>
+                <addressRange>0x01909080 - 0x01909087</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>character_lcd_0</slaveDescriptor>
-                <addressRange>0x01909060 - 0x01909061</addressRange>
+                <addressRange>0x01909088 - 0x01909089</addressRange>
                 <addressSpan>2</addressSpan>
                 <attributes/>
         </MemoryMap>

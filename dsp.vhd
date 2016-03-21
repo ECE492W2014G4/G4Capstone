@@ -20,7 +20,9 @@ entity dsp is
 	outgoing_data_left: out std_logic_vector(15 downto 0);
 	outgoing_valid_left: out std_logic;
 	outgoing_data_right: out std_logic_vector(15 downto 0);
-	outgoing_valid_right: out std_logic
+	outgoing_valid_right: out std_logic;
+	outgoing_streaming: out std_logic_vector(31 downto 0);
+	outgoing_streaming_valid: out std_logic
 	);
 end entity dsp;
 
@@ -29,6 +31,7 @@ architecture arch of dsp is
 	signal dist_en : std_logic;
 	signal reverb_en : std_logic;
 	signal tuner_en : std_logic;
+	signal out_valid: std_logic;
 	signal distortion, reverb, tuner, livestream, outgoing :std_logic_vector(15 downto 0);
 	component distort is
 			port( 
@@ -66,8 +69,9 @@ architecture arch of dsp is
 	);
 	end component;
 begin
-		outgoing_valid_left <= dist_completed(0) OR dist_completed(1);
-		outgoing_valid_right <= dist_completed(0) OR dist_completed(1);
+		out_valid	<= dist_completed(0) OR dist_completed(1);	
+		outgoing_valid_left <= out_valid;
+		outgoing_valid_right <= out_valid;
 		outgoing_data_left <= outgoing;
 		outgoing_data_right <= outgoing;
 		
@@ -92,5 +96,20 @@ begin
 						ready => incoming_valid_left,
 						done => dist_completed(1),
 						data_out => reverb(15 downto 0));
+		fifo_out: process(clk, out_valid)
+		begin
+			if(rising_edge(clk)) then
+				if(reset_n = '0') then
+					outgoing_streaming <= X"00000000";
+					outgoing_streaming_valid <= '0';
+				elsif(out_valid = '1') then
+					outgoing_streaming(31 downto 16) <= (others => outgoing(15));
+					outgoing_streaming(15 downto 0) <= outgoing(15 downto 0);
+					outgoing_streaming_valid <= '1';
+				else
+					outgoing_streaming_valid <= '0';
+				end if;			
+			end if;
+		end process;
 		
 end architecture;
