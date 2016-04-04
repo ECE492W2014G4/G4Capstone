@@ -27,11 +27,11 @@ library ieee;
 	port
 	(
 		-- Input ports and 50 MHz Clock
-		KEY		: in  std_logic_vector (0 downto 0);
+		KEY		: in  std_logic_vector (3 downto 0);
 		CLOCK_50	: in 	std_logic;
 		CLOCK_27 : in 	std_logic;
 		SW			: in	std_logic_vector(17 downto 15);
-		GPIO_0  : inout std_logic_vector(29 downto 27);
+		GPIO_0  : inout std_logic_vector(34 downto 27);
 		
 		--Audio Signals on board
 		--From audio appnote
@@ -92,7 +92,7 @@ library ieee;
 		FL_OE_N: out std_logic_vector (0 downto 0);
 		FL_DQ: inout std_logic_vector (7 downto 0);
 		FL_RST_N: out std_logic_vector (0 downto 0);
-		FL_WE_N: out std_logic_vector (0 downto 0)		
+		FL_WE_N: out std_logic_vector (0 downto 0)
 	);
 end niosII_microc_capstone;
 
@@ -124,7 +124,7 @@ architecture structure of niosII_microc_capstone is
             character_lcd_0_external_interface_DATA : inout DE2_LCD_DATA_BUS  := (others => 'X'); -- DATA
             character_lcd_0_external_interface_ON   : out   std_logic;                                        -- ON
             character_lcd_0_external_interface_BLON : out   std_logic;                                        -- BLON
-            character_lcd_0_external_interface_EN   : out   std_logic;                                        -- EN
+           	character_lcd_0_external_interface_EN   : out   std_logic;                                        -- EN
             character_lcd_0_external_interface_RS   : out   std_logic;                                        -- RS
             character_lcd_0_external_interface_RW   : out   std_logic;                                        -- RW
 				clk_0_clk                               : in    std_logic                     := 'X';             -- clk
@@ -140,8 +140,8 @@ architecture structure of niosII_microc_capstone is
 				dram_clk_clk                            : out   std_logic;                                         -- clk
 			enable_export                                    : in    std_logic_vector(2 downto 0)  := (others => 'X');
 			pio_export                                       : in    std_logic_vector(2 downto 0)  := (others => 'X');  -- export
-			rs232_1_RXD                                      : in    std_logic                     := 'X';             -- RXD
-            rs232_1_TXD                                      : out   std_logic;                                     -- TXD
+			--rs232_1_RXD                                      : in    std_logic                     := 'X';             -- RXD
+            --rs232_1_TXD                                      : out   std_logic;                                     -- TXD
 			dm9000a_if_0_s1_export_DATA                                                      : inout std_logic_vector(15 downto 0) := (others => 'X'); -- DATA
             dm9000a_if_0_s1_export_CMD                                                       : out   std_logic;                                        -- CMD
             dm9000a_if_0_s1_export_RD_N                                                      : out   std_logic;                                        -- RD_N
@@ -155,7 +155,9 @@ architecture structure of niosII_microc_capstone is
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_data_out         : inout std_logic_vector(7 downto 0)  := (others => 'X'); 
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_chipselect_n_out : out   std_logic_vector(0 downto 0);                    
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_write_n_out      : out   std_logic_vector(0 downto 0);                     
-            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_address_out      : out   std_logic_vector(21 downto 0)                     
+            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_address_out      : out   std_logic_vector(21 downto 0);
+			gain_inc_export                                                                  : in    std_logic                     := 'X';             -- export
+            gain_dec_export                                                                  : in    std_logic                     := 'X'                                   
 			);
     end component niosII_system;
 
@@ -172,6 +174,10 @@ begin
 	
 	DRAM_UDQM <= DQM(1);
 	DRAM_LDQM <= DQM(0);
+
+	GPIO_0(27) <= '0';
+	GPIO_0(34) <= '1';	
+
 	FL_RST_N(0) <= '1';
 	
 	-- Component Instantiation Statement (optional)
@@ -215,8 +221,8 @@ begin
 				dram_clk_clk                         	 => DRAM_CLK,
 			enable_export => SW(17 downto 15),
 			pio_export => SW(17 downto 15),
-			rs232_1_TXD                   => GPIO_0(27),
-           	rs232_1_RXD                   => GPIO_0(29),
+			--rs232_1_TXD                   => GPIO_0(27),
+           	--rs232_1_RXD                   => GPIO_0(29),
 			dm9000a_if_0_s1_export_DATA				=> ENET_DATA,
             dm9000a_if_0_s1_export_CMD				=> ENET_CMD,
             dm9000a_if_0_s1_export_RD_N				=> ENET_RD_N,
@@ -229,7 +235,9 @@ begin
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_data_out => FL_DQ,
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_chipselect_n_out => FL_CE_N,
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_write_n_out => FL_WE_N,
-            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_address_out => FL_ADDR
+            tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_address_out => FL_ADDR,
+			gain_inc_export	=> KEY(1),
+            gain_dec_export => KEY(3)
         );
 
 end structure;

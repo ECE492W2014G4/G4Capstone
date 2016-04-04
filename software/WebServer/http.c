@@ -40,38 +40,74 @@
 #endif /* DEBUG */
 
 #define MY_PORT 10000
+#define BUFFER_SIZE 1024
 
 int net_aton(const char *cp, struct in_addr *addr);
 
 void WSTask(){
 	int s;
+	int suspended = 0;
 	int counter = 0;
-	long read;
-	alt_u32 buff[128];
+	long read,total;
+	INT8U err;
+	alt_u16 buff[BUFFER_SIZE];
+	//Setup connection to server
 	struct sockaddr_in result;
 	memset(&result, 0, sizeof(struct sockaddr_in));
 	result.sin_family = AF_INET;
 	result.sin_port = htons(MY_PORT);
 	net_aton("198.23.158.70", &(result.sin_addr));
+
+	//Test the connection
+	s = socket(AF_INET, SOCK_STREAM, 0);
+	if (s < 0) {
+		sendToLCD("Client: cannot open socket");
+		die_with_error("");
+	}
+	if (connect(s, (struct sockaddr *) &result, sizeof(result))) {
+		sendToLCD("No connection");
+		die_with_error("");
+	}
+	close(s);
+
 	while (1) {
-		//		read = fread(buff, 1, sizeof(buff), song);
-		//		if(read < 0) break;
-		if (counter == 2){
+		//OSSemPend(SEM, 0, &err);
+		int sw = *((int *)PIO_0_BASE);
+		if(sw != 6 && suspended == 1){
+			OSTaskResume(AudioTask_PRIORITY);
+			OSTaskResume(LCDTASK_PRIORITY);
+			suspended = 0;
+		}
+		else if(sw == 6 && suspended == 0){
+			OSTaskSuspend(AudioTask_PRIORITY);
+			OSTaskSuspend(LCDTASK_PRIORITY);
+			suspended = 1;
+		}
+		if (counter >= BUFFER_SIZE){
 			s = socket(AF_INET, SOCK_STREAM, 0);
 			if (s < 0) {
-				die_with_error("Client: cannot open socket");
+				sendToLCD("Client: cannot open socket");
+				OSTaskDel(HTTP_PRIO);
 			}
 			if (connect(s, (struct sockaddr *) &result, sizeof(result))) {
-				printf("Couldn't connect to server\n");
-				continue;
+				die_with_error("");
+				OSTaskDel(HTTP_PRIO);
 			}
-			write(s,buff,sizeof(buff));
+			read = write(s,buff, counter);
+			total += read;
+			if( read < 0 ){
+				sendToLCD("Lost connection");
+				die_with_error("");
+			}
+			printf("Sent %d bytes to client. Total: %d\n", read, total);
+			close(s);
 			counter = 0;
 		}
-		else{
-			buff[counter] = altera_avalon_fifo_read_fifo(INTERNET_FIFO_OUT_BASE,INTERNET_FIFO_IN_CSR_BASE);
+		int fill_level;
+		while((fill_level = altera_avalon_fifo_read_level(INTERNET_FIFO_OUT_BASE)) > 0 && counter < BUFFER_SIZE){
+			buff[counter] = (alt_u16) altera_avalon_fifo_read_fifo(INTERNET_FIFO_OUT_BASE,INTERNET_FIFO_IN_CSR_BASE);
+			counter++;
 		}
-		counter++;
 	}
 }
 /* from http://www.opensource.apple.com/source/OpenSSH/OpenSSH-7.1/openssh/bsd-inet_aton.c */

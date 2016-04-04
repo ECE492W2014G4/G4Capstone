@@ -39,7 +39,7 @@ begin
 					mult_out_var := std_logic_vector(unsigned(mult_const) * unsigned(data_in));
 					-- Right Shift 2^1 (divided by 2)
 					div_out_var := data_in(15) & mult_out_var(15 downto 1);
-					data_out <= div_out_var after 100 ms;
+					data_out <= div_out_var after 1000 ms;
 					completed <= '1';
 				else
 					completed <= '0';

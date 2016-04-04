@@ -19,7 +19,7 @@ end reverb_component;
 architecture Behavioral of reverb_component is
 	
 	signal out_signals : std_logic_vector(63 downto 0);
-	signal completed : std_logic_vector(2 downto 0);
+	signal completed : std_logic_vector(3 downto 0);
 	component delay_gain
 		port (
 			clk : in std_logic;
@@ -51,7 +51,7 @@ data_out <= std_logic_vector(signed(data_in) + signed(out_signals(15 downto 0)) 
 					clk => clk,
 					reset => reset,
 					ready => ready,
-					data_in => data_in,
+					data_in => std_logic_vector(signed(data_in)+signed(out_signals(16*(i + 1)-1 downto 16*i))),
 					done => completed(i),
 					data_out => out_signals(16*(i + 1)-1 downto 16*i)
 				);

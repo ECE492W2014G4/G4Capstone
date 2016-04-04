@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'niosII_system'
  * SOPC Builder design path: ../../niosII_system.sopcinfo
  *
- * Generated: Sun Mar 20 17:14:10 MDT 2016
+ * Generated: Sun Apr 03 23:07:50 MDT 2016
  */
 
 /*
@@ -124,7 +124,7 @@
  */
 
 #define ALT_MODULE_CLASS_DM9000A_IF_0 DM9000A_IF
-#define DM9000A_IF_0_BASE 0x1909068
+#define DM9000A_IF_0_BASE 0x1909088
 #define DM9000A_IF_0_IRQ 3
 #define DM9000A_IF_0_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define DM9000A_IF_0_NAME "/dev/DM9000A_IF_0"
@@ -151,6 +151,7 @@
 #define __ALTERA_UP_AVALON_RS232
 #define __ALTERA_UP_AVALON_SRAM
 #define __DM9000A_IF
+#define __DSP
 
 
 /*
@@ -169,19 +170,19 @@
 #define ALT_NUM_INTERNAL_INTERRUPT_CONTROLLERS 1
 #define ALT_NUM_INTERRUPT_CONTROLLERS 1
 #define ALT_STDERR "/dev/jtag_uart_0"
-#define ALT_STDERR_BASE 0x1909078
+#define ALT_STDERR_BASE 0x1909098
 #define ALT_STDERR_DEV jtag_uart_0
 #define ALT_STDERR_IS_JTAG_UART
 #define ALT_STDERR_PRESENT
 #define ALT_STDERR_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDIN "/dev/jtag_uart_0"
-#define ALT_STDIN_BASE 0x1909078
+#define ALT_STDIN_BASE 0x1909098
 #define ALT_STDIN_DEV jtag_uart_0
 #define ALT_STDIN_IS_JTAG_UART
 #define ALT_STDIN_PRESENT
 #define ALT_STDIN_TYPE "altera_avalon_jtag_uart"
 #define ALT_STDOUT "/dev/jtag_uart_0"
-#define ALT_STDOUT_BASE 0x1909078
+#define ALT_STDOUT_BASE 0x1909098
 #define ALT_STDOUT_DEV jtag_uart_0
 #define ALT_STDOUT_IS_JTAG_UART
 #define ALT_STDOUT_PRESENT
@@ -216,7 +217,7 @@
  */
 
 #define ALT_MODULE_CLASS_audio_and_video_config_0 altera_up_avalon_audio_and_video_config
-#define AUDIO_AND_VIDEO_CONFIG_0_BASE 0x1909050
+#define AUDIO_AND_VIDEO_CONFIG_0_BASE 0x1909070
 #define AUDIO_AND_VIDEO_CONFIG_0_IRQ -1
 #define AUDIO_AND_VIDEO_CONFIG_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define AUDIO_AND_VIDEO_CONFIG_0_NAME "/dev/audio_and_video_config_0"
@@ -230,12 +231,95 @@
  */
 
 #define ALT_MODULE_CLASS_character_lcd_0 altera_up_avalon_character_lcd
-#define CHARACTER_LCD_0_BASE 0x1909088
+#define CHARACTER_LCD_0_BASE 0x19090ac
 #define CHARACTER_LCD_0_IRQ -1
 #define CHARACTER_LCD_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define CHARACTER_LCD_0_NAME "/dev/character_lcd_0"
 #define CHARACTER_LCD_0_SPAN 2
 #define CHARACTER_LCD_0_TYPE "altera_up_avalon_character_lcd"
+
+
+/*
+ * dsp_0_clipping configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_dsp_0_clipping dsp
+#define DSP_0_CLIPPING_BASE 0x19090aa
+#define DSP_0_CLIPPING_IRQ -1
+#define DSP_0_CLIPPING_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define DSP_0_CLIPPING_NAME "/dev/dsp_0_clipping"
+#define DSP_0_CLIPPING_SPAN 2
+#define DSP_0_CLIPPING_TYPE "dsp"
+
+
+/*
+ * dsp_0_clipping_test configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_dsp_0_clipping_test dsp
+#define DSP_0_CLIPPING_TEST_BASE 0x19090a8
+#define DSP_0_CLIPPING_TEST_IRQ -1
+#define DSP_0_CLIPPING_TEST_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define DSP_0_CLIPPING_TEST_NAME "/dev/dsp_0_clipping_test"
+#define DSP_0_CLIPPING_TEST_SPAN 2
+#define DSP_0_CLIPPING_TEST_TYPE "dsp"
+
+
+/*
+ * gain_dec configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_gain_dec altera_avalon_pio
+#define GAIN_DEC_BASE 0x1909040
+#define GAIN_DEC_BIT_CLEARING_EDGE_REGISTER 0
+#define GAIN_DEC_BIT_MODIFYING_OUTPUT_REGISTER 0
+#define GAIN_DEC_CAPTURE 1
+#define GAIN_DEC_DATA_WIDTH 1
+#define GAIN_DEC_DO_TEST_BENCH_WIRING 0
+#define GAIN_DEC_DRIVEN_SIM_VALUE 0x0
+#define GAIN_DEC_EDGE_TYPE "FALLING"
+#define GAIN_DEC_FREQ 50000000u
+#define GAIN_DEC_HAS_IN 1
+#define GAIN_DEC_HAS_OUT 0
+#define GAIN_DEC_HAS_TRI 0
+#define GAIN_DEC_IRQ 5
+#define GAIN_DEC_IRQ_INTERRUPT_CONTROLLER_ID 0
+#define GAIN_DEC_IRQ_TYPE "EDGE"
+#define GAIN_DEC_NAME "/dev/gain_dec"
+#define GAIN_DEC_RESET_VALUE 0x0
+#define GAIN_DEC_SPAN 16
+#define GAIN_DEC_TYPE "altera_avalon_pio"
+
+
+/*
+ * gain_inc configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_gain_inc altera_avalon_pio
+#define GAIN_INC_BASE 0x1909050
+#define GAIN_INC_BIT_CLEARING_EDGE_REGISTER 0
+#define GAIN_INC_BIT_MODIFYING_OUTPUT_REGISTER 0
+#define GAIN_INC_CAPTURE 1
+#define GAIN_INC_DATA_WIDTH 1
+#define GAIN_INC_DO_TEST_BENCH_WIRING 0
+#define GAIN_INC_DRIVEN_SIM_VALUE 0x0
+#define GAIN_INC_EDGE_TYPE "FALLING"
+#define GAIN_INC_FREQ 50000000u
+#define GAIN_INC_HAS_IN 1
+#define GAIN_INC_HAS_OUT 0
+#define GAIN_INC_HAS_TRI 0
+#define GAIN_INC_IRQ 6
+#define GAIN_INC_IRQ_INTERRUPT_CONTROLLER_ID 0
+#define GAIN_INC_IRQ_TYPE "EDGE"
+#define GAIN_INC_NAME "/dev/gain_inc"
+#define GAIN_INC_RESET_VALUE 0x0
+#define GAIN_INC_SPAN 16
+#define GAIN_INC_TYPE "altera_avalon_pio"
+#define ALT_ENHANCED_INTERRUPT_API_PRESENT
 
 
 /*
@@ -302,7 +386,7 @@
 #define ALT_MODULE_CLASS_internet_fifo_out altera_avalon_fifo
 #define INTERNET_FIFO_OUT_AVALONMM_AVALONMM_DATA_WIDTH 32
 #define INTERNET_FIFO_OUT_AVALONMM_AVALONST_DATA_WIDTH 32
-#define INTERNET_FIFO_OUT_BASE 0x1909060
+#define INTERNET_FIFO_OUT_BASE 0x1909080
 #define INTERNET_FIFO_OUT_BITS_PER_SYMBOL 32
 #define INTERNET_FIFO_OUT_CHANNEL_WIDTH 0
 #define INTERNET_FIFO_OUT_ERROR_WIDTH 0
@@ -332,7 +416,7 @@
  */
 
 #define ALT_MODULE_CLASS_jtag_uart_0 altera_avalon_jtag_uart
-#define JTAG_UART_0_BASE 0x1909078
+#define JTAG_UART_0_BASE 0x1909098
 #define JTAG_UART_0_IRQ 1
 #define JTAG_UART_0_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define JTAG_UART_0_NAME "/dev/jtag_uart_0"
@@ -379,7 +463,7 @@
  */
 
 #define ALT_MODULE_CLASS_pio_0 altera_avalon_pio
-#define PIO_0_BASE 0x1909040
+#define PIO_0_BASE 0x1909060
 #define PIO_0_BIT_CLEARING_EDGE_REGISTER 0
 #define PIO_0_BIT_MODIFYING_OUTPUT_REGISTER 0
 #define PIO_0_CAPTURE 0
@@ -406,7 +490,7 @@
  */
 
 #define ALT_MODULE_CLASS_rs232_0 altera_up_avalon_rs232
-#define RS232_0_BASE 0x1909070
+#define RS232_0_BASE 0x1909090
 #define RS232_0_IRQ 2
 #define RS232_0_IRQ_INTERRUPT_CONTROLLER_ID 0
 #define RS232_0_NAME "/dev/rs232_0"
@@ -473,13 +557,13 @@
  */
 
 #define ALT_MODULE_CLASS_sysid_qsys_0 altera_avalon_sysid_qsys
-#define SYSID_QSYS_0_BASE 0x1909080
+#define SYSID_QSYS_0_BASE 0x19090a0
 #define SYSID_QSYS_0_ID 0
 #define SYSID_QSYS_0_IRQ -1
 #define SYSID_QSYS_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define SYSID_QSYS_0_NAME "/dev/sysid_qsys_0"
 #define SYSID_QSYS_0_SPAN 8
-#define SYSID_QSYS_0_TIMESTAMP 1458515453
+#define SYSID_QSYS_0_TIMESTAMP 1459746258
 #define SYSID_QSYS_0_TYPE "altera_avalon_sysid_qsys"
 
 

@@ -45,12 +45,17 @@
 extern int current_flash_block;
 
 extern void WSTask();
+static void my_isr(void* context);
+static void gain_iisr(void* context);
+static void gain_disr(void* context);
 static void WSCreateTasks();
 static void setupSound();
 static void setupFifo();
 
 void AudioTask(void* pdata);
+void LevelTask(void* pdata);
 void LCDTask(void* pdata);
+void sendToLCD(const char* msg);
 void uart(void* pdata);
 
 /* NicheStack network structure. */
@@ -79,6 +84,12 @@ struct inet_taskinfo wstask = {
 /* WSInitialTask will initialize the NichStack TCP/IP stack and then initialize
  * the rest of the web server example tasks.
  */
+void sendToLCD(const char* msg){
+	alt_up_character_lcd_dev * lcd=alt_up_character_lcd_open_dev(CHARACTER_LCD_0_NAME);
+	alt_up_character_lcd_init(lcd);
+	alt_up_character_lcd_set_cursor_pos(lcd, 0, 0);
+	alt_up_character_lcd_string(lcd, msg);
+}
 
 void WSInitialTask(void* pdata)
 {
@@ -91,12 +102,24 @@ void WSInitialTask(void* pdata)
 	 * I/O drivers are available.  Two tasks are created:
 	 *    "Inet main"  task with priority 2
 	 *    "clock tick" task with priority 3
-	 */
-	alt_iniche_init();
-	netmain();
-	while (!iniche_net_ready)
-		TK_SLEEP(1);
-	TK_NEWTASK(&wstask);
+//	 */
+//	alt_iniche_init();
+//	netmain();
+//	int failed = 0;
+//	while (!iniche_net_ready){
+//		sendToLCD("Loading.....");
+//		OSTimeDlyHMSM(0,0,10,0);
+//		if(!iniche_net_ready){
+//			failed = 1;
+//			break;
+//		}
+//	}
+//	if(!failed){
+//		TK_NEWTASK(&wstask);
+//	}
+//	else{
+//		sendToLCD("Failed to load ethernet");
+//	}
 	WSCreateTasks();
 	/*This task deletes itself, since there's no reason to keep it around, once
 	 *it's complete.
@@ -115,10 +138,14 @@ void board_control_task(void *pdata);
 Definition of Task Stacks for tasks not using networking.*/
 
 OS_EVENT *QUEUE;
+OS_EVENT *LEVEL;
 OS_STK	AudioTask_stk[TASK_STACKSIZE];
+OS_STK	LevelTask_stk[TASK_STACKSIZE];
 OS_STK	LCDTask_stk[TASK_STACKSIZE];
 OS_STK    uart_stk[TASK_STACKSIZE];
 OS_STK    WSInitialTaskStk[TASK_STACKSIZE];
+
+int vol;
 
 int main (int argc, char* argv[], char* envp[])
 {
@@ -136,8 +163,23 @@ int main (int argc, char* argv[], char* envp[])
 	OSTimeSet(0);
 
 	int msg[QUEUE_LENGTH];
-	QUEUE=OSQCreate(&msg, QUEUE_LENGTH);
+	int vol[QUEUE_LENGTH];
 
+	QUEUE=OSQCreate(&msg, QUEUE_LENGTH);
+	LEVEL=OSQCreate(&vol, QUEUE_LENGTH);
+
+
+	//IOWR_ALTERA_AVALON_TIMER_CONTROL(TUNER_TIMER_BASE, 0x7);
+	//alt_ic_isr_register(TUNER_TIMER_IRQ_INTERRUPT_CONTROLLER_ID,TUNER_TIMER_IRQ,my_isr,NULL,NULL);
+    IOWR_ALTERA_AVALON_PIO_IRQ_MASK(GAIN_INC_BASE, 0x1);
+    IOWR_ALTERA_AVALON_PIO_EDGE_CAP(GAIN_INC_BASE, 0x0);
+    IOWR_ALTERA_AVALON_PIO_IRQ_MASK(GAIN_DEC_BASE, 0x1);
+    IOWR_ALTERA_AVALON_PIO_EDGE_CAP(GAIN_DEC_BASE, 0x0);
+
+    alt_irq_register(GAIN_INC_IRQ,NULL,gain_iisr);
+    alt_irq_register(GAIN_DEC_IRQ,NULL,gain_disr);
+//	alt_ic_isr_register(GAIN_INC_IRQ_INTERRUPT_CONTROLLER_ID,GAIN_INC_IRQ,gain_iisr,NULL,NULL);
+//	alt_ic_isr_register(GAIN_DEC_IRQ_INTERRUPT_CONTROLLER_ID,GAIN_DEC_IRQ,gain_disr,NULL,NULL);
 	/* WSInitialTask will initialize the NicheStack TCP/IP Stack and then
 	 * initialize the rest of the web server's tasks.
 	 */
@@ -186,68 +228,90 @@ void setupSound(){
 	/* Volume Control */
 	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_LEFT_HEADPHONE_OUT, 0x70);
 	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_RIGHT_HEADPHONE_OUT, 0x70);
-
 	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_SAMPLING_CTRL, 0x20);
 }
 
-static void WSCreateTasks()
-{
+void WSCreateTasks(){
 	alt_up_character_lcd_dev * lcd=alt_up_character_lcd_open_dev(CHARACTER_LCD_0_NAME);
 	alt_up_character_lcd_init(lcd);
 	OSTaskCreateExt(AudioTask,
+			NULL,
+			(void *)&AudioTask_stk[TASK_STACKSIZE],
+			AudioTask_PRIORITY,
+			AudioTask_PRIORITY,
+			AudioTask_stk,
+			TASK_STACKSIZE,
+			NULL,
+			0);
+	OSTaskCreateExt(LCDTask,
+			lcd,
+			(void *)&LCDTask_stk[TASK_STACKSIZE-1],
+			LCDTASK_PRIORITY,
+			LCDTASK_PRIORITY,
+			LCDTask_stk,
+			TASK_STACKSIZE,
+			NULL,
+			0);
+	OSTaskCreateExt(LevelTask,
 				NULL,
-				(void *)&AudioTask_stk[TASK_STACKSIZE],
-				AudioTask_PRIORITY,
-				AudioTask_PRIORITY,
-				AudioTask_stk,
+				(void *)&LevelTask_stk[TASK_STACKSIZE-1],
+				LevelTask_PRIORITY,
+				LevelTask_PRIORITY,
+				LevelTask_stk,
 				TASK_STACKSIZE,
 				NULL,
 				0);
-		OSTaskCreateExt(LCDTask,
-				lcd,
-				(void *)&LCDTask_stk[TASK_STACKSIZE-1],
-				LCDTASK_PRIORITY,
-				LCDTASK_PRIORITY,
-				LCDTask_stk,
-				TASK_STACKSIZE,
-				NULL,
-				0);
-		OSTaskCreateExt(uart,
-						NULL,
-						(void *)&uart_stk[TASK_STACKSIZE-1],
-						UART_PRIORITY,
-						UART_PRIORITY,
-						uart_stk,
-						TASK_STACKSIZE,
-						NULL,
-						0);
-		OSTaskSuspend(UART_PRIORITY);
-		OSTaskSuspend(AudioTask_PRIORITY);
-		OSTaskSuspend(LCDTASK_PRIORITY);
+	OSTaskCreateExt(uart,
+			NULL,
+			(void *)&uart_stk[TASK_STACKSIZE-1],
+			UART_PRIORITY,
+			UART_PRIORITY,
+			uart_stk,
+			TASK_STACKSIZE,
+			NULL,
+			0);
+	OSTaskSuspend(UART_PRIORITY);
+	//OSTaskSuspend(AudioTask_PRIORITY);
+	//OSTaskSuspend(LCDTASK_PRIORITY);
 }
 
-// Adapted from audio appnote by Group 11 - Sean Hunter, Michael Wong, Thomas Zylstra
-//URL: https://www.ualberta.ca/~delliott/local/ece492/appnotes/2013w/audio_altera_university_ip_cores/
 void AudioTask(void *pdata){
-	unsigned int *sw = (unsigned int *)PIO_0_BASE;
+	int *sw = (int *)PIO_0_BASE;
 	unsigned int oldValue = 0;
 	unsigned int firstRun = 0;
 	while(1){
-		//printf("%u\n",*sw);
 		int newValue = *sw;
-		if((newValue != oldValue) || firstRun == 0){
+		if((newValue != oldValue) || firstRun == 0 || newValue >= 3){
 			int msg = newValue;
 			int result=OSQPost(QUEUE,&msg);
-			if(result == OS_NO_ERR){
-				printf("Task 1: message posted successfully\n");
-			}
-			else{
-				printf("Task 1: Error - Couldn't post message to Queue");
-			}
 			firstRun++;
-			oldValue=newValue;
-			OSTimeDlyHMSM(0,0,0,500);
+			oldValue = newValue;
 		}
+		OSTimeDlyHMSM(0,0,0,100);
+	}
+}
+
+void LevelTask(void* pdata){
+	INT8U err;
+	alt_u16 *distort = (alt_u16 *)DSP_0_CLIPPING_BASE; // Writing to
+	alt_u16 *test = (alt_u16 *)DSP_0_CLIPPING_TEST_BASE; // Reading from
+	alt_u16 counter = 6;
+	while(1){
+		int * msg = (int *) OSQPend(LEVEL, 0, &err);
+		int level = *msg;
+		if(level == 1){
+			if(counter < 10){
+				counter++;
+			}
+		}
+		else if(level == -1){
+			if(counter > 1){
+				counter --;
+			}
+		}
+		printf("Vol: %d, ", counter);
+		*distort = counter;
+		printf("DSP Vol: %u\n",*test);
 	}
 }
 
@@ -255,7 +319,6 @@ void AudioTask(void *pdata){
 void LCDTask(void* pdata)
 {
 	char *str;
-
 	alt_up_character_lcd_dev * lcd=(alt_up_character_lcd_dev *)pdata;
 	INT8U err;
 	int old;
@@ -264,25 +327,35 @@ void LCDTask(void* pdata)
 		//printf("LCD Printing\n");
 		int * msg=(int *) OSQPend(QUEUE, 0, &err);
 		if(err == OS_NO_ERR){
-			if (*msg == 1) {
+			if ((*msg) == 1) {
 				strcpy(str,"Distortion");
-			} else if (*msg == 2) {
+			} else if ((*msg) == 2) {
 				strcpy(str,"Reverb");
-			} else{
-				strcpy(str,"");
+			} else if((*msg) == 4){
+				char buffer[50];
+				//int val = *(int *)DSP_0_BASE;
+				//snprintf(buffer, 50,"Freq: %d",val);
+				strcpy(str,buffer);
 			}
-			//printf("Task 2: writing message to LCD screen....\n\n");
+			else{
+				strcpy(str, "");
+			}
 			alt_up_character_lcd_init(lcd);
 			alt_up_character_lcd_set_cursor_pos(lcd, 0, 1);
 			alt_up_character_lcd_string(lcd,str);
-
-			//printf("Mode: %s\n Msg: %d\n",str,*msg);
 
 			// Always Printed
 			alt_up_character_lcd_set_cursor_pos(lcd, 0, 0);
 			alt_up_character_lcd_string(lcd,"G4 Capstone");
 		}
 	}
+}
+
+static void my_isr(void* context)
+{
+	//OSQPost(QUEUE,(int *)DSP_0_BASE);
+	//IOWR_ALTERA_AVALON_TIMER_STATUS(TUNER_TIMER_BASE, 0xFE);
+
 }
 
 void uart(void* pdata)
@@ -348,6 +421,16 @@ void uart(void* pdata)
 		printf("Hello from task1\n");
 		OSTimeDlyHMSM(0, 0, 2, 800);
 	}
+}
+void gain_iisr(void* context){
+	vol = 1;
+	OSQPost(LEVEL,&vol);
+	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(GAIN_INC_BASE, 0);
+}
+void gain_disr(void* context){
+	vol = -1;
+	OSQPost(LEVEL,&vol);
+	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(GAIN_DEC_BASE, 0);
 }
 
 /******************************************************************************

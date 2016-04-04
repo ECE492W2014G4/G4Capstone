@@ -68,8 +68,8 @@ extern FILE* lcdDevice;
 void die_with_error(char err_msg[DIE_WITH_ERROR_BUFFER])
 {
   printf("\n%s\n", err_msg);
-  OSTaskDel(OS_PRIO_SELF);
-  
+  OSTaskSuspend(OS_PRIO_SELF);
+
   while(1);
 }
 

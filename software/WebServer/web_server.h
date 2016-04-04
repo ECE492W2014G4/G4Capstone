@@ -21,6 +21,10 @@
 #include "altera_up_avalon_audio_and_video_config.h"
 #include "altera_up_avalon_rs232.h"
 #include "altera_up_avalon_rs232_regs.h"
+#include "altera_avalon_fifo_regs.h"
+#include "altera_avalon_fifo_util.h"
+#include "isr.h"
+#include <sys/alt_irq.h>
 
 /*
  * Prototypes:
@@ -82,8 +86,9 @@ void die_with_error(char err_msg[]);
 #define HTTP_PRIO     4
 #define WS_INITIAL_TASK_PRIO 5
 #define UART_PRIORITY		 6
-#define AudioTask_PRIORITY	 7
-#define LCDTASK_PRIORITY     8
+#define AudioTask_PRIORITY	 8
+#define LevelTask_PRIORITY	 9
+#define LCDTASK_PRIORITY     7
 
 /* 
  * Buffer size for a routine to call if things fail
@@ -94,6 +99,7 @@ void die_with_error(char err_msg[]);
 
 
 extern OS_STK    WSInitialTaskStk[TASK_STACKSIZE];
+extern OS_EVENT *SEM;
 
 #define DIE_WITH_ERROR_BUFFER 256
 
