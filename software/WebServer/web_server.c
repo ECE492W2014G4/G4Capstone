@@ -295,18 +295,18 @@ void LevelTask(void* pdata){
 	INT8U err;
 	alt_u16 *distort = (alt_u16 *)DSP_0_BASE; // Writing to
 	// Reading from
-	alt_u16 counter = 6;
+	alt_u16 counter = 1;
 	while(1){
 		int * msg = (int *) OSQPend(LEVEL, 0, &err);
 		int level = *msg;
 		if(level == 1){
-			if(counter < 10){
+			if(counter < 5){
 				counter++;
 			}
 		}
 		else if(level == -1){
 			if(counter > 1){
-				counter --;
+				counter--;
 			}
 		}
 

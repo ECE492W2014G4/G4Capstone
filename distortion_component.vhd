@@ -31,7 +31,7 @@ constant clipping_high : std_logic_vector(15 downto 0) := "0000000001100100"; --
 constant clipping_low : std_logic_vector(15 downto 0) := "0000001111101000"; -- constant value of 5000 in decimal
 constant clipping_inc : std_logic_vector(15 downto 0) := X"01F4";
 
-constant gain_constant : std_logic_vector(1 downto 0) := "11"; -- constant gain
+signal gain_constant : std_logic_vector(2 downto 0) := "001"; -- constant gain: default at 1
 
 signal clip_threshold,clip_sample : std_logic_vector(15 downto 0);
 signal completed : std_logic :='0';
@@ -52,39 +52,42 @@ begin
 	c1: process(clk,clipping_write)
 			begin
 				if rising_edge(clk) then
-					if clipping_write = '0' then
-						clip_sample <= clipping_value;
-					else
-						case clip_sample is
- 							when X"0001" =>  
-								clip_threshold <= X"2710";
-							when X"0002" => 
-								clip_threshold <= X"2328"; -- 9000
-							when X"0003" => 
-								clip_threshold <= X"1F40"; -- 8000
-							when X"0004" => 
-								clip_threshold <= X"1770"; -- 6000
-							when X"0005" => 
-								clip_threshold <= X"1388"; -- 5000
-							when X"0006" => 
-								clip_threshold <= X"0FA0"; -- 4000
-							when X"0007" => 
-								clip_threshold <= X"07D0"; -- 2000
-							when X"0008" =>
-								clip_threshold <= X"03E8"; -- 1000
-							when X"0009" => 
-								clip_threshold <= X"01F4"; -- 500
-							when X"000A" => 
-								clip_threshold <= X"0000"; 
-  							when others =>
-								clip_threshold <= X"01F4"; --500
-						end case;
+					if dist_en = '1' then
+						if clipping_write = '0' then -- Active Low
+							clip_sample <= clipping_value;
+						else
+							case clip_sample is
+								when X"0000" =>
+									clip_threshold <= X"0BB8"; -- Level: 1 - 3000
+									gain_constant <= "001";   -- Gain: 1
+ 								when X"0001" =>  
+									clip_threshold <= X"0BB8"; -- Level: 1 - 3000
+									gain_constant <= "001";   -- Gain: 1
+								when X"0002" => 
+									clip_threshold <= X"076C"; -- Level: 2 - 1900
+									gain_constant <= "010";   -- Gain: 2
+								when X"0003" => 
+									clip_threshold <= X"0514"; -- Level: 3 - 1300
+									gain_constant <= "010";   -- Gain: 2
+								when X"0004" => 
+									clip_threshold <= X"02BC"; -- Level: 4 - 700
+									gain_constant <= "011";   -- Gain: 3
+								when X"0005" => 
+									clip_threshold <= X"0064"; -- Level: 5 - 100
+									gain_constant <= "101";   -- Gain: 5
+								when X"0006" => 
+									clip_threshold <= X"0064"; -- Level: 5 - 100
+									gain_constant <= "101";   -- Gain: 5
+  								when others =>
+									clip_threshold <= X"0BB8"; -- Level: X - 3000
+							end case;
+						end if;
 					end if;
 				end if;
 			end process;
 	
 	g0:process(clk,reset,dist_en,ready)
-	variable mult_result : std_logic_vector(17 downto 0);
+	variable mult_result : std_logic_vector(18 downto 0);
 	begin
 		if reset = '0' then
 			data_out <= X"0000";
