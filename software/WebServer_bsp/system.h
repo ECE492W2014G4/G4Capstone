@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'niosII_system'
  * SOPC Builder design path: ../../niosII_system.sopcinfo
  *
- * Generated: Sun Apr 03 23:07:50 MDT 2016
+ * Generated: Mon Apr 04 18:59:08 MDT 2016
  */
 
 /*
@@ -231,7 +231,7 @@
  */
 
 #define ALT_MODULE_CLASS_character_lcd_0 altera_up_avalon_character_lcd
-#define CHARACTER_LCD_0_BASE 0x19090ac
+#define CHARACTER_LCD_0_BASE 0x1909100
 #define CHARACTER_LCD_0_IRQ -1
 #define CHARACTER_LCD_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define CHARACTER_LCD_0_NAME "/dev/character_lcd_0"
@@ -240,31 +240,17 @@
 
 
 /*
- * dsp_0_clipping configuration
+ * dsp_0 configuration
  *
  */
 
-#define ALT_MODULE_CLASS_dsp_0_clipping dsp
-#define DSP_0_CLIPPING_BASE 0x19090aa
-#define DSP_0_CLIPPING_IRQ -1
-#define DSP_0_CLIPPING_IRQ_INTERRUPT_CONTROLLER_ID -1
-#define DSP_0_CLIPPING_NAME "/dev/dsp_0_clipping"
-#define DSP_0_CLIPPING_SPAN 2
-#define DSP_0_CLIPPING_TYPE "dsp"
-
-
-/*
- * dsp_0_clipping_test configuration
- *
- */
-
-#define ALT_MODULE_CLASS_dsp_0_clipping_test dsp
-#define DSP_0_CLIPPING_TEST_BASE 0x19090a8
-#define DSP_0_CLIPPING_TEST_IRQ -1
-#define DSP_0_CLIPPING_TEST_IRQ_INTERRUPT_CONTROLLER_ID -1
-#define DSP_0_CLIPPING_TEST_NAME "/dev/dsp_0_clipping_test"
-#define DSP_0_CLIPPING_TEST_SPAN 2
-#define DSP_0_CLIPPING_TEST_TYPE "dsp"
+#define ALT_MODULE_CLASS_dsp_0 dsp
+#define DSP_0_BASE 0x1909200
+#define DSP_0_IRQ -1
+#define DSP_0_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define DSP_0_NAME "/dev/dsp_0"
+#define DSP_0_SPAN 2
+#define DSP_0_TYPE "dsp"
 
 
 /*
@@ -563,7 +549,7 @@
 #define SYSID_QSYS_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define SYSID_QSYS_0_NAME "/dev/sysid_qsys_0"
 #define SYSID_QSYS_0_SPAN 8
-#define SYSID_QSYS_0_TIMESTAMP 1459746258
+#define SYSID_QSYS_0_TIMESTAMP 1459817497
 #define SYSID_QSYS_0_TYPE "altera_avalon_sysid_qsys"
 
 

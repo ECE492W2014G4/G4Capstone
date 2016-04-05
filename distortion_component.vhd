@@ -11,7 +11,8 @@ entity distort is
 	ready : in std_logic;
 	done : out std_logic;
 	data_in : in std_logic_vector(15 downto 0); -- 16-bit data stream input
-	clipping_write_n : in std_logic;
+	clipping_write : in std_logic;
+	clipping_read : in std_logic;
 	clipping_value: in std_logic_vector(15 downto 0); -- 16-bit input clipping threshold
 	clipping_readdata: out std_logic_vector(15 downto 0);
 	data_out: out std_logic_vector(15 downto 0) -- 16-bit data stream output (either clipped or not)
@@ -26,75 +27,69 @@ architecture behavior of distort is
 -- 3) Gain at 3 ("01") - Clipping at 5000 "0001001110001000"
 
 constant clipping_default : std_logic_vector(15 downto 0) := "0000101110111000"; -- constant value of 3000 in decimal
-constant clipping_high : std_logic_vector(15 downto 0) := "0001001110001000"; -- constant value of 1000 in decimal
+constant clipping_high : std_logic_vector(15 downto 0) := "0000000001100100"; -- constant value of 1000 in decimal
 constant clipping_low : std_logic_vector(15 downto 0) := "0000001111101000"; -- constant value of 5000 in decimal
 constant clipping_inc : std_logic_vector(15 downto 0) := X"01F4";
 
-constant gain_constant : std_logic_vector(1 downto 0) := "10"; -- constant gain
+constant gain_constant : std_logic_vector(1 downto 0) := "11"; -- constant gain
 
 signal clip_threshold,clip_sample : std_logic_vector(15 downto 0);
 signal completed : std_logic :='0';
+signal counter: unsigned(15 downto 0);
 
 
 begin
-	clipping_readdata <= clip_sample;
+	clipping_readdata <= clip_threshold;
 	done <= completed;
-	c0: process(clk)
-		begin
-			if rising_edge(clk) then
-				if clipping_write_n = '0' then
-					clip_sample <= clipping_value; 				
-				end if;		
-			end if;
-		end process;
-	c1: process(clk)
+--	c0: process(clk)
+--		begin
+--			if rising_edge(clk) then
+--				if clipping_read = '0' then
+--					clipping_readdata <= clip_threshold;				
+--				end if;		
+--			end if;
+--		end process;
+	c1: process(clk,clipping_write)
 			begin
 				if rising_edge(clk) then
-					case clip_sample is
- 						when X"0001" =>  
-							clip_threshold <= clipping_low ;
-						when X"0002" => 
-							clip_threshold <= std_logic_vector(unsigned(clipping_low) - 500);
-						when X"0003" => 
-							clip_threshold <= std_logic_vector(unsigned(clipping_low) - 1000);
-						when X"0004" => 
-							clip_threshold <= std_logic_vector(unsigned(clipping_low) - 1500);
-						when X"0005" => 
-							clip_threshold <= clipping_default;
-						when X"0006" => 
-							clip_threshold <= std_logic_vector(unsigned(clipping_low) - 2500);
-						when X"0007" => 
-							clip_threshold <= std_logic_vector(unsigned(clipping_low)- 3000);
-						when X"0008" => 
-							clip_threshold <= std_logic_vector(unsigned(clipping_low)- 3500);
-						when X"0009" => 
-							clip_threshold <= X"0000";
-  						when others =>
-							--no effect to be applied
-							--distortion component has a passthrough functionality (it simply passes through the audio when an effect is not applied)
-							clip_threshold <= clipping_default;
-					end case;
+					if clipping_write = '0' then
+						clip_sample <= clipping_value;
+					else
+						case clip_sample is
+ 							when X"0001" =>  
+								clip_threshold <= X"2710";
+							when X"0002" => 
+								clip_threshold <= X"2328"; -- 9000
+							when X"0003" => 
+								clip_threshold <= X"1F40"; -- 8000
+							when X"0004" => 
+								clip_threshold <= X"1770"; -- 6000
+							when X"0005" => 
+								clip_threshold <= X"1388"; -- 5000
+							when X"0006" => 
+								clip_threshold <= X"0FA0"; -- 4000
+							when X"0007" => 
+								clip_threshold <= X"07D0"; -- 2000
+							when X"0008" =>
+								clip_threshold <= X"03E8"; -- 1000
+							when X"0009" => 
+								clip_threshold <= X"01F4"; -- 500
+							when X"000A" => 
+								clip_threshold <= X"0000"; 
+  							when others =>
+								clip_threshold <= X"01F4"; --500
+						end case;
+					end if;
 				end if;
 			end process;
+	
 	g0:process(clk,reset,dist_en,ready)
 	variable mult_result : std_logic_vector(17 downto 0);
 	begin
-
-	-- Default Clipping Value
-	--clip_threshold <= clipping_default; 
 		if reset = '0' then
 			data_out <= X"0000";
-		--elsif (clk='1' and clk'event) then
 		elsif (rising_edge(clk)) then
 			if(ready = '1') then
-				-- Clipping Configurations --
-				--if(clipping_value = "0001001110001000") then
-				--	clip_threshold <= "0001001110001000";
-				--elsif(clipping_value = "0000001111101000") then
-				--	clip_threshold <= "0000001111101000";
-				--else
-				--	clip_threshold <= "0000101110111000";
-				--end if;
 				-- End Clipping Configurations
 				if dist_en = '1' then -- Check if Distortion is Enabled
 					if data_in(15) = '1' then -- Check sign of sample (If negative...)

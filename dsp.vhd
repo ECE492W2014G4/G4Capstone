@@ -22,7 +22,8 @@ entity dsp is
 		outgoing_valid_right: out std_logic;
 		outgoing_streaming: out std_logic_vector(31 downto 0);
 		outgoing_streaming_valid: out std_logic;
-		clipping_write_n : in std_logic;
+		clipping_write : in std_logic;
+		clipping_read : in std_logic;
 		clipping_readdata: out std_logic_vector(15 downto 0);
 		clipping_value: in std_logic_vector(15 downto 0)
 		--tuner_readdata: out std_logic_vector(15 downto 0)
@@ -44,7 +45,8 @@ architecture arch of dsp is
 				ready : in std_logic;
 				done : out std_logic;
 				data_in : in std_logic_vector(15 downto 0); -- 16-bit data stream input
-				clipping_write_n : in std_logic;
+				clipping_write : in std_logic;
+				clipping_read : in std_logic;
 				clipping_value: in std_logic_vector(15 downto 0); -- 16-bit input clipping threshold
 				clipping_readdata: out std_logic_vector(15 downto 0);
 				data_out: out std_logic_vector(15 downto 0) -- 16-bit data stream output (either clipped or not)
@@ -103,7 +105,8 @@ begin
 						ready => incoming_valid_left,
 						done => dist_completed(0), 
 						data_in => incoming_data_left(15 downto 0),
-						clipping_write_n => clipping_write_n,
+						clipping_write => clipping_write,
+						clipping_read => clipping_read,
 						clipping_value => clipping_value,
 						clipping_readdata => clipping_readdata,
 						data_out => distortion(15 downto 0));

@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Apr 4, 2016 2:30:24 AM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1459758624695</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Apr 4, 2016 6:59:08 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1459817948399</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/afs/ualberta.ca/home/b/m/bmaroney/G4Capstone/software/WebServer_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../niosII_system.sopcinfo</SopcDesignFile>
@@ -1889,20 +1889,14 @@
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>dsp_0_clipping_test</slaveDescriptor>
-                <addressRange>0x019090A8 - 0x019090A9</addressRange>
-                <addressSpan>2</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
-                <slaveDescriptor>dsp_0_clipping</slaveDescriptor>
-                <addressRange>0x019090AA - 0x019090AB</addressRange>
-                <addressSpan>2</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
                 <slaveDescriptor>character_lcd_0</slaveDescriptor>
-                <addressRange>0x019090AC - 0x019090AD</addressRange>
+                <addressRange>0x01909100 - 0x01909101</addressRange>
+                <addressSpan>2</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>dsp_0</slaveDescriptor>
+                <addressRange>0x01909200 - 0x01909201</addressRange>
                 <addressSpan>2</addressSpan>
                 <attributes/>
         </MemoryMap>

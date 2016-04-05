@@ -293,8 +293,8 @@ void AudioTask(void *pdata){
 
 void LevelTask(void* pdata){
 	INT8U err;
-	alt_u16 *distort = (alt_u16 *)DSP_0_CLIPPING_BASE; // Writing to
-	alt_u16 *test = (alt_u16 *)DSP_0_CLIPPING_TEST_BASE; // Reading from
+	alt_u16 *distort = (alt_u16 *)DSP_0_BASE; // Writing to
+	// Reading from
 	alt_u16 counter = 6;
 	while(1){
 		int * msg = (int *) OSQPend(LEVEL, 0, &err);
@@ -309,9 +309,10 @@ void LevelTask(void* pdata){
 				counter --;
 			}
 		}
-		printf("Vol: %d, ", counter);
+
 		*distort = counter;
-		printf("DSP Vol: %u\n",*test);
+		printf("vol: %d,DSP Vol: %hu\n",counter,*distort);
+
 	}
 }
 
