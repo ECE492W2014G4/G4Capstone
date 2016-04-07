@@ -25,7 +25,11 @@ entity dsp is
 		clipping_write : in std_logic;
 		clipping_read : in std_logic;
 		clipping_readdata: out std_logic_vector(15 downto 0);
-		clipping_value: in std_logic_vector(15 downto 0)
+		clipping_value: in std_logic_vector(15 downto 0);
+		memory_sink_valid: out std_logic;
+		memory_sink_data: out std_logic_vector(15 downto 0);
+		memory_source_valid: in std_logic;
+		memory_source_data: in std_logic_vector(15 downto 0)  
 		--tuner_readdata: out std_logic_vector(15 downto 0)
 	);
 end entity dsp;
@@ -37,6 +41,8 @@ architecture arch of dsp is
 	signal tuner_en : std_logic;
 	signal out_valid: std_logic;
 	signal distortion, reverb, outgoing, placeholder,current, prev :std_logic_vector(15 downto 0);
+	signal mult_result : std_logic_vector(17 downto 0);
+	constant multiplier : std_logic_vector(1 downto 0) := "11";
 	component distort is
 			port( 
 				clk : in std_logic;
@@ -86,7 +92,14 @@ architecture arch of dsp is
 	);
 	end component;
 begin
-		out_valid	<= dist_completed(0) OR dist_completed(1);	
+		out_valid	<= dist_completed(0) OR memory_source_valid; --dist_completed(1);
+		
+		reverb <= memory_source_data;
+		mult_result <= std_logic_vector(unsigned(multiplier)*unsigned(memory_source_data(15 downto 14)&memory_source_data(15 downto 2)));
+		memory_sink_data <= std_logic_vector(unsigned(mult_result(15 downto 0)) + unsigned(incoming_data_left));
+		--memory_sink_data <= std_logic_vector(3*unsigned(memory_source_data sra 2) + unsigned(incoming_data_left));
+		memory_sink_valid <= incoming_valid_left;
+
 		outgoing_valid_left <= out_valid;
 		outgoing_valid_right <= out_valid;
 		outgoing_data_left <= outgoing;
@@ -94,6 +107,7 @@ begin
 		outgoing_streaming(31 downto 16) <= (others => outgoing(15));
 		outgoing_streaming(15 downto 0) <= outgoing(15 downto 0);
 		outgoing_streaming_valid <= out_valid;
+
 		MUX: MUX3X1 port map (  clk => clk,
 								distortion => distortion,
 								reverb => reverb, 
@@ -110,13 +124,13 @@ begin
 						clipping_value => clipping_value,
 						clipping_readdata => clipping_readdata,
 						data_out => distortion(15 downto 0));
-		r1:reverb_component port map ( clk => clk,
-						reset => reset_n,
-						data_in => incoming_data_left(15 downto 0),
-						reverb_en => enable(1),
-						ready => incoming_valid_left,
-						done => dist_completed(1),
-						data_out => reverb(15 downto 0));
+		--r1:reverb_component port map ( clk => clk,
+					--	reset => reset_n,
+					--	data_in => incoming_data_left(15 downto 0),
+					--	reverb_en => enable(1),
+					--	ready => incoming_valid_left,
+					--	done => dist_completed(1),
+					--	data_out => reverb(15 downto 0));
 		t0:tuner port map(
 						clk => clk,
 						reset => reset_n,

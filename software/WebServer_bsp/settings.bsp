@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Apr 4, 2016 8:37:35 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1459823855116</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Apr 6, 2016 7:11:33 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1459991493617</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/afs/ualberta.ca/home/b/m/bmaroney/G4Capstone/software/WebServer_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../niosII_system.sopcinfo</SopcDesignFile>
@@ -1799,130 +1799,124 @@
                 <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
         </Setting>
         <MemoryMap>
-                <slaveDescriptor>sdram_0</slaveDescriptor>
-                <addressRange>0x00800000 - 0x00FFFFFF</addressRange>
-                <addressSpan>8388608</addressSpan>
-                <attributes>memory</attributes>
-        </MemoryMap>
-        <MemoryMap>
                 <slaveDescriptor>generic_tristate_controller_0</slaveDescriptor>
-                <addressRange>0x01400000 - 0x017FFFFF</addressRange>
+                <addressRange>0x00400000 - 0x007FFFFF</addressRange>
                 <addressSpan>4194304</addressSpan>
                 <attributes>flash, memory, non-volatile</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>sram_0</slaveDescriptor>
-                <addressRange>0x01880000 - 0x018FFFFF</addressRange>
+                <addressRange>0x00880000 - 0x008FFFFF</addressRange>
                 <addressSpan>524288</addressSpan>
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>onchip_memory2_0</slaveDescriptor>
-                <addressRange>0x01904000 - 0x01907FFF</addressRange>
+                <addressRange>0x00904000 - 0x00907FFF</addressRange>
                 <addressSpan>16384</addressSpan>
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>internet_fifo_in_csr</slaveDescriptor>
-                <addressRange>0x01909000 - 0x0190901F</addressRange>
+                <addressRange>0x00909000 - 0x0090901F</addressRange>
                 <addressSpan>32</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>timer_0</slaveDescriptor>
-                <addressRange>0x01909020 - 0x0190903F</addressRange>
+                <addressRange>0x00909020 - 0x0090903F</addressRange>
                 <addressSpan>32</addressSpan>
                 <attributes>timer</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>gain_dec</slaveDescriptor>
-                <addressRange>0x01909040 - 0x0190904F</addressRange>
+                <addressRange>0x00909040 - 0x0090904F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>gain_inc</slaveDescriptor>
-                <addressRange>0x01909050 - 0x0190905F</addressRange>
+                <addressRange>0x00909050 - 0x0090905F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>pio_0</slaveDescriptor>
-                <addressRange>0x01909060 - 0x0190906F</addressRange>
+                <addressRange>0x00909060 - 0x0090906F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>audio_and_video_config_0</slaveDescriptor>
-                <addressRange>0x01909070 - 0x0190907F</addressRange>
+                <addressRange>0x00909070 - 0x0090907F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>internet_fifo_out</slaveDescriptor>
-                <addressRange>0x01909080 - 0x01909087</addressRange>
+                <addressRange>0x00909080 - 0x00909087</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>DM9000A_IF_0</slaveDescriptor>
-                <addressRange>0x01909088 - 0x0190908F</addressRange>
+                <addressRange>0x00909088 - 0x0090908F</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>rs232_0</slaveDescriptor>
-                <addressRange>0x01909090 - 0x01909097</addressRange>
+                <addressRange>0x00909090 - 0x00909097</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>jtag_uart_0</slaveDescriptor>
-                <addressRange>0x01909098 - 0x0190909F</addressRange>
+                <addressRange>0x00909098 - 0x0090909F</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes>printable</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>sysid_qsys_0</slaveDescriptor>
-                <addressRange>0x019090A0 - 0x019090A7</addressRange>
+                <addressRange>0x009090A0 - 0x009090A7</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>character_lcd_0</slaveDescriptor>
-                <addressRange>0x01909100 - 0x01909101</addressRange>
+                <slaveDescriptor>dsp_0</slaveDescriptor>
+                <addressRange>0x009090A8 - 0x009090A9</addressRange>
                 <addressSpan>2</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>dsp_0</slaveDescriptor>
-                <addressRange>0x01909200 - 0x01909201</addressRange>
+                <slaveDescriptor>character_lcd_0</slaveDescriptor>
+                <addressRange>0x00910000 - 0x00910001</addressRange>
                 <addressSpan>2</addressSpan>
                 <attributes/>
         </MemoryMap>
         <LinkerSection>
                 <sectionName>.text</sectionName>
-                <regionName>sdram_0</regionName>
+                <regionName>sram_0</regionName>
         </LinkerSection>
         <LinkerSection>
                 <sectionName>.rodata</sectionName>
-                <regionName>sdram_0</regionName>
+                <regionName>sram_0</regionName>
         </LinkerSection>
         <LinkerSection>
                 <sectionName>.rwdata</sectionName>
-                <regionName>sdram_0</regionName>
+                <regionName>sram_0</regionName>
         </LinkerSection>
         <LinkerSection>
                 <sectionName>.bss</sectionName>
-                <regionName>sdram_0</regionName>
+                <regionName>sram_0</regionName>
         </LinkerSection>
         <LinkerSection>
                 <sectionName>.heap</sectionName>
-                <regionName>sdram_0</regionName>
+                <regionName>sram_0</regionName>
         </LinkerSection>
         <LinkerSection>
                 <sectionName>.stack</sectionName>
-                <regionName>sdram_0</regionName>
+                <regionName>sram_0</regionName>
         </LinkerSection>
         <SoftwarePackageInfo>
                 <name>altera_ro_zipfs</name>

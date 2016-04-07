@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'niosII_system'
  * SOPC Builder design path: ../../niosII_system.sopcinfo
  *
- * Generated: Fri Mar 18 11:42:54 MDT 2016
+ * Generated: Wed Apr 06 15:07:12 MDT 2016
  */
 
 /*
@@ -50,19 +50,17 @@
 
 MEMORY
 {
-    sdram_0 : ORIGIN = 0x800000, LENGTH = 8388608
-    reset : ORIGIN = 0x1400000, LENGTH = 32
-    generic_tristate_controller_0 : ORIGIN = 0x1400020, LENGTH = 4194272
-    sram_0 : ORIGIN = 0x1880000, LENGTH = 524288
-    onchip_memory2_0_BEFORE_EXCEPTION : ORIGIN = 0x1904000, LENGTH = 32
-    onchip_memory2_0 : ORIGIN = 0x1904020, LENGTH = 16352
+    reset : ORIGIN = 0x400000, LENGTH = 32
+    generic_tristate_controller_0 : ORIGIN = 0x400020, LENGTH = 4194272
+    sram_0 : ORIGIN = 0x880000, LENGTH = 524288
+    onchip_memory2_0_BEFORE_EXCEPTION : ORIGIN = 0x904000, LENGTH = 32
+    onchip_memory2_0 : ORIGIN = 0x904020, LENGTH = 16352
 }
 
 /* Define symbols for each memory base-address */
-__alt_mem_sdram_0 = 0x800000;
-__alt_mem_generic_tristate_controller_0 = 0x1400000;
-__alt_mem_sram_0 = 0x1880000;
-__alt_mem_onchip_memory2_0 = 0x1904000;
+__alt_mem_generic_tristate_controller_0 = 0x400000;
+__alt_mem_sram_0 = 0x880000;
+__alt_mem_onchip_memory2_0 = 0x904000;
 
 OUTPUT_FORMAT( "elf32-littlenios2",
                "elf32-littlenios2",
@@ -210,7 +208,7 @@ SECTIONS
         PROVIDE (__DTOR_END__ = ABSOLUTE(.));
         KEEP (*(.jcr))
         . = ALIGN(4);
-    } > sdram_0 = 0x3a880100 /* Nios II NOP instruction */
+    } > sram_0 = 0x3a880100 /* Nios II NOP instruction */
 
     .rodata :
     {
@@ -220,7 +218,7 @@ SECTIONS
         *(.rodata1)
         . = ALIGN(4);
         PROVIDE (__ram_rodata_end = ABSOLUTE(.));
-    } > sdram_0
+    } > sram_0
 
     PROVIDE (__flash_rodata_start = LOADADDR(.rodata));
 
@@ -243,7 +241,7 @@ SECTIONS
         _edata = ABSOLUTE(.);
         PROVIDE (edata = ABSOLUTE(.));
         PROVIDE (__ram_rwdata_end = ABSOLUTE(.));
-    } > sdram_0
+    } > sram_0
 
     PROVIDE (__flash_rwdata_start = LOADADDR(.rwdata));
 
@@ -267,7 +265,7 @@ SECTIONS
 
         . = ALIGN(4);
         __bss_end = ABSOLUTE(.);
-    } > sdram_0
+    } > sram_0
 
     /*
      *
@@ -279,19 +277,6 @@ SECTIONS
      * i.e. the symbols "end" and "_end" are added to point to the heap start.
      *
      */
-
-    .sdram_0 :
-    {
-        PROVIDE (_alt_partition_sdram_0_start = ABSOLUTE(.));
-        *(.sdram_0. sdram_0.*)
-        . = ALIGN(4);
-        PROVIDE (_alt_partition_sdram_0_end = ABSOLUTE(.));
-        _end = ABSOLUTE(.);
-        end = ABSOLUTE(.);
-        __alt_stack_base = ABSOLUTE(.);
-    } > sdram_0
-
-    PROVIDE (_alt_partition_sdram_0_load_addr = LOADADDR(.sdram_0));
 
     .generic_tristate_controller_0 :
     {
@@ -309,6 +294,9 @@ SECTIONS
         *(.sram_0. sram_0.*)
         . = ALIGN(4);
         PROVIDE (_alt_partition_sram_0_end = ABSOLUTE(.));
+        _end = ABSOLUTE(.);
+        end = ABSOLUTE(.);
+        __alt_stack_base = ABSOLUTE(.);
     } > sram_0
 
     PROVIDE (_alt_partition_sram_0_load_addr = LOADADDR(.sram_0));
@@ -370,7 +358,7 @@ SECTIONS
 /*
  * Don't override this, override the __alt_stack_* symbols instead.
  */
-__alt_data_end = 0x1000000;
+__alt_data_end = 0x900000;
 
 /*
  * The next two symbols define the location of the default stack.  You can
@@ -386,4 +374,4 @@ PROVIDE( __alt_stack_limit   = __alt_stack_base );
  * Override this symbol to put the heap in a different memory.
  */
 PROVIDE( __alt_heap_start    = end );
-PROVIDE( __alt_heap_limit    = 0x1000000 );
+PROVIDE( __alt_heap_limit    = 0x900000 );

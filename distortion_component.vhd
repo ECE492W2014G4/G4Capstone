@@ -57,9 +57,6 @@ begin
 							clip_sample <= clipping_value;
 						else
 							case clip_sample is
-								when X"0000" =>
-									clip_threshold <= X"0BB8"; -- Level: 1 - 3000
-									gain_constant <= "001";   -- Gain: 1
  								when X"0001" =>  
 									clip_threshold <= X"0BB8"; -- Level: 1 - 3000
 									gain_constant <= "001";   -- Gain: 1
@@ -75,11 +72,8 @@ begin
 								when X"0005" => 
 									clip_threshold <= X"0064"; -- Level: 5 - 100
 									gain_constant <= "101";   -- Gain: 5
-								when X"0006" => 
-									clip_threshold <= X"0064"; -- Level: 5 - 100
-									gain_constant <= "101";   -- Gain: 5
   								when others =>
-									clip_threshold <= X"0BB8"; -- Level: X - 3000
+									clip_threshold <= X"0064"; -- Level: X - 100
 							end case;
 						end if;
 					end if;
