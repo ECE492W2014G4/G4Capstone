@@ -45,7 +45,8 @@ architecture arch of dsp is
 	signal distortion, reverb, outgoing, placeholder,current, prev :std_logic_vector(15 downto 0);
 	signal mult_result : std_logic_vector(17 downto 0);
 	constant multiplier : std_logic_vector(1 downto 0) := "11";
-	signal decayed_signal : std_logic_vector(15 downto 0);	
+	signal decayed_signal : std_logic_vector(15 downto 0);
+	signal reverb_int : std_logic_vector(15 downto 0);	
 
 	component distort is
 			port( 
@@ -99,16 +100,17 @@ begin
 		out_valid	<= dist_completed(0) or (memory_source_valid and memory_delayed_valid) ; --dist_completed(1);
 		
 		mult_result <= std_logic_vector(signed(multiplier)*signed(memory_delayed_data)); -- 18 bits
-		decayed_signal <= mult_result(15 downto 0);
-		reverb <= std_logic_vector(signed(memory_source_data) + signed(decayed_signal(15) & decayed_signal(15 downto 2)));
-		--reverb <= memory_delayed_data;		
-		memory_sink_data <= incoming_data_left;--std_logic_vector(unsigned(mult_result(15 downto 0)) + unsigned(incoming_data_left));
+		decayed_signal <= mult_result(15 downto 0);		
+		reverb_int <= std_logic_vector(signed(memory_source_data) + signed(decayed_signal(15) & decayed_signal(15 downto 2))); 
+		reverb <= reverb_int;
+		
+		memory_sink_data <= std_logic_vector(signed(reverb_int) + signed(incoming_data_left));--std_logic_vector(unsigned(mult_result(15 downto 0)) + unsigned(incoming_data_left));
 		memory_sink_valid <= incoming_valid_left;
 
 		outgoing_valid_left <= out_valid;
-		outgoing_valid_right <= out_valid;
+		outgoing_valid_right <= incoming_valid_right;
 		outgoing_data_left <= outgoing;
-		outgoing_data_right <= outgoing;
+		outgoing_data_right <= incoming_data_right;
 		outgoing_streaming(31 downto 16) <= (others => outgoing(15));
 		outgoing_streaming(15 downto 0) <= outgoing(15 downto 0);
 		outgoing_streaming_valid <= out_valid;

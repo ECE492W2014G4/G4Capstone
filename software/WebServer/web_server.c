@@ -227,7 +227,7 @@ void setupSound(){
 
 	/* Volume Control */
 	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_LEFT_HEADPHONE_OUT, 0x70);
-	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_RIGHT_HEADPHONE_OUT, 0x70);
+	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_RIGHT_HEADPHONE_OUT, 0x2F);
 	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_SAMPLING_CTRL, 0x20);
 }
 
@@ -342,12 +342,12 @@ void LCDTask(void* pdata)
 				strcpy(str, "");
 			}
 			alt_up_character_lcd_init(lcd);
-			alt_up_character_lcd_set_cursor_pos(lcd, 0, 1);
-			alt_up_character_lcd_string(lcd,str);
+			//alt_up_character_lcd_set_cursor_pos(lcd, 0, 1);
+			//alt_up_character_lcd_string(lcd,str);
 
 			// Always Printed
-			alt_up_character_lcd_set_cursor_pos(lcd, 0, 0);
-			alt_up_character_lcd_string(lcd,"G4 Capstone");
+			//alt_up_character_lcd_set_cursor_pos(lcd, 0, 0);
+			//alt_up_character_lcd_string(lcd,"G4 Capstone");
 		}
 	}
 }

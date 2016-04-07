@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'niosII_system'
  * SOPC Builder design path: ../../niosII_system.sopcinfo
  *
- * Generated: Thu Apr 07 02:41:29 MDT 2016
+ * Generated: Thu Apr 07 10:09:27 MDT 2016
  */
 
 /*
@@ -236,7 +236,7 @@
 #define CHARACTER_LCD_0_NAME "/dev/character_lcd_0"
 #define CHARACTER_LCD_0_SPAN 2
 #define CHARACTER_LCD_0_TYPE "altera_up_avalon_character_lcd"
-
+#define ALT_ENHANCED_INTERRUPT_API_PRESENT
 
 /*
  * dsp_0 configuration
@@ -277,7 +277,6 @@
 #define GAIN_DEC_RESET_VALUE 0x0
 #define GAIN_DEC_SPAN 16
 #define GAIN_DEC_TYPE "altera_avalon_pio"
-#define ALT_ENHANCED_INTERRUPT_API_PRESENT
 
 
 /*
@@ -509,7 +508,7 @@
 #define SYSID_QSYS_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define SYSID_QSYS_0_NAME "/dev/sysid_qsys_0"
 #define SYSID_QSYS_0_SPAN 8
-#define SYSID_QSYS_0_TIMESTAMP 1460017624
+#define SYSID_QSYS_0_TIMESTAMP 1460041056
 #define SYSID_QSYS_0_TYPE "altera_avalon_sysid_qsys"
 
 

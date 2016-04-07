@@ -16,7 +16,7 @@ entity reverbBuffer is
 	generic (
 		AUTO_CLOCK_CLOCK_RATE : string := "-1";
 		base_addr			  : std_logic_vector(31 downto 0) := X"00000000";
-		buffersize            : std_logic_vector(31 downto 0) := X"000014A4"--X"00000A52" 
+		buffersize            : std_logic_vector(31 downto 0) := X"00002948"-- X"000014A4" X"00000A52" 
 	);
 	port (
 		avm_m0_address       : out std_logic_vector(31 downto 0);                    --    m0.address
@@ -44,7 +44,7 @@ signal original,delayed: std_logic_vector(15 downto 0);
 
 signal read_addr, read_delayed,write_addr: std_logic_vector(31 downto 0) := base_addr;
 signal read_flag : std_logic := '0';
-constant offset : std_logic_vector(31 downto 0) := std_logic_vector(signed(base_addr)+ 16 );
+constant offset : std_logic_vector(31 downto 0) := std_logic_vector(signed(base_addr)+ 16);
  
 begin
 	fsm: process(clk,reset)
@@ -84,10 +84,10 @@ begin
 								avm_m0_address <= read_delayed;
 								dsp_delayed <= avm_m0_readdata;
 								if read_delayed = std_logic_vector(signed(buffersize) - 1) then
-									read_delayed <= offset; -- To the beginning
+									read_delayed <= base_addr; -- To the beginning
 									avm_m0_read <= '0'; 							
 								else
-									read_delayed <= std_logic_vector(signed(read_delayed) + 2);						
+									read_delayed <= std_logic_vector(signed(read_delayed) + 4096);						
 								end if;
 								current_state <= idle;
 								dsp_delayed_valid <= '1';
