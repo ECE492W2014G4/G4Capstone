@@ -70,10 +70,11 @@ begin
 									clip_threshold <= X"02BC"; -- Level: 4 - 700
 									gain_constant <= "011";   -- Gain: 3
 								when X"0005" => 
-									clip_threshold <= X"0064"; -- Level: 5 - 100
-									gain_constant <= "101";   -- Gain: 5
+									clip_threshold <= X"012C"; -- Level: 5 - 100
+									gain_constant <= "111";   -- Gain: 5
   								when others =>
-									clip_threshold <= X"0064"; -- Level: X - 100
+									clip_threshold <= X"012C"; -- Level: X - 100
+									gain_constant <= "111"; 
 							end case;
 						end if;
 					end if;

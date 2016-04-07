@@ -30,13 +30,15 @@ entity reverbBuffer is
 		dsp_in				 : in  std_logic_vector(15 downto 0);
 		dsp_done			 : out std_logic;
 		dsp_out				 : out std_logic_vector(15 downto 0);
+		dsp_delayed_valid	 : out std_logic;
+		dsp_delayed			 : out std_logic_vector(15 downto 0);
 		clk                  : in  std_logic                     := '0';
 		reset                : in  std_logic                     := '0'              -- reset.reset_n
 	);
 end entity reverbBuffer;
 
 architecture rtl of reverbBuffer is
-type state is (idle, reading, writing);
+type state is (idle, reading, reading2, writing);
 signal current_state: state;
 signal original,delayed: std_logic_vector(15 downto 0);
 
@@ -66,15 +68,31 @@ begin
 								avm_m0_address <= read_addr;
 								dsp_out <= avm_m0_readdata;
 								if read_addr = std_logic_vector(signed(buffersize) - 1) then
-									read_addr <= offset; -- To the beginning
-									avm_m0_read <= '0';							
+									read_addr <= base_addr; -- To the beginning
+								elsif read_addr > write_addr then
+									read_addr <= std_logic_vector(signed(read_addr)+2); 							
 								else
-									read_addr <= std_logic_vector(signed(read_addr) + 2);						
+									read_addr <= std_logic_vector(signed(write_addr) - 2);						
 								end if;
-								current_state <= idle;
+								current_state <= reading2;
 								dsp_done <= '1';
 							else
 								dsp_done <= '0';
+							end if;
+						when reading2 => -- Reading the SDRAM
+							if avm_m0_waitrequest = '0' then
+								avm_m0_address <= read_delayed;
+								dsp_delayed <= avm_m0_readdata;
+								if read_delayed = std_logic_vector(signed(buffersize) - 1) then
+									read_delayed <= offset; -- To the beginning
+									avm_m0_read <= '0'; 							
+								else
+									read_delayed <= std_logic_vector(signed(read_delayed) + 2);						
+								end if;
+								current_state <= idle;
+								dsp_delayed_valid <= '1';
+							else
+								dsp_delayed_valid <= '0';
 							end if;
 						when writing =>
 							if avm_m0_waitrequest = '0' then
