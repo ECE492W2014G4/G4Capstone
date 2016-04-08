@@ -47,6 +47,21 @@ library ieee;
 		DRAM_UDQM	: 	out	std_logic;
 		DRAM_RAS_N	: 	out	std_logic;
 		DRAM_WE_N	: 	out 	std_logic;
+		
+				
+		--Audio Signals on board
+		--From audio appnote
+		AUD_ADCLRCK 		:  inout 	std_logic; 
+		AUD_ADCDAT 		:  in 		std_logic; 
+		AUD_DACLRCK 		:  inout 	std_logic; 
+		AUD_DACDAT 		:  out 		std_logic; 
+		AUD_XCK 		:  out 		std_logic; 
+		AUD_BCLK 		:  inout 	std_logic;
+		
+		-- Audio/Video Config I2C interface
+		-- From audio appnote
+		I2C_SCLK		:  out		std_logic;
+		I2C_SDAT		:  inout	std_logic;
 
 		-- SRAM on board
 		
@@ -87,6 +102,14 @@ architecture structure of sdram_circular_buffer is
             sram_0_external_interface_WE_N          : out   std_logic;                                        -- WE_N
 				clk_0_clk                               : in    std_logic                     := 'X';             -- clk
             reset_0_reset_n                         : in    std_logic                     := 'X';             -- reset_n
+				audio_0_external_interface_ADCDAT       : in    std_logic                     := 'X';             -- ADCDAT
+            audio_0_external_interface_ADCLRCK      : in    std_logic                     := 'X';             -- ADCLRCK
+            audio_0_external_interface_BCLK         : in    std_logic                     := 'X';             -- BCLK
+            audio_0_external_interface_DACDAT       : out   std_logic;                                        -- DACDAT
+            audio_0_external_interface_DACLRCK      : in    std_logic                     := 'X';             -- DACLRCK
+            audio_and_video_config_0_external_interface_SDAT : inout std_logic            := 'X';             -- SDAT
+            audio_and_video_config_0_external_interface_SCLK : out   std_logic;                               -- SCLK
+				audio_clk_clk                                    : out   std_logic;
 				dram_clk_clk                            : out   std_logic                                       -- clk
 	     );
     end component niosII_system;
@@ -128,7 +151,15 @@ begin
             sram_0_external_interface_OE_N          => SRAM_OE_N,         
             sram_0_external_interface_WE_N          => SRAM_WE_N,          
 				clk_0_clk										 => CLOCK_27,                                      
-            reset_0_reset_n                         => KEY(0),         
+            reset_0_reset_n                         => KEY(0),
+				audio_0_external_interface_ADCDAT       => AUD_ADCDAT,         
+            audio_0_external_interface_ADCLRCK      => AUD_ADCLRCK,         
+            audio_0_external_interface_BCLK         => AUD_BCLK,         
+            audio_0_external_interface_DACDAT       => AUD_DACDAT,         
+            audio_0_external_interface_DACLRCK      => AUD_DACLRCK,                      
+            audio_and_video_config_0_external_interface_SDAT => I2C_SDAT,                             
+            audio_and_video_config_0_external_interface_SCLK => I2C_SCLK,                                       
+            audio_clk_clk									 => AUD_XCK,
 				dram_clk_clk                         	 => DRAM_CLK
         );
 

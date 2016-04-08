@@ -12,11 +12,53 @@
    element $${FILENAME}
    {
    }
+   element audio_0
+   {
+      datum _sortIndex
+      {
+         value = "8";
+         type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "1";
+         type = "boolean";
+      }
+   }
+   element audio_and_video_config_0
+   {
+      datum _sortIndex
+      {
+         value = "9";
+         type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "1";
+         type = "boolean";
+      }
+   }
+   element audio_and_video_config_0.avalon_av_config_slave
+   {
+      datum baseAddress
+      {
+         value = "9474160";
+         type = "String";
+      }
+   }
    element jtag_uart_0.avalon_jtag_slave
    {
       datum baseAddress
       {
-         value = "1085440";
+         value = "9474200";
+         type = "String";
+      }
+   }
+   element character_lcd_0.avalon_lcd_slave
+   {
+      datum baseAddress
+      {
+         value = "9474218";
          type = "String";
       }
    }
@@ -24,7 +66,28 @@
    {
       datum baseAddress
       {
-         value = "524288";
+         value = "8912896";
+         type = "String";
+      }
+   }
+   element character_lcd_0
+   {
+      datum _sortIndex
+      {
+         value = "5";
+         type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
+   }
+   element dsp_0.clipping
+   {
+      datum baseAddress
+      {
+         value = "9474216";
          type = "String";
       }
    }
@@ -45,7 +108,7 @@
    {
       datum _sortIndex
       {
-         value = "7";
+         value = "11";
          type = "int";
       }
       datum sopceditor_expanded
@@ -58,7 +121,7 @@
    {
       datum baseAddress
       {
-         value = "1085448";
+         value = "9474208";
          type = "String";
       }
    }
@@ -66,7 +129,7 @@
    {
       datum baseAddress
       {
-         value = "1083392";
+         value = "9472000";
          type = "String";
       }
    }
@@ -79,7 +142,7 @@
       }
       datum sopceditor_expanded
       {
-         value = "1";
+         value = "0";
          type = "boolean";
       }
    }
@@ -92,7 +155,7 @@
       }
       datum sopceditor_expanded
       {
-         value = "1";
+         value = "0";
          type = "boolean";
       }
    }
@@ -105,16 +168,8 @@
       }
       datum sopceditor_expanded
       {
-         value = "1";
+         value = "0";
          type = "boolean";
-      }
-   }
-   element onchip_memory2_0.s1
-   {
-      datum baseAddress
-      {
-         value = "1064960";
-         type = "String";
       }
    }
    element sdram_0.s1
@@ -125,11 +180,27 @@
          type = "String";
       }
    }
+   element onchip_memory2_0.s1
+   {
+      datum baseAddress
+      {
+         value = "9453568";
+         type = "String";
+      }
+   }
+   element DM9000A_IF_0.s1
+   {
+      datum baseAddress
+      {
+         value = "9474184";
+         type = "String";
+      }
+   }
    element sdramBuffer_0
    {
       datum _sortIndex
       {
-         value = "9";
+         value = "13";
          type = "int";
       }
    }
@@ -137,7 +208,7 @@
    {
       datum _sortIndex
       {
-         value = "5";
+         value = "6";
          type = "int";
       }
       datum megawizard_uipreferences
@@ -155,7 +226,7 @@
    {
       datum _sortIndex
       {
-         value = "6";
+         value = "7";
          type = "int";
       }
       datum sopceditor_expanded
@@ -177,11 +248,27 @@
          type = "boolean";
       }
    }
+   element timing_adapter
+   {
+      datum _sortIndex
+      {
+         value = "10";
+         type = "int";
+      }
+   }
+   element timing_adapter_1
+   {
+      datum _sortIndex
+      {
+         value = "14";
+         type = "int";
+      }
+   }
    element up_clocks_0
    {
       datum _sortIndex
       {
-         value = "8";
+         value = "12";
          type = "int";
       }
       datum sopceditor_expanded
@@ -205,11 +292,16 @@
  <parameter name="projectName">sdram_circular_buffer.qpf</parameter>
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1460123291382" />
+ <parameter name="timeStamp" value="1460140050622" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface name="clk" internal="clk_0.clk_in" type="clock" dir="end" />
  <interface name="reset" internal="clk_0.clk_in_reset" type="reset" dir="end" />
+ <interface
+   name="character_lcd_0_external_interface"
+   internal="character_lcd_0.external_interface"
+   type="conduit"
+   dir="end" />
  <interface name="sdram_0_wire" internal="sdram_0.wire" type="conduit" dir="end" />
  <interface
    name="sram_0_external_interface"
@@ -218,6 +310,21 @@
    dir="end" />
  <interface name="clk_0" internal="clk_1.clk_in" type="clock" dir="end" />
  <interface name="reset_0" internal="clk_1.clk_in_reset" type="reset" dir="end" />
+ <interface
+   name="audio_0_external_interface"
+   internal="audio_0.external_interface"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="audio_and_video_config_0_external_interface"
+   internal="audio_and_video_config_0.external_interface"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="audio_clk"
+   internal="up_clocks_0.audio_clk"
+   type="clock"
+   dir="start" />
  <interface
    name="dram_clk"
    internal="up_clocks_0.sdram_clk"
@@ -318,8 +425,8 @@
   <parameter name="regfile_ramBlockType" value="Automatic" />
   <parameter name="mmu_ramBlockType" value="Automatic" />
   <parameter name="bht_ramBlockType" value="Automatic" />
-  <parameter name="instAddrWidth" value="21" />
-  <parameter name="dataAddrWidth" value="21" />
+  <parameter name="instAddrWidth" value="24" />
+  <parameter name="dataAddrWidth" value="24" />
   <parameter name="tightlyCoupledDataMaster0AddrWidth" value="1" />
   <parameter name="tightlyCoupledDataMaster1AddrWidth" value="1" />
   <parameter name="tightlyCoupledDataMaster2AddrWidth" value="1" />
@@ -328,8 +435,8 @@
   <parameter name="tightlyCoupledInstructionMaster1AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster2AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster3AddrWidth" value="1" />
-  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='sram_0.avalon_sram_slave' start='0x80000' end='0x100000' /><slave name='onchip_memory2_0.s1' start='0x104000' end='0x108000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x108800' end='0x109000' /></address-map>]]></parameter>
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='sram_0.avalon_sram_slave' start='0x80000' end='0x100000' /><slave name='onchip_memory2_0.s1' start='0x104000' end='0x108000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x108800' end='0x109000' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x109000' end='0x109008' /><slave name='sysid_qsys_0.control_slave' start='0x109008' end='0x109010' /></address-map>]]></parameter>
+  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='sram_0.avalon_sram_slave' start='0x880000' end='0x900000' /><slave name='onchip_memory2_0.s1' start='0x904000' end='0x908000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x908800' end='0x909000' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='sram_0.avalon_sram_slave' start='0x880000' end='0x900000' /><slave name='onchip_memory2_0.s1' start='0x904000' end='0x908000' /><slave name='nios2_qsys_0.jtag_debug_module' start='0x908800' end='0x909000' /><slave name='audio_and_video_config_0.avalon_av_config_slave' start='0x909070' end='0x909080' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x909098' end='0x9090A0' /><slave name='sysid_qsys_0.control_slave' start='0x9090A0' end='0x9090A8' /><slave name='character_lcd_0.avalon_lcd_slave' start='0x920000' end='0x920002' /></address-map>]]></parameter>
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="deviceFamilyName" value="Cyclone II" />
   <parameter name="internalIrqMaskSystemInfo" value="2" />
@@ -398,6 +505,15 @@
   <parameter name="writeIRQThreshold" value="8" />
  </module>
  <module
+   kind="altera_up_avalon_character_lcd"
+   version="12.0"
+   enabled="1"
+   name="character_lcd_0">
+  <parameter name="cursor" value="Normal" />
+  <parameter name="AUTO_CLOCK_RESET_CLOCK_RATE" value="50000000" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone II" />
+ </module>
+ <module
    kind="altera_avalon_new_sdram_controller"
    version="12.1"
    enabled="1"
@@ -431,6 +547,40 @@
   <parameter name="AUTO_CLOCK_RESET_CLOCK_RATE" value="50000000" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone II" />
  </module>
+ <module
+   kind="altera_up_avalon_audio"
+   version="12.0"
+   enabled="1"
+   name="audio_0">
+  <parameter name="avalon_bus_type" value="Streaming" />
+  <parameter name="audio_in" value="true" />
+  <parameter name="audio_out" value="true" />
+  <parameter name="dw" value="16" />
+  <parameter name="AUTO_CLOCK_RESET_CLOCK_RATE" value="50000000" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone II" />
+ </module>
+ <module
+   kind="altera_up_avalon_audio_and_video_config"
+   version="12.0"
+   enabled="1"
+   name="audio_and_video_config_0">
+  <parameter name="device">On-Board Peripherals</parameter>
+  <parameter name="board" value="DE2" />
+  <parameter name="eai" value="true" />
+  <parameter name="audio_in" value="Line In to ADC" />
+  <parameter name="dac_enable" value="true" />
+  <parameter name="mic_bypass" value="false" />
+  <parameter name="line_in_bypass" value="false" />
+  <parameter name="mic_attenuation" value="-6dB" />
+  <parameter name="data_format" value="Left Justified" />
+  <parameter name="bit_length" value="16" />
+  <parameter name="sampling_rate" value="48 kHz" />
+  <parameter name="video_format" value="NTSC" />
+  <parameter name="d5m_resolution" value="2592 x 1944" />
+  <parameter name="exposure" value="false" />
+  <parameter name="AUTO_CLOCK_RESET_CLOCK_RATE" value="50000000" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone II" />
+ </module>
  <module kind="clock_source" version="12.1" enabled="1" name="clk_1">
   <parameter name="clockFrequency" value="27000000" />
   <parameter name="clockFrequencyKnown" value="true" />
@@ -441,7 +591,7 @@
   <parameter name="board" value="DE2" />
   <parameter name="sys_clk_freq" value="50" />
   <parameter name="sdram_clk" value="true" />
-  <parameter name="vga_clk" value="true" />
+  <parameter name="vga_clk" value="false" />
   <parameter name="audio_clk" value="true" />
   <parameter name="audio_clk_freq" value="11.2896" />
   <parameter name="AUTO_CLK_IN_PRIMARY_CLOCK_RATE" value="50000000" />
@@ -453,13 +603,59 @@
   <parameter name="buffersize" value="10568" />
   <parameter name="AUTO_CLOCK_CLOCK_RATE_1" value="50000000" />
  </module>
+ <module
+   kind="timing_adapter"
+   version="12.1"
+   enabled="1"
+   name="timing_adapter">
+  <parameter name="generationLanguage" value="VERILOG" />
+  <parameter name="inBitsPerSymbol" value="8" />
+  <parameter name="inChannelWidth" value="0" />
+  <parameter name="inErrorDescriptor" value="" />
+  <parameter name="inErrorWidth" value="0" />
+  <parameter name="inMaxChannel" value="0" />
+  <parameter name="inReadyLatency" value="0" />
+  <parameter name="inSymbolsPerBeat" value="2" />
+  <parameter name="inUseEmpty" value="false" />
+  <parameter name="inUseEmptyPort" value="NO" />
+  <parameter name="inUsePackets" value="false" />
+  <parameter name="inUseReady" value="true" />
+  <parameter name="inUseValid" value="true" />
+  <parameter name="moduleName" value="" />
+  <parameter name="outReadyLatency" value="0" />
+  <parameter name="outUseReady" value="false" />
+  <parameter name="outUseValid" value="true" />
+ </module>
+ <module
+   kind="timing_adapter"
+   version="12.1"
+   enabled="1"
+   name="timing_adapter_1">
+  <parameter name="generationLanguage" value="VERILOG" />
+  <parameter name="inBitsPerSymbol" value="8" />
+  <parameter name="inChannelWidth" value="0" />
+  <parameter name="inErrorDescriptor" value="" />
+  <parameter name="inErrorWidth" value="0" />
+  <parameter name="inMaxChannel" value="0" />
+  <parameter name="inReadyLatency" value="0" />
+  <parameter name="inSymbolsPerBeat" value="2" />
+  <parameter name="inUseEmpty" value="false" />
+  <parameter name="inUseEmptyPort" value="NO" />
+  <parameter name="inUsePackets" value="false" />
+  <parameter name="inUseReady" value="false" />
+  <parameter name="inUseValid" value="true" />
+  <parameter name="moduleName" value="" />
+  <parameter name="outReadyLatency" value="0" />
+  <parameter name="outUseReady" value="true" />
+  <parameter name="outUseValid" value="true" />
+ </module>
  <connection
    kind="avalon"
    version="12.1"
    start="nios2_qsys_0.data_master"
    end="nios2_qsys_0.jtag_debug_module">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00108800" />
+  <parameter name="baseAddress" value="0x00908800" />
  </connection>
  <connection
    kind="reset"
@@ -505,6 +701,16 @@
    kind="reset"
    version="12.1"
    start="clk_0.clk_reset"
+   end="character_lcd_0.clock_reset_reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="character_lcd_0.clock_reset_reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="clk_0.clk_reset"
    end="sdram_0.reset" />
  <connection
    kind="reset"
@@ -527,7 +733,7 @@
    start="nios2_qsys_0.data_master"
    end="onchip_memory2_0.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00104000" />
+  <parameter name="baseAddress" value="0x00904000" />
  </connection>
  <connection
    kind="avalon"
@@ -535,7 +741,15 @@
    start="nios2_qsys_0.data_master"
    end="sysid_qsys_0.control_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00109008" />
+  <parameter name="baseAddress" value="0x009090a0" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="12.1"
+   start="nios2_qsys_0.data_master"
+   end="character_lcd_0.avalon_lcd_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00920000" />
  </connection>
  <connection
    kind="avalon"
@@ -543,7 +757,7 @@
    start="nios2_qsys_0.instruction_master"
    end="onchip_memory2_0.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00104000" />
+  <parameter name="baseAddress" value="0x00904000" />
  </connection>
  <connection
    kind="avalon"
@@ -551,7 +765,7 @@
    start="nios2_qsys_0.data_master"
    end="jtag_uart_0.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00109000" />
+  <parameter name="baseAddress" value="0x00909098" />
  </connection>
  <connection
    kind="avalon"
@@ -559,7 +773,7 @@
    start="nios2_qsys_0.instruction_master"
    end="nios2_qsys_0.jtag_debug_module">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00108800" />
+  <parameter name="baseAddress" value="0x00908800" />
  </connection>
  <connection
    kind="interrupt"
@@ -568,6 +782,34 @@
    end="jtag_uart_0.irq">
   <parameter name="irqNumber" value="1" />
  </connection>
+ <connection
+   kind="avalon"
+   version="12.1"
+   start="nios2_qsys_0.data_master"
+   end="audio_and_video_config_0.avalon_av_config_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00909070" />
+ </connection>
+ <connection
+   kind="reset"
+   version="12.1"
+   start="clk_0.clk_reset"
+   end="audio_0.clock_reset_reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="audio_0.clock_reset_reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="clk_0.clk_reset"
+   end="audio_and_video_config_0.clock_reset_reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="audio_and_video_config_0.clock_reset_reset" />
  <connection
    kind="clock"
    version="12.1"
@@ -617,6 +859,16 @@
    kind="reset"
    version="12.1"
    start="clk_1.clk_reset"
+   end="character_lcd_0.clock_reset_reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="up_clocks_0.sys_clk_reset"
+   end="character_lcd_0.clock_reset_reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="clk_1.clk_reset"
    end="sdram_0.reset" />
  <connection
    kind="reset"
@@ -633,6 +885,26 @@
    version="12.1"
    start="up_clocks_0.sys_clk_reset"
    end="sram_0.clock_reset_reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="clk_1.clk_reset"
+   end="audio_0.clock_reset_reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="up_clocks_0.sys_clk_reset"
+   end="audio_0.clock_reset_reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="clk_1.clk_reset"
+   end="audio_and_video_config_0.clock_reset_reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="up_clocks_0.sys_clk_reset"
+   end="audio_and_video_config_0.clock_reset_reset" />
  <connection
    kind="reset"
    version="12.1"
@@ -682,7 +954,22 @@
    kind="clock"
    version="12.1"
    start="up_clocks_0.sys_clk"
+   end="character_lcd_0.clock_reset" />
+ <connection
+   kind="clock"
+   version="12.1"
+   start="up_clocks_0.sys_clk"
    end="sram_0.clock_reset" />
+ <connection
+   kind="clock"
+   version="12.1"
+   start="up_clocks_0.sys_clk"
+   end="audio_and_video_config_0.clock_reset" />
+ <connection
+   kind="clock"
+   version="12.1"
+   start="up_clocks_0.sys_clk"
+   end="audio_0.clock_reset" />
  <connection
    kind="clock"
    version="12.1"
@@ -694,7 +981,7 @@
    start="nios2_qsys_0.data_master"
    end="sram_0.avalon_sram_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00080000" />
+  <parameter name="baseAddress" value="0x00880000" />
  </connection>
  <connection
    kind="avalon"
@@ -702,7 +989,15 @@
    start="nios2_qsys_0.instruction_master"
    end="sram_0.avalon_sram_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00080000" />
+  <parameter name="baseAddress" value="0x00880000" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="12.1"
+   start="sdramBuffer_0.m0"
+   end="sdram_0.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
  </connection>
  <connection
    kind="clock"
@@ -730,11 +1025,78 @@
    start="up_clocks_0.sys_clk_reset"
    end="sdramBuffer_0.reset" />
  <connection
-   kind="avalon"
+   kind="avalon_streaming"
    version="12.1"
-   start="sdramBuffer_0.m0"
-   end="sdram_0.s1">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0000" />
- </connection>
+   start="audio_0.avalon_right_channel_source"
+   end="audio_0.avalon_right_channel_sink" />
+ <connection
+   kind="avalon_streaming"
+   version="12.1"
+   start="audio_0.avalon_left_channel_source"
+   end="timing_adapter.in" />
+ <connection
+   kind="avalon_streaming"
+   version="12.1"
+   start="timing_adapter.out"
+   end="sdramBuffer_0.streaming_in" />
+ <connection
+   kind="clock"
+   version="12.1"
+   start="up_clocks_0.sys_clk"
+   end="timing_adapter.clk" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="clk_0.clk_reset"
+   end="timing_adapter.reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="timing_adapter.reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="clk_1.clk_reset"
+   end="timing_adapter.reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="up_clocks_0.sys_clk_reset"
+   end="timing_adapter.reset" />
+ <connection
+   kind="avalon_streaming"
+   version="12.1"
+   start="sdramBuffer_0.streaming_out"
+   end="timing_adapter_1.in" />
+ <connection
+   kind="avalon_streaming"
+   version="12.1"
+   start="timing_adapter_1.out"
+   end="audio_0.avalon_left_channel_sink" />
+ <connection
+   kind="clock"
+   version="12.1"
+   start="up_clocks_0.sys_clk"
+   end="timing_adapter_1.clk" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="clk_0.clk_reset"
+   end="timing_adapter_1.reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="nios2_qsys_0.jtag_debug_module_reset"
+   end="timing_adapter_1.reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="clk_1.clk_reset"
+   end="timing_adapter_1.reset" />
+ <connection
+   kind="reset"
+   version="12.1"
+   start="up_clocks_0.sys_clk_reset"
+   end="timing_adapter_1.reset" />
 </system>
