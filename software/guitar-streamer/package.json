@@ -14,7 +14,11 @@
     "ejs": "~2.3.3",
     "express": "~4.13.1",
     "icy": "^2.1.0",
+    "lame": "^1.2.3",
     "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0"
+    "nodeshout": "^0.1.1",
+    "ogg": "^1.2.4",
+    "serve-favicon": "~2.3.0",
+    "vorbis": "^0.2.1"
   }
 }

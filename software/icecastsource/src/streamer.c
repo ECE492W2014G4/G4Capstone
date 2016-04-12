@@ -52,7 +52,7 @@ void *broadcastSource(void * param){
 	long read, ret, total;
 	printf("Connected to server...\n");
 		total = 0;
-		FILE * song = fopen("/home/byron/test.ogg","r");
+		FILE * song = fopen("/home/byron/test.mp3","r");
 		if(song == NULL) perror("Couldn't open audio file\n");
 		while (song != NULL) {
 			read = fread(buff, 1, sizeof(buff), song);
@@ -99,7 +99,7 @@ shout_t * setupShoutSource(){
 		printf("Error setting password: %s\n", shout_get_error(shout));
 		return NULL;
 	}
-	if (shout_set_mount(shout, "/guitar.ogg") != SHOUTERR_SUCCESS) {
+	if (shout_set_mount(shout, "/guitar.mp3") != SHOUTERR_SUCCESS) {
 		printf("Error setting mount: %s\n", shout_get_error(shout));
 		return NULL;
 	}
@@ -109,7 +109,7 @@ shout_t * setupShoutSource(){
 		return NULL;
 	}
 
-	if (shout_set_format(shout, SHOUT_FORMAT_OGG) != SHOUTERR_SUCCESS) {
+	if (shout_set_format(shout, SHOUT_FORMAT_MP3) != SHOUTERR_SUCCESS) {
 		printf("Error setting user: %s\n", shout_get_error(shout));
 		return NULL;
 	}
