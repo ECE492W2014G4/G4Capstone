@@ -30,7 +30,7 @@ library ieee;
 		KEY		: in  std_logic_vector (3 downto 0);
 		CLOCK_50	: in 	std_logic;
 		CLOCK_27 : in 	std_logic;
-		SW			: in	std_logic_vector(17 downto 15);
+		SW			: in	std_logic_vector(17 downto 13);
 		GPIO_0  : inout std_logic_vector(34 downto 27);
 		
 		--Audio Signals on board
@@ -138,8 +138,8 @@ architecture structure of niosII_microc_capstone is
             audio_and_video_config_0_external_interface_SCLK : out   std_logic;                               -- SCLK
 				audio_clk_clk                           : out   std_logic;                                         -- clk
 				dram_clk_clk                            : out   std_logic;                                         -- clk
-			enable_export                                    : in    std_logic_vector(2 downto 0)  := (others => 'X');
-			pio_export                                       : in    std_logic_vector(2 downto 0)  := (others => 'X');  -- export
+			enable_export                                    : in    std_logic_vector(4 downto 0)  := (others => 'X');
+			pio_export                                       : in    std_logic_vector(4 downto 0)  := (others => 'X');  -- export
 			--rs232_1_RXD                                      : in    std_logic                     := 'X';             -- RXD
             --rs232_1_TXD                                      : out   std_logic;                                     -- TXD
 			dm9000a_if_0_s1_export_DATA                                                      : inout std_logic_vector(15 downto 0) := (others => 'X'); -- DATA
@@ -157,7 +157,8 @@ architecture structure of niosII_microc_capstone is
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_write_n_out      : out   std_logic_vector(0 downto 0);                     
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_address_out      : out   std_logic_vector(21 downto 0);
 			gain_inc_export                                                                  : in    std_logic                     := 'X';             -- export
-            gain_dec_export                                                                  : in    std_logic                     := 'X'                                   
+            gain_dec_export                                                                  : in    std_logic                    := 'X'--;
+			--looper_en_export                               					: in std_logic_vector(1 downto 0)  := (others => 'X')--export                                   
 			);
     end component niosII_system;
 
@@ -219,8 +220,8 @@ begin
             audio_and_video_config_0_external_interface_SCLK => I2C_SCLK,                                       
             audio_clk_clk									 => AUD_XCK,
 				dram_clk_clk                         	 => DRAM_CLK,
-			enable_export => SW(17 downto 15),
-			pio_export => SW(17 downto 15),
+			enable_export => SW(17 downto 13),
+			pio_export => SW(17 downto 13),
 			--rs232_1_TXD                   => GPIO_0(27),
            	--rs232_1_RXD                   => GPIO_0(29),
 			dm9000a_if_0_s1_export_DATA				=> ENET_DATA,
@@ -237,7 +238,8 @@ begin
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_write_n_out => FL_WE_N,
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_address_out => FL_ADDR,
 			gain_inc_export	=> KEY(1),
-            gain_dec_export => KEY(3)
+            gain_dec_export => KEY(3)--,
+			--looper_en_export => SW(15 downto 14)
         );
 
 end structure;

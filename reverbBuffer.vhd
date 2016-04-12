@@ -16,7 +16,7 @@ entity reverbBuffer is
 	generic (
 		AUTO_CLOCK_CLOCK_RATE : string := "-1";
 		base_addr			  : std_logic_vector(31 downto 0) := X"00000000";
-		buffersize            : std_logic_vector(31 downto 0) := X"00002948"-- X"000014A4" X"00000A52" 
+		buffersize            : std_logic_vector(31 downto 0) := X"000014A4"-- X"000014A4" X"00000A52" 
 	);
 	port (
 		avm_m0_address       : out std_logic_vector(31 downto 0);                    --    m0.address
@@ -63,11 +63,11 @@ begin
 							else
 								avm_m0_write <= '0';
 							end if;							
-						when reading => -- Reading the SDRAM
+						when reading => -- Reading the SDRAM (normal read or write)
 							if avm_m0_waitrequest = '0' then
 								avm_m0_address <= read_addr;
 								dsp_out <= avm_m0_readdata;
-								if read_addr = std_logic_vector(signed(buffersize) - 1) then
+								if read_addr >= std_logic_vector(signed(buffersize) - 1) then
 									read_addr <= base_addr; -- To the beginning
 								elsif read_addr > write_addr then
 									read_addr <= std_logic_vector(signed(read_addr)+2); 							
@@ -79,11 +79,11 @@ begin
 							else
 								dsp_done <= '0';
 							end if;
-						when reading2 => -- Reading the SDRAM
+						when reading2 => -- Reading the SDRAM (delayed read)
 							if avm_m0_waitrequest = '0' then
 								avm_m0_address <= read_delayed;
 								dsp_delayed <= avm_m0_readdata;
-								if read_delayed = std_logic_vector(signed(buffersize) - 1) then
+								if read_delayed = std_logic_vector(signed(buffersize) - 1) then -- this line will overflow (intended behaviour).
 									read_delayed <= base_addr; -- To the beginning
 									avm_m0_read <= '0'; 							
 								else
@@ -98,7 +98,7 @@ begin
 							if avm_m0_waitrequest = '0' then
 								avm_m0_address <= write_addr;	-- can only write when waitrequest = 0
 								avm_m0_writedata <= dsp_in; 	-- Writes to SDRAM
-								if write_addr = std_logic_vector(signed(buffersize)-1) then
+								if write_addr >= std_logic_vector(signed(buffersize)-1) then -- this line will overflow (intended behaviour). 
 									write_addr <= base_addr; -- Reset the write addr
 									avm_m0_write <= '0'; -- Telling SDRAM we've stopped writing
 									avm_m0_read <= '1';	 -- Read once SDRAM is full
@@ -115,4 +115,4 @@ begin
 					end case;
 				end if;
 			end	process;
-end architecture rtl; -- of reverbBuffer
+end architecture rtl; 

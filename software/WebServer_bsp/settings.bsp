@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Apr 7, 2016 10:09:26 AM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1460045366529</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Apr 11, 2016 9:19:35 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1460431175659</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/afs/ualberta.ca/home/b/m/bmaroney/G4Capstone/software/WebServer_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../niosII_system.sopcinfo</SopcDesignFile>
@@ -1817,12 +1817,6 @@
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>internet_fifo_in_csr</slaveDescriptor>
-                <addressRange>0x00909000 - 0x0090901F</addressRange>
-                <addressSpan>32</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
                 <slaveDescriptor>timer_0</slaveDescriptor>
                 <addressRange>0x00909020 - 0x0090903F</addressRange>
                 <addressSpan>32</addressSpan>
@@ -1853,12 +1847,6 @@
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>internet_fifo_out</slaveDescriptor>
-                <addressRange>0x00909080 - 0x00909087</addressRange>
-                <addressSpan>8</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
                 <slaveDescriptor>DM9000A_IF_0</slaveDescriptor>
                 <addressRange>0x00909088 - 0x0090908F</addressRange>
                 <addressSpan>8</addressSpan>
@@ -1883,14 +1871,32 @@
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>dsp_0</slaveDescriptor>
-                <addressRange>0x009090A8 - 0x009090A9</addressRange>
+                <slaveDescriptor>dsp_0_clipping</slaveDescriptor>
+                <addressRange>0x00929000 - 0x00929001</addressRange>
                 <addressSpan>2</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>dsp_0_tuner</slaveDescriptor>
+                <addressRange>0x00939000 - 0x00939003</addressRange>
+                <addressSpan>4</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>internet_fifo_in_csr</slaveDescriptor>
+                <addressRange>0x00940000 - 0x0094001F</addressRange>
+                <addressSpan>32</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>internet_fifo_out</slaveDescriptor>
+                <addressRange>0x00950000 - 0x00950007</addressRange>
+                <addressSpan>8</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>character_lcd_0</slaveDescriptor>
-                <addressRange>0x00920000 - 0x00920001</addressRange>
+                <addressRange>0x01109060 - 0x01109061</addressRange>
                 <addressSpan>2</addressSpan>
                 <attributes/>
         </MemoryMap>

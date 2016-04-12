@@ -51,6 +51,7 @@ void WSTask(){
 	long read,total;
 	INT8U err;
 	alt_u16 buff[BUFFER_SIZE];
+
 	//Setup connection to server
 	struct sockaddr_in result;
 	memset(&result, 0, sizeof(struct sockaddr_in));
@@ -71,18 +72,6 @@ void WSTask(){
 	close(s);
 
 	while (1) {
-		//OSSemPend(SEM, 0, &err);
-		int sw = *((int *)PIO_0_BASE);
-		if(sw != 6 && suspended == 1){
-			OSTaskResume(AudioTask_PRIORITY);
-			OSTaskResume(LCDTASK_PRIORITY);
-			suspended = 0;
-		}
-		else if(sw == 6 && suspended == 0){
-			OSTaskSuspend(AudioTask_PRIORITY);
-			OSTaskSuspend(LCDTASK_PRIORITY);
-			suspended = 1;
-		}
 		if (counter >= BUFFER_SIZE){
 			s = socket(AF_INET, SOCK_STREAM, 0);
 			if (s < 0) {

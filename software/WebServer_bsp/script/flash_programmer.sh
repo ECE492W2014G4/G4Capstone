@@ -13,5 +13,5 @@ elf2flash --input="/afs/ualberta.ca/home/b/m/bmaroney/G4Capstone/software/WebSer
 #
 # Programming File: "../flash/WebServer_generic_tristate_controller_0.flash" To Device: generic_tristate_controller_0
 #
-nios2-flash-programmer "../flash/WebServer_generic_tristate_controller_0.flash" --base=0x400000 --sidp=0x9090A0 --id=0x0 --timestamp=1460041056 --device=1 --instance=0 '--cable=USB-Blaster on localhost [2-1.6]' --program --erase-all 
+nios2-flash-programmer "../flash/WebServer_generic_tristate_controller_0.flash" --base=0x400000 --sidp=0x9090A0 --id=0x0 --timestamp=1460339370 --device=1 --instance=0 '--cable=USB-Blaster on localhost [2-1.6]' --program --erase-all 
 

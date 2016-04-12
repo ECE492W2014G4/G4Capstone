@@ -80,10 +80,6 @@ struct inet_taskinfo wstask = {
 		APP_STACK_SIZE,
 };
 
-
-/* WSInitialTask will initialize the NichStack TCP/IP stack and then initialize
- * the rest of the web server example tasks.
- */
 void sendToLCD(const char* msg){
 	alt_up_character_lcd_dev * lcd=alt_up_character_lcd_open_dev(CHARACTER_LCD_0_NAME);
 	alt_up_character_lcd_init(lcd);
@@ -91,6 +87,7 @@ void sendToLCD(const char* msg){
 	alt_up_character_lcd_string(lcd, msg);
 }
 
+//Initialiazation task
 void WSInitialTask(void* pdata)
 {
 	INT8U error_code = OS_NO_ERR;
@@ -102,28 +99,28 @@ void WSInitialTask(void* pdata)
 	 * I/O drivers are available.  Two tasks are created:
 	 *    "Inet main"  task with priority 2
 	 *    "clock tick" task with priority 3
-//	 */
-//	alt_iniche_init();
-//	netmain();
-//	int failed = 0;
-//	while (!iniche_net_ready){
-//		sendToLCD("Loading.....");
-//		OSTimeDlyHMSM(0,0,10,0);
-//		if(!iniche_net_ready){
-//			failed = 1;
-//			break;
-//		}
-//	}
-//	if(!failed){
-//		TK_NEWTASK(&wstask);
-//	}
-//	else{
-//		sendToLCD("Failed to load ethernet");
-//	}
-	WSCreateTasks();
-	/*This task deletes itself, since there's no reason to keep it around, once
-	 *it's complete.
 	 */
+
+	//Uncomment the following lines to enable networking
+
+	//	alt_iniche_init();
+	//	netmain();
+	//	int failed = 0;
+	//	while (!iniche_net_ready){
+	//		sendToLCD("Loading.....");
+	//		OSTimeDlyHMSM(0,0,10,0);
+	//		if(!iniche_net_ready){
+	//			failed = 1;
+	//			break;
+	//		}
+	//	}
+	//	if(!failed){
+	//		TK_NEWTASK(&wstask);
+	//	}
+	//	else{
+	//		sendToLCD("Failed to load ethernet");
+	//	}
+	WSCreateTasks();
 	error_code = OSTaskDel(OS_PRIO_SELF);
 	alt_uCOSIIErrorHandler(error_code, 0);
 
@@ -150,11 +147,12 @@ int vol;
 int main (int argc, char* argv[], char* envp[])
 {
 	/* Initialize the current flash block, for flash programming. */
-
 	current_flash_block = -1;
 
-	DM9000A_INSTANCE( DM9000A_0, dm9000a_0 );
-	DM9000A_INIT( DM9000A_0, dm9000a_0 );
+	//Uncomment the following lines to enable the ethernet core
+
+	//DM9000A_INSTANCE( DM9000A_0, dm9000a_0 );
+	//DM9000A_INIT( DM9000A_0, dm9000a_0 );
 
 
 	INT8U error_code;
@@ -162,26 +160,30 @@ int main (int argc, char* argv[], char* envp[])
 	/* Clear the RTOS timer */
 	OSTimeSet(0);
 
+	//Initialize the queue responsible for send messages to the LCD task
 	int msg[QUEUE_LENGTH];
-	int vol[QUEUE_LENGTH];
-
 	QUEUE=OSQCreate(&msg, QUEUE_LENGTH);
+
+	//Initialize the queue responsible for sending messages to the LEVEL task (which adjusts the gain for distortion)
+	int vol[QUEUE_LENGTH];
 	LEVEL=OSQCreate(&vol, QUEUE_LENGTH);
 
 
-	//IOWR_ALTERA_AVALON_TIMER_CONTROL(TUNER_TIMER_BASE, 0x7);
-	//alt_ic_isr_register(TUNER_TIMER_IRQ_INTERRUPT_CONTROLLER_ID,TUNER_TIMER_IRQ,my_isr,NULL,NULL);
-    IOWR_ALTERA_AVALON_PIO_IRQ_MASK(GAIN_INC_BASE, 0x1);
-    IOWR_ALTERA_AVALON_PIO_EDGE_CAP(GAIN_INC_BASE, 0x0);
-    IOWR_ALTERA_AVALON_PIO_IRQ_MASK(GAIN_DEC_BASE, 0x1);
-    IOWR_ALTERA_AVALON_PIO_EDGE_CAP(GAIN_DEC_BASE, 0x0);
+	/*(Enable the interrupts which are triggered by Key 1 (which increases gain for distortion) and Key 0 (which decreases the gain)
+		If these lines start giving errors add the following define to system.h WebServer_bsp and rebuild:
+		#define ALT_ENHANCED_INTERRUPT_API_PRESENT
+		By default, this define is ifdef'd out in the relevant header file (blame Altera for not using proper package management)
+	*/
+	IOWR_ALTERA_AVALON_PIO_IRQ_MASK(GAIN_INC_BASE, 0x1);
+	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(GAIN_INC_BASE, 0x0);
+	IOWR_ALTERA_AVALON_PIO_IRQ_MASK(GAIN_DEC_BASE, 0x1);
+	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(GAIN_DEC_BASE, 0x0);
 
-    alt_irq_register(GAIN_INC_IRQ,NULL,gain_iisr);
-    alt_irq_register(GAIN_DEC_IRQ,NULL,gain_disr);
-//	alt_ic_isr_register(GAIN_INC_IRQ_INTERRUPT_CONTROLLER_ID,GAIN_INC_IRQ,gain_iisr,NULL,NULL);
-//	alt_ic_isr_register(GAIN_DEC_IRQ_INTERRUPT_CONTROLLER_ID,GAIN_DEC_IRQ,gain_disr,NULL,NULL);
+	alt_irq_register(GAIN_INC_IRQ,NULL,gain_iisr);
+	alt_irq_register(GAIN_DEC_IRQ,NULL,gain_disr);
+
 	/* WSInitialTask will initialize the NicheStack TCP/IP Stack and then
-	 * initialize the rest of the web server's tasks.
+	 * initialize the rest of the project's tasks.
 	 */
 
 	error_code = OSTaskCreateExt(WSInitialTask,
@@ -226,14 +228,22 @@ void setupSound(){
 	alt_up_av_config_reset(audio_config_dev);
 
 	/* Volume Control */
-	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_LEFT_HEADPHONE_OUT, 0x70);
+	//Crank up the input gain to max (on line-in)
+	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_LEFT_LINE_IN, 0x1C);
+	//Increase output gain  to max level
+	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_LEFT_HEADPHONE_OUT, 0x7F);
+	//Mute right channel (guitars are mono)
 	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_RIGHT_HEADPHONE_OUT, 0x2F);
+	//Set the sampling frequency to 44.1kHz
 	alt_up_av_config_write_audio_cfg_register(audio_config_dev, AUDIO_REG_SAMPLING_CTRL, 0x20);
 }
 
 void WSCreateTasks(){
+	//Initialize LCD
 	alt_up_character_lcd_dev * lcd=alt_up_character_lcd_open_dev(CHARACTER_LCD_0_NAME);
 	alt_up_character_lcd_init(lcd);
+
+	//Initialize all tasks
 	OSTaskCreateExt(AudioTask,
 			NULL,
 			(void *)&AudioTask_stk[TASK_STACKSIZE],
@@ -253,14 +263,14 @@ void WSCreateTasks(){
 			NULL,
 			0);
 	OSTaskCreateExt(LevelTask,
-				NULL,
-				(void *)&LevelTask_stk[TASK_STACKSIZE-1],
-				LevelTask_PRIORITY,
-				LevelTask_PRIORITY,
-				LevelTask_stk,
-				TASK_STACKSIZE,
-				NULL,
-				0);
+			NULL,
+			(void *)&LevelTask_stk[TASK_STACKSIZE-1],
+			LevelTask_PRIORITY,
+			LevelTask_PRIORITY,
+			LevelTask_stk,
+			TASK_STACKSIZE,
+			NULL,
+			0);
 	OSTaskCreateExt(uart,
 			NULL,
 			(void *)&uart_stk[TASK_STACKSIZE-1],
@@ -270,17 +280,18 @@ void WSCreateTasks(){
 			TASK_STACKSIZE,
 			NULL,
 			0);
+	//Suspend UART task (not needed as bluetooth no longer used)
 	OSTaskSuspend(UART_PRIORITY);
-	//OSTaskSuspend(AudioTask_PRIORITY);
-	//OSTaskSuspend(LCDTASK_PRIORITY);
 }
 
+//Monitors the switches to check what effects are being applied
 void AudioTask(void *pdata){
 	int *sw = (int *)PIO_0_BASE;
 	unsigned int oldValue = 0;
 	unsigned int firstRun = 0;
 	while(1){
 		int newValue = *sw;
+		//Only  update queue if the state of the switches has changed (unless the task is being run for the first time)
 		if((newValue != oldValue) || firstRun == 0 || newValue >= 3){
 			int msg = newValue;
 			int result=OSQPost(QUEUE,&msg);
@@ -293,8 +304,7 @@ void AudioTask(void *pdata){
 
 void LevelTask(void* pdata){
 	INT8U err;
-	alt_u16 *distort = (alt_u16 *)DSP_0_BASE; // Writing to
-	// Reading from
+	alt_u16 *distort = (alt_u16 *)DSP_0_CLIPPING_BASE; // Writing to
 	alt_u16 counter = 1;
 	while(1){
 		int * msg = (int *) OSQPend(LEVEL, 0, &err);
@@ -311,43 +321,40 @@ void LevelTask(void* pdata){
 		}
 
 		*distort = counter;
-		printf("vol: %d,DSP Vol: %hu\n",counter,*distort);
-
 	}
 }
 
 /*LCD*/
 void LCDTask(void* pdata)
 {
-	char *str;
+	char buffer[50];
 	alt_up_character_lcd_dev * lcd=(alt_up_character_lcd_dev *)pdata;
 	INT8U err;
 	int old;
 	while (1)
 	{
-		//printf("LCD Printing\n");
 		int * msg=(int *) OSQPend(QUEUE, 0, &err);
 		if(err == OS_NO_ERR){
 			if ((*msg) == 1) {
-				strcpy(str,"Distortion");
+				snprintf(buffer,sizeof(buffer),"Distortion");
 			} else if ((*msg) == 2) {
-				strcpy(str,"Reverb");
+				snprintf(buffer,sizeof(buffer),"Reverb");
 			} else if((*msg) == 4){
-				char buffer[50];
-				//int val = *(int *)DSP_0_BASE;
-				//snprintf(buffer, 50,"Freq: %d",val);
-				strcpy(str,buffer);
+				int val = *((alt_u32 *)DSP_0_TUNER_BASE);
+				int freq = val - old;
+				old = freq;
+				snprintf(buffer, sizeof(buffer),"Freq : %u\n", val);
 			}
 			else{
-				strcpy(str, "");
+				snprintf(buffer,sizeof(buffer),"");
 			}
 			alt_up_character_lcd_init(lcd);
-			//alt_up_character_lcd_set_cursor_pos(lcd, 0, 1);
-			//alt_up_character_lcd_string(lcd,str);
+			alt_up_character_lcd_set_cursor_pos(lcd, 0, 1);
+			alt_up_character_lcd_string(lcd, buffer);
 
 			// Always Printed
-			//alt_up_character_lcd_set_cursor_pos(lcd, 0, 0);
-			//alt_up_character_lcd_string(lcd,"G4 Capstone");
+			alt_up_character_lcd_set_cursor_pos(lcd, 0, 0);
+			alt_up_character_lcd_string(lcd,"G4 Capstone");
 		}
 	}
 }
@@ -433,6 +440,8 @@ void gain_disr(void* context){
 	OSQPost(LEVEL,&vol);
 	IOWR_ALTERA_AVALON_PIO_EDGE_CAP(GAIN_DEC_BASE, 0);
 }
+
+
 
 /******************************************************************************
  *                                                                             *
