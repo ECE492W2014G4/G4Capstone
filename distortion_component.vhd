@@ -1,3 +1,6 @@
+-- Design unit: distortion_component 
+-- Authors : Aaron Arnason, Byron Maroney, Edrick De Guzman
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
@@ -21,11 +24,6 @@ end entity distort;
 
 architecture behavior of distort is
 
--- Distortion Settings
--- 1) Gain at 3 ("11") - Clipping at 1000 "0000001111101000"
--- 2) Gain at 3 ("10") - Clipping at 3000 "0000101110111000" - Default
--- 3) Gain at 3 ("01") - Clipping at 5000 "0001001110001000"
-
 constant clipping_default : std_logic_vector(15 downto 0) := "0000101110111000"; -- constant value of 3000 in decimal
 constant clipping_high : std_logic_vector(15 downto 0) := "0000000001100100"; -- constant value of 1000 in decimal
 constant clipping_low : std_logic_vector(15 downto 0) := "0000001111101000"; -- constant value of 5000 in decimal
@@ -41,14 +39,6 @@ signal counter: unsigned(15 downto 0);
 begin
 	clipping_readdata <= clip_threshold;
 	done <= completed;
---	c0: process(clk)
---		begin
---			if rising_edge(clk) then
---				if clipping_read = '0' then
---					clipping_readdata <= clip_threshold;				
---				end if;		
---			end if;
---		end process;
 	c1: process(clk,clipping_write)
 			begin
 				if rising_edge(clk) then

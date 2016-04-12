@@ -1,12 +1,6 @@
+-- Design unit: reverb buffer 
+-- Authors : Aaron Arnason, Byron Maroney, Edrick De Guzman
 -- reverbBuffer.vhd
-
--- This file was auto-generated as a prototype implementation of a module
--- created in component editor.  It ties off all outputs to ground and
--- ignores all inputs.  It needs to be edited to make it do something
--- useful.
--- 
--- This file will not be automatically regenerated.  You should check it in
--- to your version control system if you want to keep it.
 
 library IEEE;
 use IEEE.std_logic_1164.all;
@@ -16,16 +10,16 @@ entity reverbBuffer is
 	generic (
 		AUTO_CLOCK_CLOCK_RATE : string := "-1";
 		base_addr			  : std_logic_vector(31 downto 0) := X"00000000";
-		buffersize            : std_logic_vector(31 downto 0) := X"000014A4"-- X"000014A4" X"00000A52" 
+		buffersize            : std_logic_vector(31 downto 0) := X"000014A4"
 	);
 	port (
-		avm_m0_address       : out std_logic_vector(31 downto 0);                    --    m0.address
-		avm_m0_read          : out std_logic;                                        --      .read
-		avm_m0_waitrequest   : in  std_logic                     := '0';             --      .waitrequest
-		avm_m0_readdata      : in  std_logic_vector(15 downto 0) := (others => '0'); --      .readdata
-		avm_m0_write         : out std_logic;                                        --      .write
-		avm_m0_writedata     : out std_logic_vector(15 downto 0);                    --      .writedata
-		avm_m0_readdatavalid : in  std_logic                     := '0';             --      .readdatavalid
+		avm_m0_address       : out std_logic_vector(31 downto 0);                    
+		avm_m0_read          : out std_logic;                                        
+		avm_m0_waitrequest   : in  std_logic                     := '0';             
+		avm_m0_readdata      : in  std_logic_vector(15 downto 0) := (others => '0'); 
+		avm_m0_write         : out std_logic;                                       
+		avm_m0_writedata     : out std_logic_vector(15 downto 0);                    
+		avm_m0_readdatavalid : in  std_logic                     := '0';             
 		dsp_ready			 : in  std_logic;
 		dsp_in				 : in  std_logic_vector(15 downto 0);
 		dsp_done			 : out std_logic;
@@ -33,7 +27,7 @@ entity reverbBuffer is
 		dsp_delayed_valid	 : out std_logic;
 		dsp_delayed			 : out std_logic_vector(15 downto 0);
 		clk                  : in  std_logic                     := '0';
-		reset                : in  std_logic                     := '0'              -- reset.reset_n
+		reset                : in  std_logic                     := '0'              
 	);
 end entity reverbBuffer;
 

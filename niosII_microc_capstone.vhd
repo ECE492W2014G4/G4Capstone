@@ -1,12 +1,8 @@
--- Nancy Minderman
--- nancy.minderman@ualberta.ca
+-- Design unit: niosII_microc_capstone.vhd 
+-- Top Level of Entire Project
+-- Based on the vhdl provided by Nancy Minderman (nancy.minderman@ualberta.ca) for Lab 1 of ECE 492
 -- This file makes extensive use of Altera template structures.
--- This file is the top-level file for lab 1 winter 2014 for version 12.1sp1 on Windows 7
-
-
--- A library clause declares a name as a library.  It 
--- does not create the library; it simply forward declares 
--- it. 
+ 
 library ieee;
 
 -- Commonly imported packages:
@@ -127,7 +123,7 @@ architecture structure of niosII_microc_capstone is
            	character_lcd_0_external_interface_EN   : out   std_logic;                                        -- EN
             character_lcd_0_external_interface_RS   : out   std_logic;                                        -- RS
             character_lcd_0_external_interface_RW   : out   std_logic;                                        -- RW
-				clk_0_clk                               : in    std_logic                     := 'X';             -- clk
+			clk_0_clk                               : in    std_logic                     := 'X';             -- clk
             reset_0_reset_n                         : in    std_logic                     := 'X';             -- reset_n
             audio_0_external_interface_ADCDAT       : in    std_logic                     := 'X';             -- ADCDAT
             audio_0_external_interface_ADCLRCK      : in    std_logic                     := 'X';             -- ADCLRCK
@@ -136,29 +132,26 @@ architecture structure of niosII_microc_capstone is
             audio_0_external_interface_DACLRCK      : in    std_logic                     := 'X';             -- DACLRCK
             audio_and_video_config_0_external_interface_SDAT : inout std_logic            := 'X';             -- SDAT
             audio_and_video_config_0_external_interface_SCLK : out   std_logic;                               -- SCLK
-				audio_clk_clk                           : out   std_logic;                                         -- clk
-				dram_clk_clk                            : out   std_logic;                                         -- clk
-			enable_export                                    : in    std_logic_vector(4 downto 0)  := (others => 'X');
-			pio_export                                       : in    std_logic_vector(4 downto 0)  := (others => 'X');  -- export
-			--rs232_1_RXD                                      : in    std_logic                     := 'X';             -- RXD
-            --rs232_1_TXD                                      : out   std_logic;                                     -- TXD
-			dm9000a_if_0_s1_export_DATA                                                      : inout std_logic_vector(15 downto 0) := (others => 'X'); -- DATA
-            dm9000a_if_0_s1_export_CMD                                                       : out   std_logic;                                        -- CMD
-            dm9000a_if_0_s1_export_RD_N                                                      : out   std_logic;                                        -- RD_N
-            dm9000a_if_0_s1_export_WR_N                                                      : out   std_logic;                                        -- WR_N
-            dm9000a_if_0_s1_export_CS_N                                                      : out   std_logic;                                        -- CS_N
-            dm9000a_if_0_s1_export_RST_N                                                     : out   std_logic;                                        -- RST_N
-            dm9000a_if_0_s1_export_INT                                                       : in    std_logic                     := 'X';             -- INT
-            dm9000a_if_0_s1_export_CLK                                                       : out   std_logic;                                        -- CLK
-            ethernet_clk                                                                     : out   std_logic;                                        -- clk
+			audio_clk_clk                           : out   std_logic;                                         -- clk
+			dram_clk_clk                            : out   std_logic;                                         -- clk
+			enable_export                           : in    std_logic_vector(4 downto 0)  := (others => 'X');
+			pio_export                              : in    std_logic_vector(4 downto 0)  := (others => 'X');  -- export
+			dm9000a_if_0_s1_export_DATA             : inout std_logic_vector(15 downto 0) := (others => 'X'); -- DATA
+            dm9000a_if_0_s1_export_CMD              : out   std_logic;                                        -- CMD
+            dm9000a_if_0_s1_export_RD_N             : out   std_logic;                                        -- RD_N
+            dm9000a_if_0_s1_export_WR_N             : out   std_logic;                                        -- WR_N
+            dm9000a_if_0_s1_export_CS_N             : out   std_logic;                                        -- CS_N
+            dm9000a_if_0_s1_export_RST_N            : out   std_logic;                                        -- RST_N
+            dm9000a_if_0_s1_export_INT              : in    std_logic                     := 'X';             -- INT
+            dm9000a_if_0_s1_export_CLK              : out   std_logic;                                        -- CLK
+            ethernet_clk                            : out   std_logic;                                        -- clk
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_read_n_out       : out   std_logic_vector(0 downto 0);                     
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_data_out         : inout std_logic_vector(7 downto 0)  := (others => 'X'); 
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_chipselect_n_out : out   std_logic_vector(0 downto 0);                    
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_write_n_out      : out   std_logic_vector(0 downto 0);                     
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_address_out      : out   std_logic_vector(21 downto 0);
 			gain_inc_export                                                                  : in    std_logic                     := 'X';             -- export
-            gain_dec_export                                                                  : in    std_logic                    := 'X'--;
-			--looper_en_export                               					: in std_logic_vector(1 downto 0)  := (others => 'X')--export                                   
+            gain_dec_export                                                                  : in    std_logic                    := 'X'                               
 			);
     end component niosII_system;
 
@@ -209,7 +202,7 @@ begin
             character_lcd_0_external_interface_EN   => LCD_EN,   
             character_lcd_0_external_interface_RS   => LCD_RS,   
             character_lcd_0_external_interface_RW   => LCD_RW,
-				clk_0_clk										 => CLOCK_27,                                      
+			clk_0_clk								=> CLOCK_27,                                      
             reset_0_reset_n                         => KEY(0),         
             audio_0_external_interface_ADCDAT       => AUD_ADCDAT,         
             audio_0_external_interface_ADCLRCK      => AUD_ADCLRCK,         
@@ -218,12 +211,10 @@ begin
             audio_0_external_interface_DACLRCK      => AUD_DACLRCK,                      
             audio_and_video_config_0_external_interface_SDAT => I2C_SDAT,                             
             audio_and_video_config_0_external_interface_SCLK => I2C_SCLK,                                       
-            audio_clk_clk									 => AUD_XCK,
-				dram_clk_clk                         	 => DRAM_CLK,
-			enable_export => SW(17 downto 13),
-			pio_export => SW(17 downto 13),
-			--rs232_1_TXD                   => GPIO_0(27),
-           	--rs232_1_RXD                   => GPIO_0(29),
+            audio_clk_clk							=> AUD_XCK,
+			dram_clk_clk                         	=> DRAM_CLK,
+			enable_export 							=> SW(17 downto 13),
+			pio_export 								=> SW(17 downto 13),
 			dm9000a_if_0_s1_export_DATA				=> ENET_DATA,
             dm9000a_if_0_s1_export_CMD				=> ENET_CMD,
             dm9000a_if_0_s1_export_RD_N				=> ENET_RD_N,
@@ -231,15 +222,14 @@ begin
             dm9000a_if_0_s1_export_CS_N				=> ENET_CS_N,
             dm9000a_if_0_s1_export_RST_N			=> ENET_RST_N,
             dm9000a_if_0_s1_export_INT				=> ENET_INT,
-			ethernet_clk => ENET_CLK,
+			ethernet_clk 							=> ENET_CLK,
 			tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_read_n_out => FL_OE_N,
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_data_out => FL_DQ,
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_chipselect_n_out => FL_CE_N,
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_write_n_out => FL_WE_N,
             tristate_conduit_bridge_0_out_generic_tristate_controller_0_tcm_address_out => FL_ADDR,
 			gain_inc_export	=> KEY(1),
-            gain_dec_export => KEY(3)--,
-			--looper_en_export => SW(15 downto 14)
+            gain_dec_export => KEY(3)
         );
 
 end structure;

@@ -1,3 +1,7 @@
+-- Design unit: distortion_component 
+-- Authors : Aaron Arnason, Byron Maroney, Edrick De Guzman
+-- tuner.vhd (not working)
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -23,18 +27,6 @@ signal counter, final_count	: unsigned(31 downto 0) :=X"00000000";
 signal max_slope : signed(15 downto 0);
 
 begin
-	--t0:process(reset,tuner_in,tuner_en)
-		--begin
-			--if reset = '0' then
-				--counter <=X"00000000";
-			--elsif falling_edge(tuner_in) then
-				--if tuner_en = '1' then
-					--counter <= counter +1;
-				--else
-					--counter <=X"00000000";
-				---end if;
-			--end if;
-		--end process;
 	zcrd:process(clk, reset, tuner_en)
 		begin
 			if reset = '0' then

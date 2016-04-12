@@ -1,6 +1,6 @@
 -- Design unit: DSP
 -- Structural implementation 
--- Included components: distortion_component, Serializer, reverb 
+-- Included components: distortion_component, reverb 
 -- Authors : Aaron Arnason, Byron Maroney, Edrick De Guzman
 
 library ieee;
